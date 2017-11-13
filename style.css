@@ -10,7 +10,7 @@ a:hover
 {
   text-decoration: none;
 
-  color: #2f4f4f;
+  color: #d48612;
 }
 
 h1 {
@@ -77,6 +77,8 @@ tr:nth-child(even) {
   background: #d7e0eb;
 
 }
+
+
 
 footer{
 
