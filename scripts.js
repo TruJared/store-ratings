@@ -1,25 +1,72 @@
-$( document ).ready(function() {
+$(document).ready(function() {
 
-  // object to hold store information -- should be an external file
-  var storeInfo = [
-
-    { storeNumber : 1243, google : null, yelp : null, facebook : null },
-    { storeNumber : 1262, google : 1, yelp : 1, facebook : 1 },
-    { storeNumber : 6629, google : 5, yelp : 5, facebook : 5  }
+  // array to hold store information -- should be an external file
+  var storeInfo = [{
+      sNumber: 1243,
+      googleId: "rating/0",
+      yelpId: "rating/0",
+      facebookId: "rating/0"
+    },
+    {
+      sNumber: 1262,
+      googleId: "rating/1",
+      yelpId: "rating/1",
+      facebookId: "rating/1"
+    },
+    {
+      sNumber: 6629,
+      googleId: "rating/5",
+      yelpId: "rating/5",
+      facebookId: "rating/5"
+    }
 
   ];
 
-
-  /* creates table rows based on length of array and fills store information */
-  for( i=0; i<storeInfo.length; i++ ) {
-
-    $( '#ranking_table' ).append(
-      '<tr class="table_data">' + '</tr>'+
-      '<td>' + storeInfo[i].storeNumber + '</td>' +
-      '<td>' + storeInfo[i].google + '</td>' +
-      '<td>' + storeInfo[i].yelp + '</td>' +
-      '<td>' + storeInfo[i].facebook + '</td>'
+  // makes api requests and parses data
+  // can these three eventually be one block??
+  function getInfoYelp(storeInfo, ratingSource) {
+    $.get('http://echo.jsontest.com/' + storeInfo[ratingSource],
+      function(data) {
+        console.log("yelp");
+        var rating = data.rating;
+        $('#' + storeInfo.sNumber + ratingSource).text(rating);
+      }
     );
   }
 
+  function getInfoGoogle(storeInfo, ratingSource) {
+    $.get('http://echo.jsontest.com/' + storeInfo[ratingSource],
+      function(data) {
+        var rating = data.rating;
+        $('#' + storeInfo.sNumber + ratingSource).text(rating);
+      }
+    );
+  }
+
+  function getInfoFacebook(storeInfo, ratingSource) {
+    $.get('http://echo.jsontest.com/' + storeInfo[ratingSource],
+      function(data) {
+        var rating = data.rating;
+        $('#' + storeInfo.sNumber + ratingSource).text(rating);
+      }
+    );
+  }
+
+  /* creates table rows based on length of array and fills store information */
+  function makeTable(getInfoYelp){
+    for (i = 0; i < storeInfo.length; i++) {
+      $('#ranking_table').append(
+        '<tr>' +
+        '<td>' + storeInfo[i].sNumber + '</td>' +
+        '<td id=' + storeInfo[i].sNumber + 'yelpId> <img src="giphy-downsized.gif"> </td>' +
+        '<td id=' + storeInfo[i].sNumber + 'googleId> <img src="giphy-downsized.gif"> </td>' +
+        '<td id=' + storeInfo[i].sNumber + 'facebookId> <img src="giphy-downsized.gif"> </td>' +
+        '</tr>'
+      );
+    getInfoYelp(storeInfo[i], "yelpId");
+    getInfoGoogle(storeInfo[i], "googleId");
+    getInfoFacebook(storeInfo[i], "facebookId");
+    }
+  }
+  makeTable(getInfoYelp);
 });
