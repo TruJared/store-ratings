@@ -1,39 +1,32 @@
 // rapid api
-var rapid = new RapidAPI("default-application_5a244584e4b0d45349f78043", "92d00d70-7f45-4d93-bd75-571f9db0ab5d");
-
-// Proxy to bypass CORS
-var proxy = 'https://cors-anywhere.herokuapp.com/';
-
-//Google
-var googleApi = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=';
-var googleKey = '&key=AIzaSyALgMeJoWoeLiygtjWOu1uRou7vJRzQg0I';
-
-//Facebook
+// var RapidAPI = new require('rapidapi-connect');
+var rapid = new RapidAPI('storeranking', '9ff7edb4-d7e5-43f8-92d2-4fb7f22a46eb');
 
 $(document).ready(function () {
 
   //loads data for the store information from storeinfo.js ... this is used to keep things 'clean' as eventually this app will contain over 100 stores and an option to select each district .. eventually this will work best as an API request to a server to get all store information.
 
+  //All API calls should be served directly from the server, I have them in JS for demo purposes
 
-  //Yelp API call using rapid -- API should be served server side
-
+  //Yelp API call using rapid
   function getInfoYelp(storeInfo, ratingSource) {
 
-    console.log(storeInfo[ratingSource])
     rapid.call('YelpAPI', 'getSingleBusiness', {
       'accessToken': '0KFFwb0CeOocTb-DTHcHAIyHNVoh4x4I_TZ5mkoUM4RYPyzG2ZfSgCZcBsthpgJBJGTBGeQFPVCbzA5sIt8zG3y3_cU3upPRT13G3okGWRuzG27p8K9jvnqYbjMkWnYx',
       'bussinessId': storeInfo[ratingSource]
 
-    }).on('success', function (payload) {
-      rating = payload.rating
+    }).on('success', function (data) {
+      rating = data.rating
       $('#' + storeInfo.sNumber + ratingSource).text(rating.toFixed(1) + ' / 5');
-    // }).on('error', function (payload) {
-    //   /*YOUR CODE GOES HERE*/
     });
   };
 
   //Google API call
   function getInfoGoogle(storeInfo, ratingSource) {
+    // Proxy to bypass CORS
+    proxy = 'https://cors-anywhere.herokuapp.com/';
+    googleApi = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=';
+    googleKey = '&key=AIzaSyALgMeJoWoeLiygtjWOu1uRou7vJRzQg0I';
 
     $.get(proxy + googleApi + storeInfo[ratingSource] + googleKey,
       function (data) {
@@ -45,13 +38,18 @@ $(document).ready(function () {
 
   //Facebook API call
   function getInfoFacebook(storeInfo, ratingSource) {
-    $.get('' + storeInfo[ratingSource],
-      function (data) {
-        var rating = data.rating;
-        $('#' + storeInfo.sNumber + ratingSource).text(rating);
+    $.ajax({
+      url: 'https://graph.facebook.com/v2.11/' + storeInfo[ratingSource] + '?fields=overall_star_rating',
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader("Authorization", "Bearer EAAb6s2uIpEMBAAbSvg1vOWop15RpXsmBH9meE59kCuRh0JxzA1eZCxxWbnCEHqpLZCSNKmPSj7OuDFx1RhBC8pO1y8ZA9GBCcEAEkDZC3S0bZCkflZCFGr5GJ8ol8SMZAQ4Bkb5vYAZCC4LcvBiff8UgZC4ohbkfj0dwZD")
+      },
+      success: function (data) {
+        rating=(data.overall_star_rating);
+        $('#' + storeInfo.sNumber + ratingSource).text(rating+ ' / 5');
       }
-    );
+    })
   }
+
 
   /* creates table rows based on length of array and fills store information */
   function makeTable() {
@@ -67,7 +65,7 @@ $(document).ready(function () {
 
       getInfoYelp(storeInfo[i], "yelpId");
       getInfoGoogle(storeInfo[i], "googleId");
-      //getInfoFacebook(storeInfo[i], "facebookId");
+      getInfoFacebook(storeInfo[i], "facebookId");
     }
   }
   makeTable();
