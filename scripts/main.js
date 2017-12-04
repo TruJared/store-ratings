@@ -45,7 +45,7 @@ $(document).ready(function () {
       },
       success: function (data) {
         rating=(data.overall_star_rating);
-        $('#' + storeInfo.sNumber + ratingSource).text(rating+ ' / 5');
+        $('#' + storeInfo.sNumber + ratingSource).text(rating.toFixed(1) + ' / 5');
       }
     })
   }
