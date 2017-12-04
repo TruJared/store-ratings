@@ -8,7 +8,7 @@ $(document).ready(function () {
 
   //All API calls should be served directly from the server, I have them in JS for demo purposes
 
-  //Yelp API call using rapid
+  //Yelp API call using rapid api
   function getInfoYelp(storeInfo, ratingSource) {
 
     rapid.call('YelpAPI', 'getSingleBusiness', {
@@ -49,7 +49,6 @@ $(document).ready(function () {
       }
     })
   }
-
 
   /* creates table rows based on length of array and fills store information */
   function makeTable() {
