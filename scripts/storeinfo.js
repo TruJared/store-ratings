@@ -1,4 +1,5 @@
-var storeInfo = [{
+var storeInfo = [
+  {
     sNumber: 1226,
     googleId: "ChIJIRWkw4xzy4kRWYGJyLNtaX0",
     yelpId: "advance-auto-parts-ebensburg",
