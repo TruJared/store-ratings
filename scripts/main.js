@@ -3,7 +3,8 @@
 var rapid = new RapidAPI('storeranking', '9ff7edb4-d7e5-43f8-92d2-4fb7f22a46eb');
 
 //holds district numbers and uses them to build drop-down list and call JSON file from storeinfo.js
-var districts = ['2806', '2807'];
+
+var districts = ['--', 'd2806', 'd2807'];
 
 $(document).ready(function () {
 
@@ -12,9 +13,25 @@ $(document).ready(function () {
     for (i = 0; i < districts.length; i++) {
 
       $('#district-selection').append(
-        '<option value=d' + districts[i] + '>' + districts[i] + '</option>')
+        '<option value=' + districts[i] + '>' + districts[i] + '</option>')
     }
   })();
+
+  $('#district-selection').change(function() {
+    // reset table and rebuild table head
+    $('#ranking_table').empty();
+    $('#ranking_table').append('<tr>' +
+      '<th>STORE #</th>' +
+      '<th>YELP</th>' +
+      '<th>GOOGLE</th>' +
+      '<th>FACEBOOK</th>' +
+    '</tr>');
+
+    value = $(this).val()
+    console.log(value); //how to get the string to call the variable ??
+    makeTable(value);
+
+  })
 
 });
 
@@ -67,15 +84,15 @@ function getInfoFacebook(storeInfo, ratingSource) {
 
 // will load information based on 'value' assigned above
 
-function makeTable() {
-  for (i = 0; i < d2806.length; i++) {
+function makeTable(value) {
+  for (i = 0; i < value.length; i++) {
 
     $('#ranking_table').append(
       '<tr>' +
-      '<td class="store-number">' + d2806[i].sNumber + '</td>' +
-      '<td id=' + d2806[i].sNumber + 'yelpId> <p>-</p> </td>' +
-      '<td id=' + d2806[i].sNumber + 'googleId><p>-</p> </td>' +
-      '<td id=' + d2806[i].sNumber + 'facebookId> <p>-</p> </td>' +
+      '<td class="store-number">' + value[i].sNumber + '</td>' +
+      '<td id=' + value[i].sNumber + 'yelpId> <p>-</p> </td>' +
+      '<td id=' + value[i].sNumber + 'googleId><p>-</p> </td>' +
+      '<td id=' + value[i].sNumber + 'facebookId> <p>-</p> </td>' +
       '</tr>'
     );
 
