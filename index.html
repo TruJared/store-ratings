@@ -21,19 +21,18 @@
   </header>
   <section>
     <h1>Store Ratings</h1>
-    <select id="district-selection">
-      <option>click for districts</option>
+    <div class="select-box">
 
-    </select>
+      <label for="district-selection" class="label district-selection">
+        <span class="label-desc">Select District</span>
+      </label>
+      <select id="district-selection" class="select">
+        <!-- creates options and values dynamically -->
+      </select>
+    </div>
 
     <table id="ranking_table">
       <!-- creates rows dynamically -->
-      <tr>
-        <th>STORE #</th>
-        <th>YELP</th>
-        <th>GOOGLE</th>
-        <th>FACEBOOK</th>
-      </tr>
     </table>
 
   </section>

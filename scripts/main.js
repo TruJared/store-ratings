@@ -2,7 +2,6 @@
 // var RapidAPI = new require('rapidapi-connect');
 var rapid = new RapidAPI('storeranking', '9ff7edb4-d7e5-43f8-92d2-4fb7f22a46eb');
 
-
 $(document).ready(function () {
 
   //build drop-down based on the districts listed in store info
@@ -14,6 +13,7 @@ $(document).ready(function () {
     }
   })();
 
+  //click event
   $('#district-selection').click(function() {
 
     // reset table and rebuild table head
