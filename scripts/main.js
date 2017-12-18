@@ -9,12 +9,12 @@ $(document).ready(function () {
     for (property in storeInfo) {
 
       $('#district-selection').append(
-        '<option value=storeInfo.' + property+ '>' + property.substring(1, property.length) + '</option>')
+        '<option value=storeInfo.' + property + '>' + property.substr(1, property.length) + '</option>')
     }
   })();
 
   //click event
-  $('#district-selection').click(function() {
+  $('#district-selection').click(function () {
 
     // reset table and rebuild table head
     $('#ranking_table').empty();
@@ -23,10 +23,18 @@ $(document).ready(function () {
       '<th>YELP</th>' +
       '<th>GOOGLE</th>' +
       '<th>FACEBOOK</th>' +
-    '</tr>');
+      '</tr>');
+
+
 
     value = eval($(this).val()) //eval should NOT be used with a database
-      makeTable(value);
+
+    // rebuild
+    $('h1').empty()
+    $('h1').append('Ratings: District ' + $(this).val().substr(-4, 4))
+
+    // make table
+    makeTable(value);
 
   })
 
