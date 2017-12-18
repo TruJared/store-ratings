@@ -1,23 +1,21 @@
-// rapid api
+// rapid api - needed for Yelp to work
 // var RapidAPI = new require('rapidapi-connect');
 var rapid = new RapidAPI('storeranking', '9ff7edb4-d7e5-43f8-92d2-4fb7f22a46eb');
 
-//holds district numbers and uses them to build drop-down list and call JSON file from storeinfo.js
-
-var districts = ['--', 'd2806', 'd2807'];
 
 $(document).ready(function () {
 
-  //build drop-down based on storeInfo
+  //build drop-down based on the districts listed in store info
   (function () {
-    for (i = 0; i < districts.length; i++) {
+    for (property in storeInfo) {
 
       $('#district-selection').append(
-        '<option value=' + districts[i] + '>' + districts[i] + '</option>')
+        '<option value=storeInfo.' + property+ '>' + property.substring(1, property.length) + '</option>')
     }
   })();
 
-  $('#district-selection').change(function() {
+  $('#district-selection').click(function() {
+
     // reset table and rebuild table head
     $('#ranking_table').empty();
     $('#ranking_table').append('<tr>' +
@@ -27,16 +25,14 @@ $(document).ready(function () {
       '<th>FACEBOOK</th>' +
     '</tr>');
 
-    value = $(this).val()
-    console.log(value); //how to get the string to call the variable ??
-    makeTable(value);
+    value = eval($(this).val()) //eval should NOT be used with a database
+      makeTable(value);
 
   })
 
 });
 
-
-//All API calls should be served directly from the server, I have them in JS for demo purposes
+//All API calls should be served directly from the server if possible
 
 //Yelp API call using rapid api
 function getInfoYelp(storeInfo, ratingSource) {
@@ -53,7 +49,7 @@ function getInfoYelp(storeInfo, ratingSource) {
 
 //Google API call
 function getInfoGoogle(storeInfo, ratingSource) {
-  // Proxy to bypass CORS
+  // Proxy to bypass CORS - may not be needed when live
   proxy = 'https://cors-anywhere.herokuapp.com/';
   googleApi = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=';
   googleKey = '&key=AIzaSyALgMeJoWoeLiygtjWOu1uRou7vJRzQg0I';
@@ -80,25 +76,24 @@ function getInfoFacebook(storeInfo, ratingSource) {
   })
 }
 
-/* creates table rows based on length of array and fills store information */
-
+// creates table rows based on length of array and fills store information
 // will load information based on 'value' assigned above
 
-function makeTable(value) {
-  for (i = 0; i < value.length; i++) {
+function makeTable(district) {
+
+  for (i = 0; i < district.length; i++) {
 
     $('#ranking_table').append(
       '<tr>' +
-      '<td class="store-number">' + value[i].sNumber + '</td>' +
-      '<td id=' + value[i].sNumber + 'yelpId> <p>-</p> </td>' +
-      '<td id=' + value[i].sNumber + 'googleId><p>-</p> </td>' +
-      '<td id=' + value[i].sNumber + 'facebookId> <p>-</p> </td>' +
+      '<td class="store-number">' + district[i].sNumber + '</td>' +
+      '<td id=' + district[i].sNumber + 'yelpId> <p>-</p> </td>' +
+      '<td id=' + district[i].sNumber + 'googleId><p>-</p> </td>' +
+      '<td id=' + district[i].sNumber + 'facebookId> <p>-</p> </td>' +
       '</tr>'
     );
 
-    //getInfoYelp(storeInfo[0][i], "yelpId");
-    //getInfoGoogle(storeInfo[0][i], "googleId");
-    //getInfoFacebook(storeInfo[0][i], "facebookId");
+    getInfoYelp(district[i], "yelpId");
+    getInfoGoogle(district[i], "googleId");
+    getInfoFacebook(district[i], "facebookId");
   }
 }
-makeTable();
