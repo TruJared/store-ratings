@@ -47,7 +47,7 @@ $(document).ready(function() {
 function getInfoYelp(storeInfo, ratingSource) {
   rapid.call('YelpAPI', 'getSingleBusiness', {
     'accessToken': '0KFFwb0CeOocTb-DTHcHAIyHNVoh4x4I_TZ5mkoUM4RYPyzG2ZfSgCZcBsthpgJBJGTBGeQFPVCbzA5sIt8zG3y3_cU3upPRT13G3okGWRuzG27p8K9jvnqYbjMkWnYx',
-    'bussinessId': storeInfo[ratingSource],
+    'businessId': storeInfo[ratingSource],
 
   }).on('success', function(data) {
     rating = data.rating;

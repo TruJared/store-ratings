@@ -1,4 +1,5 @@
 /* eslint-disable */
+/* cspell: disable */
 
 var storeInfo = {
   d2801: [{
