@@ -20,7 +20,7 @@ $(document).ready(function() {
 
   // click event
 
-  $('#district-selection').change(function() {
+  $('#district-selection').click(function() {
     // reset table and rebuild table head
     $('#ranking_table').empty();
     $('#ranking_table').append('<tr>' +
@@ -50,7 +50,7 @@ $(document).ready(function() {
 function getInfoYelp(storeInfo, ratingSource) {
   rapid.call('YelpAPI', 'getSingleBusiness', {
     'accessToken': '0KFFwb0CeOocTb-DTHcHAIyHNVoh4x4I_TZ5mkoUM4RYPyzG2ZfSgCZcBsthpgJBJGTBGeQFPVCbzA5sIt8zG3y3_cU3upPRT13G3okGWRuzG27p8K9jvnqYbjMkWnYx',
-    'bussinessId': storeInfo[ratingSource],
+    'bussinessId': storeInfo[ratingSource], // bussiness typo required due to error on rapid api's end
 
   }).on('success', function(data) {
     rating = data.rating;
