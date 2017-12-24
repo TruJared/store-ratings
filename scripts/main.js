@@ -30,12 +30,15 @@ $(document).ready(function() {
       '<th>FACEBOOK</th>' +
       '</tr>');
 
+    // rebuild h1
+    // $('h1').empty();
+    // $('h1').append('Ratings: District ' + $(this).val().substr(-4, 4));
+
+    // add district number to selector
+    $('#option-title').empty();
+    $('#option-title').append('District: ' + $(this).val().substr(-4, 4));
+
     value = eval($(this).val()); // eval should NOT be used with a database
-
-    // rebuild
-    $('h1').empty();
-    $('h1').append('Ratings: District ' + $(this).val().substr(-4, 4));
-
     // make table
     makeTable(value);
   });
@@ -47,7 +50,7 @@ $(document).ready(function() {
 function getInfoYelp(storeInfo, ratingSource) {
   rapid.call('YelpAPI', 'getSingleBusiness', {
     'accessToken': '0KFFwb0CeOocTb-DTHcHAIyHNVoh4x4I_TZ5mkoUM4RYPyzG2ZfSgCZcBsthpgJBJGTBGeQFPVCbzA5sIt8zG3y3_cU3upPRT13G3okGWRuzG27p8K9jvnqYbjMkWnYx',
-    'businessId': storeInfo[ratingSource],
+    'bussinessId': storeInfo[ratingSource],
 
   }).on('success', function(data) {
     rating = data.rating;
