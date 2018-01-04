@@ -30,17 +30,19 @@ $(document).ready(function() {
       '<th>FACEBOOK</th>' +
       '</tr>');
 
-    // rebuild h1
-    // $('h1').empty();
-    // $('h1').append('Ratings: District ' + $(this).val().substr(-4, 4));
 
     // add district number to selector
-    $('#option-title').empty();
-    $('#option-title').append('District: ' + $(this).val().substr(-4, 4));
+    var districtNumber = $(this).val().substr(-4, 4)
 
-    value = eval($(this).val()); // eval should NOT be used with a database
-    // make table
-    makeTable(value);
+    $('#option-title').empty();
+    if ($.isNumeric(districtNumber)) {
+      $('#option-title').append('District: ' + districtNumber);
+      value = eval($(this).val()); // eval should NOT be used with a database
+      // make table
+      makeTable(value);
+    } else {
+      $('#option-title').append($(this).val());
+    }
   });
 });
 
