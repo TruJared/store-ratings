@@ -58,7 +58,7 @@ function getInfoYelp(storeInfo, ratingSource) {
     rating = data.rating;
     $('#' + storeInfo.sNumber + ratingSource).text(rating.toFixed(1) + ' / 5');
   });
-};
+}
 
 // Google API call
 function getInfoGoogle(storeInfo, ratingSource) {
@@ -105,6 +105,6 @@ function makeTable(district) {
 
     getInfoYelp(district[i], 'yelpId');
     getInfoGoogle(district[i], 'googleId');
-    getInfoFacebook(district[i], 'facebookId');
+    getInfoFacebook(district[i], 'facebookId')
   }
 }
