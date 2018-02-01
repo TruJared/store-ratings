@@ -2,15 +2,22 @@
 @import 'partials/bootstrap';
 @import 'partials/custom_mixins';
 
-#toggle-button {
 
+// nav
+
+#nav {
+  border-bottom: 1px solid aquamarine;
+}
+
+#toggle-button {
+  background-color: rgba($white, 0);
   border: 0;
   border-radius: 50px;
   box-shadow: 0;
   left: 0;
   margin-left: 15px;
   margin-top: 15px;
-  padding: 10px;
+  padding: 7px;
   position: absolute;
   top: 0;
 
@@ -21,5 +28,37 @@
   &:focus {
     outline: 0;
   }
+}
 
+// main
+.wrapper {
+  height: 100vh;
+}
+
+#main {
+    transition: margin 1s ease-in-out;
+}
+
+.slider {
+
+
+  @include media-breakpoint-up(md) {
+    margin-left: $sidebar-width + 5px;
+  }
+}
+
+// main-sidebar
+#sidebar {
+  height: 100vh;
+  margin-left: -15px;
+  transition: opacity 1s ease-in;
+  width: $sidebar-width;
+  z-index: 999;
+
+
+}
+.hidden {
+
+  opacity: 0;
+  transition: opacity 1s ease-out;
 }

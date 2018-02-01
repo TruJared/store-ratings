@@ -24,9 +24,9 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light navbar-expand bg-light">
-    <button class="button" id="toggle-button" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-      aria-expanded="false" aria-label="Toggle navigation">
+  <nav class="navbar navbar-expand-lg navbar-light navbar-expand bg-light fixed-top" id="nav">
+    <button class="button" id="toggle-button" type="button" data-toggle="collapse" aria-controls="sidebar" aria-expanded="false"
+      aria-label="Toggle sidebar">
       <div class="chevron-up ">
         <i class="fas fa-chevron-circle-up"></i>
       </div>
@@ -63,11 +63,121 @@
     </div>
   </nav>
 
+  <div class="container-fluid wrapper  mt-5 pt-5">
+    <aside id="aside">
+      <div class="text-center show bg-light position-fixed" id="sidebar">
+        <img class="img-fluid p-4" src="images/rb.jpg" alt="ricky bobby quotes his famous line">
+        <ul class="list-unstyled list-inline text-left pl-3">
+          <li class="list-inline-item px-2 py-1">
+            <a href="#">some store</a>
+          </li>
+          <li class="list-inline-item px-2 py-1">
+            <a href="#">some store</a>
+          </li>
+          <li class="list-inline-item px-2 py-1">
+            <a href="#">some store</a>
+          </li>
+          <li class="list-inline-item px-2 py-1">
+            <a href="#">some store</a>
+          </li>
+          <li class="list-inline-item px-2 py-1">
+            <a href="#">some store</a>
+          </li>
+          <li class="list-inline-item px-2 py-1">
+            <a href="#">some store</a>
+          </li>
+          <li class="list-inline-item px-2 py-1">
+            <a href="#">some store</a>
+          </li>
+          <li class="list-inline-item px-2 py-1">
+            <a href="#">some store</a>
+          </li>
+          <li class="list-inline-item px-2 py-1">
+            <a href="#">some store</a>
+          </li>
+          <li class="list-inline-item px-2 py-1">
+            <a href="#">some store</a>
+          </li>
+          <li class="list-inline-item px-2 py-1">
+            <a href="#">some store</a>
+          </li>
+          <li class="list-inline-item px-2 py-1">
+            <a href="#">some store</a>
+          </li>
+          <li class="list-inline-item px-2 py-1">
+            <a href="#">some store</a>
+          </li>
+        </ul>
 
-  <div class="collapse navbar-collapse show" id="navbarSupportedContent">
-    stuff
+      </div>
+    </aside>
+
+    <main id="main" class="slider pt-3 px-2">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Special title treatment</h5>
+              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Special title treatment</h5>
+              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Special title treatment</h5>
+              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
   </div>
-
   <!-- for APIs -->
   <script src="https://storage.googleapis.com/code-snippets/rapidapi.min.js"></script>
   <script src="https://apis.google.com/js/api.js"></script>
