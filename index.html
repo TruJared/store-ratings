@@ -2,66 +2,90 @@
 <html>
 
 <head>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112352751-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112352751-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
 
-  gtag('config', 'UA-112352751-1');
-</script>
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-112352751-1');
+  </script>
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Store Ratings</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
-
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,700i" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Oswald:400,700|Rubik:400,700" rel="stylesheet">
-  <link href="style.css" rel="stylesheet">
+  <link href="styles/style.css" rel="stylesheet">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 
 <body>
-  <header>
-    <img src="AAP_ONE_LINE_LOGO.svg" alt="advance auto logo">
-  </header>
-  <section>
-    <h1>Store Ratings By District</h1>
-    <div class="select-box">
+  <nav class="navbar navbar-expand-lg navbar-light navbar-expand bg-light">
+    <button class="button" id="toggle-button" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <div class="chevron-up ">
+        <i class="fas fa-chevron-circle-up"></i>
+      </div>
 
-      <label for="district-selection" class="label district-selection">
-      <span class="label-desc" id="option-title">Select District</span>
-
-      </label>
-      <select id="district-selection" class="select">
-	      <option>Reset Table</option>
-        <!-- creates options and values dynamically -->
-      </select>
+      <div class="chevron-down active">
+        <i class="fas fa-chevron-circle-down"></i>
+      </div>
+    </button>
+    <div class="container-fluid pl-5">
+      <div class="row">
+        <div class="col-12">
+          <a class="navbar-brand pb-0 pt-2" href="#">Store Ratings</a>
+        </div>
+        <div class="col-12">
+          <ul class="navbar-nav mr-auto list-inline">
+            <li class="nav-item">
+              <a class="nav-link list-inline-item pl-0" href="#">Facebook</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link list-inline-item" href="#">Google</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link list-inline-item" href="#">Yelp</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link list-inline-item" href="#">AAP</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link list-inline-item" href="#">Bugs</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
+  </nav>
 
-    <table id="ranking_table">
-      <!-- creates rows dynamically -->
-    </table>
 
-  </section>
-  <footer>
-    <p>&copy;
-      <a href="http://trujared.com">Jared Truscott</a> - 2017
-      <a href="mailto:jtruscott78@gmail.com?subject=AAP Store Ratings">
-        <img src="if_mail_1814108.png" alt="email icon">
-      </a>
-    </p>
-  </footer>
-  <!-- for rapid API -->
+  <div class="collapse navbar-collapse show" id="navbarSupportedContent">
+    stuff
+  </div>
 
+  <!-- for APIs -->
   <script src="https://storage.googleapis.com/code-snippets/rapidapi.min.js"></script>
+  <script src="https://apis.google.com/js/api.js"></script>
+
+  <!-- fontAwesome -->
+  <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+  <!-- bootstrap -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+  <!-- custom JS -->
   <script type="text/javascript" src="scripts/storeinfo.js"></script>
   <script type="text/javascript" src="scripts/main.js"></script>
-  <script src="https://apis.google.com/js/api.js"></script>
 </body>
 
 </html>
