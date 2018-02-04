@@ -7922,7 +7922,7 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 #nav {
-  border-bottom: 1px solid aquamarine;
+  border-bottom: 1px solid #bada55;
 }
 
 #toggle-button {
@@ -7969,6 +7969,19 @@ a.text-dark:hover, a.text-dark:focus {
   transition: opacity 1s ease-in;
   width: 250px;
   z-index: 999;
+}
+
+#sidebar li {
+  margin: 0;
+  width: 100%;
+}
+
+#sidebar li:hover {
+  background: #1ce;
+}
+
+#sidebar li.active {
+  background: #d1e5e1;
 }
 
 .hidden {

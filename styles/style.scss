@@ -6,7 +6,7 @@
 // nav
 
 #nav {
-  border-bottom: 1px solid aquamarine;
+  border-bottom: 1px solid $badass;
 }
 
 #toggle-button {
@@ -53,6 +53,19 @@
   transition: opacity 1s ease-in;
   width: $sidebar-width;
   z-index: 999;
+
+  li {
+    margin: 0;
+    width: 100%
+  }
+
+  li:hover {
+    background: #1ce;
+  }
+
+  li.active {
+    background: #d1e5e1;
+  }
 
 }
 
