@@ -1,4 +1,3 @@
-
 // styles
 
 // vars
@@ -8,21 +7,21 @@ chevronUp = document.querySelector('.chevron-up');
 toggleButton = document.getElementById('toggle-button');
 sidebar = document.getElementById('sidebar');
 main = document.getElementById('main');
+
 // sideBar.style.display = sideBar.style.display === 'none' ? '' : 'none';
+
 // switch chevron on click & slide body
-toggleButton.addEventListener('click', function() {
+toggleButton.addEventListener('click', function () {
     chevronUp.classList.toggle('active');
     chevronDown.classList.toggle('active');
 
-    // hide sidebar
+    // hide sidebar and adjust main
     sidebar.classList.toggle('hidden');
-
-    // is smaller than ? then slide body
-    if (window.innerWidth >= 768)  {
-        main.classList.toggle('slider');
-
+    if (sidebar.classList.contains('hidden')) {
+        main.classList.remove('slider');
+    } else {
+        main.classList.add('slider');
     }
-
 });
 
 

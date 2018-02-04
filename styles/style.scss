@@ -35,16 +35,15 @@
   height: 100vh;
 }
 
-#main {
-    transition: margin 1s ease-in-out;
-}
-
 .slider {
-
 
   @include media-breakpoint-up(md) {
     margin-left: $sidebar-width + 5px;
   }
+}
+
+.slide-transition {
+  transition: margin 1s ease-in-out;
 }
 
 // main-sidebar
@@ -55,10 +54,25 @@
   width: $sidebar-width;
   z-index: 999;
 
-
 }
+
 .hidden {
 
   opacity: 0;
   transition: opacity 1s ease-out;
+}
+
+.progress {
+  box-shadow: 1px 1px 2px black;
+  height: 20px;
+  position: relative;
+}
+
+.star {
+  width: 50px;
+  margin-bottom: 26px;
+  margin-right: -18px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }

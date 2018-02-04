@@ -4488,6 +4488,65 @@ tbody.collapse.show {
   color: #040505;
 }
 
+@-webkit-keyframes progress-bar-stripes {
+  from {
+    background-position: 1rem 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+@keyframes progress-bar-stripes {
+  from {
+    background-position: 1rem 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+.progress {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 1rem;
+  overflow: hidden;
+  font-size: 0.75rem;
+  background-color: #e9ecef;
+  border-radius: 0.25rem;
+  -webkit-box-shadow: inset 0 0.1rem 0.1rem rgba(0, 0, 0, 0.1);
+          box-shadow: inset 0 0.1rem 0.1rem rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  color: #fff;
+  text-align: center;
+  background-color: #007bff;
+  -webkit-transition: width 0.6s ease;
+  transition: width 0.6s ease;
+}
+
+.progress-bar-striped {
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-size: 1rem 1rem;
+}
+
+.progress-bar-animated {
+  -webkit-animation: progress-bar-stripes 1s linear infinite;
+          animation: progress-bar-stripes 1s linear infinite;
+}
+
 .close {
   float: right;
   font-size: 1.5rem;
@@ -7892,15 +7951,15 @@ a.text-dark:hover, a.text-dark:focus {
   height: 100vh;
 }
 
-#main {
-  -webkit-transition: margin 1s ease-in-out;
-  transition: margin 1s ease-in-out;
-}
-
 @media (min-width: 768px) {
   .slider {
     margin-left: 255px;
   }
+}
+
+.slide-transition {
+  -webkit-transition: margin 1s ease-in-out;
+  transition: margin 1s ease-in-out;
 }
 
 #sidebar {
@@ -7916,5 +7975,21 @@ a.text-dark:hover, a.text-dark:focus {
   opacity: 0;
   -webkit-transition: opacity 1s ease-out;
   transition: opacity 1s ease-out;
+}
+
+.progress {
+  -webkit-box-shadow: 1px 1px 2px black;
+          box-shadow: 1px 1px 2px black;
+  height: 20px;
+  position: relative;
+}
+
+.star {
+  width: 50px;
+  margin-bottom: 26px;
+  margin-right: -18px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 /*# sourceMappingURL=style.css.map */
