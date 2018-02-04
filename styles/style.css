@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Lato|Lora");
+@import url("https://fonts.googleapis.com/css?family=Montserrat|Raleway");
 /*!
  * Bootstrap v4.0.0 (https://getbootstrap.com)
  * Copyright 2011-2018 The Bootstrap Authors
@@ -7921,34 +7921,22 @@ a.text-dark:hover, a.text-dark:focus {
   }
 }
 
-#nav {
-  border-bottom: 1px solid #bada55;
+body {
+  font-family: "Raleway", sans-serif;
 }
 
-#toggle-button {
-  background-color: rgba(255, 255, 255, 0);
-  border: 0;
-  border-radius: 50px;
-  -webkit-box-shadow: 0;
-          box-shadow: 0;
-  left: 0;
-  margin-left: 15px;
-  margin-top: 15px;
-  padding: 7px;
-  position: absolute;
-  top: 0;
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Montserrat", sans-serif;
 }
 
-#toggle-button .active {
-  color: #007bff;
-}
-
-#toggle-button:focus {
-  outline: 0;
-}
-
-.wrapper {
-  height: 100vh;
+.hidden {
+  opacity: 0;
+  -webkit-transition: opacity 1s ease-out;
+  transition: opacity 1s ease-out;
 }
 
 @media (min-width: 768px) {
@@ -7962,13 +7950,76 @@ a.text-dark:hover, a.text-dark:focus {
   transition: margin 1s ease-in-out;
 }
 
+#nav {
+  border-bottom: 1px solid #fb1;
+}
+
+#nav a {
+  color: #d13537;
+}
+
+#nav a:hover {
+  color: #ff6769;
+}
+
+#nav #toggle-button {
+  background-color: rgba(255, 255, 255, 0);
+  border: 0;
+  border-radius: 50px;
+  -webkit-box-shadow: 0;
+          box-shadow: 0;
+  left: 0;
+  margin-left: 15px;
+  margin-top: 15px;
+  padding: 7px;
+  position: absolute;
+  top: 0;
+}
+
+#nav #toggle-button .active {
+  color: #fb1;
+}
+
+#nav #toggle-button:focus {
+  outline: 0;
+}
+
+.wrapper {
+  height: 100vh;
+  margin-top: 90px;
+}
+
 #sidebar {
   height: 100vh;
   margin-left: -15px;
+  overflow: auto;
+  padding-bottom: 75px;
   -webkit-transition: opacity 1s ease-in;
   transition: opacity 1s ease-in;
   width: 250px;
   z-index: 999;
+}
+
+#sidebar img {
+  border: 1px solid #fb1;
+}
+
+#sidebar a {
+  color: #000;
+  font-size: 1.25rem;
+}
+
+#sidebar a:hover {
+  color: #000;
+  text-decoration: none;
+}
+
+#sidebar .fa-flag-checkered {
+  color: #000;
+}
+
+#sidebar .active {
+  background: #dee2e6;
 }
 
 #sidebar li {
@@ -7980,29 +8031,31 @@ a.text-dark:hover, a.text-dark:focus {
   background: #1ce;
 }
 
-#sidebar li.active {
-  background: #d1e5e1;
+#cards #facebook-header {
+  background: #4267b2;
 }
 
-.hidden {
-  opacity: 0;
-  -webkit-transition: opacity 1s ease-out;
-  transition: opacity 1s ease-out;
+#cards #google-header {
+  background: #34a853;
 }
 
-.progress {
+#cards #yelp-header {
+  background: #be2020;
+}
+
+#cards .progress {
   -webkit-box-shadow: 1px 1px 2px black;
           box-shadow: 1px 1px 2px black;
   height: 20px;
   position: relative;
 }
 
-.star {
-  width: 50px;
+#cards .star {
+  bottom: 0;
   margin-bottom: 26px;
   margin-right: -18px;
   position: absolute;
-  bottom: 0;
   right: 0;
+  width: 50px;
 }
 /*# sourceMappingURL=style.css.map */

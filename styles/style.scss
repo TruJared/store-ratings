@@ -2,41 +2,25 @@
 @import 'partials/bootstrap';
 @import 'partials/custom_mixins';
 
-
-// nav
-
-#nav {
-  border-bottom: 1px solid $badass;
+// General
+body {
+  font-family: $primary-font;
 }
 
-#toggle-button {
-  background-color: rgba($white, 0);
-  border: 0;
-  border-radius: 50px;
-  box-shadow: 0;
-  left: 0;
-  margin-left: 15px;
-  margin-top: 15px;
-  padding: 7px;
-  position: absolute;
-  top: 0;
-
-  .active {
-    color: $primary;
-  }
-
-  &:focus {
-    outline: 0;
-  }
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: $heading-font;
 }
 
-// main
-.wrapper {
-  height: 100vh;
+.hidden {
+  opacity: 0;
+  transition: opacity 1s ease-out;
 }
 
 .slider {
-
   @include media-breakpoint-up(md) {
     margin-left: $sidebar-width + 5px;
   }
@@ -46,46 +30,114 @@
   transition: margin 1s ease-in-out;
 }
 
-// main-sidebar
+// nav
+#nav {
+  border-bottom: 1px solid $fbi;
+
+  a {
+    color: $diesel;
+
+    &:hover {
+      color: $diesel + 50;
+    }
+  }
+
+  #toggle-button {
+    background-color: rgba($white, 0);
+    border: 0;
+    border-radius: 50px;
+    box-shadow: 0;
+    left: 0;
+    margin-left: 15px;
+    margin-top: 15px;
+    padding: 7px;
+    position: absolute;
+    top: 0;
+
+    .active {
+      color: $fbi;
+    }
+
+    &:focus {
+      outline: 0;
+    }
+  }
+}
+
+//content
+.wrapper {
+  height: 100vh;
+  margin-top: 90px;
+}
+
+//content-sidebar
 #sidebar {
   height: 100vh;
   margin-left: -15px;
+  overflow: auto;
+  padding-bottom: 75px;
   transition: opacity 1s ease-in;
   width: $sidebar-width;
   z-index: 999;
 
+  img {
+    border: 1px solid $fbi;
+  }
+
+  a {
+    color: $black;
+    font-size: 1.25rem;
+
+    &:hover {
+      color: $black;
+      text-decoration: none;
+    }
+  }
+
+  .fa-flag-checkered {
+    color: $black;
+  }
+
+  .active {
+    background: $gray-300;
+  }
+
   li {
     margin: 0;
-    width: 100%
-  }
+    width: 100%;
 
-  li:hover {
-    background: #1ce;
+    &:hover {
+      background: $ice;
+    }
   }
-
-  li.active {
-    background: #d1e5e1;
-  }
-
 }
 
-.hidden {
+// main-cards
+#cards {
+  #facebook-header {
+    background: $facebook-blue;
+  }
 
-  opacity: 0;
-  transition: opacity 1s ease-out;
-}
+  #google-header {
+    background: $google-green;
+  }
 
-.progress {
-  box-shadow: 1px 1px 2px black;
-  height: 20px;
-  position: relative;
-}
+  #yelp-header {
+    background: $yelp-red;
+  }
 
-.star {
-  width: 50px;
-  margin-bottom: 26px;
-  margin-right: -18px;
-  position: absolute;
-  bottom: 0;
-  right: 0;
+  .progress {
+    box-shadow: 1px 1px 2px black;
+    height: 20px;
+    position: relative;
+  }
+
+  .star {
+    bottom: 0;
+    margin-bottom: 26px;
+    margin-right: -18px;
+    position: absolute;
+    right: 0;
+    width: 50px;
+  }
 }
