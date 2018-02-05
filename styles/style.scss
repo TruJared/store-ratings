@@ -72,6 +72,8 @@ h5 {
 
 //content-sidebar
 #sidebar {
+  box-shadow: 1px 1px 2px $gray-800;
+  font-family: $heading-font;
   height: 100vh;
   margin-left: -15px;
   overflow: auto;
@@ -89,7 +91,7 @@ h5 {
     font-size: 1.25rem;
 
     &:hover {
-      color: $black;
+      color: $white;
       text-decoration: none;
     }
   }
@@ -98,7 +100,7 @@ h5 {
     color: $black;
   }
 
-  .active {
+  .list-active {
     background: $gray-300;
   }
 
@@ -127,7 +129,7 @@ h5 {
   }
 
   .progress {
-    box-shadow: 1px 1px 2px black;
+    box-shadow: 1px 1px 2px $black;
     height: 20px;
     position: relative;
   }

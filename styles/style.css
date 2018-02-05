@@ -7990,6 +7990,9 @@ h5 {
 }
 
 #sidebar {
+  -webkit-box-shadow: 1px 1px 2px #343a40;
+          box-shadow: 1px 1px 2px #343a40;
+  font-family: "Montserrat", sans-serif;
   height: 100vh;
   margin-left: -15px;
   overflow: auto;
@@ -8010,7 +8013,7 @@ h5 {
 }
 
 #sidebar a:hover {
-  color: #000;
+  color: #fff;
   text-decoration: none;
 }
 
@@ -8018,7 +8021,7 @@ h5 {
   color: #000;
 }
 
-#sidebar .active {
+#sidebar .list-active {
   background: #dee2e6;
 }
 
@@ -8044,8 +8047,8 @@ h5 {
 }
 
 #cards .progress {
-  -webkit-box-shadow: 1px 1px 2px black;
-          box-shadow: 1px 1px 2px black;
+  -webkit-box-shadow: 1px 1px 2px #000;
+          box-shadow: 1px 1px 2px #000;
   height: 20px;
   position: relative;
 }
