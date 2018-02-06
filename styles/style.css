@@ -7951,15 +7951,26 @@ h5 {
 }
 
 #nav {
-  border-bottom: 1px solid #fb1;
+  -webkit-box-shadow: 1px 1px 2px #495057;
+          box-shadow: 1px 1px 2px #495057;
 }
 
 #nav a {
-  color: #d13537;
+  color: #007bff;
 }
 
 #nav a:hover {
-  color: #ff6769;
+  color: #32adff;
+}
+
+#nav a .nav-icon {
+  display: none;
+}
+
+@media (min-width: 576px) {
+  #nav a .nav-icon {
+    display: inline;
+  }
 }
 
 #nav #toggle-button {
@@ -7990,8 +8001,8 @@ h5 {
 }
 
 #sidebar {
-  -webkit-box-shadow: 1px 1px 2px #343a40;
-          box-shadow: 1px 1px 2px #343a40;
+  -webkit-box-shadow: 1px 1px 2px #495057;
+          box-shadow: 1px 1px 2px #495057;
   font-family: "Montserrat", sans-serif;
   height: 100vh;
   margin-left: -15px;
@@ -8031,7 +8042,11 @@ h5 {
 }
 
 #sidebar li:hover {
-  background: #1ce;
+  background: #d13537;
+}
+
+th {
+  font-family: "Montserrat", sans-serif;
 }
 
 #cards #facebook-header {
@@ -8060,5 +8075,11 @@ h5 {
   position: absolute;
   right: 0;
   width: 50px;
+}
+
+#footer {
+  bottom: 0;
+  right: 0;
+  opacity: .5;
 }
 /*# sourceMappingURL=style.css.map */

@@ -28,41 +28,45 @@
   <!-- nav -->
   <nav class="navbar navbar-expand navbar-expand bg-light fixed-top" id="nav">
     <p class="text-center d-none pb-5">Sidebar</p>
-    <button class="button mt-3" id="toggle-button" type="button" data-toggle="collapse" aria-controls="sidebar" aria-expanded="false"
+    <button class="button mt-2" id="toggle-button" type="button" data-toggle="collapse" aria-controls="sidebar" aria-expanded="false"
       aria-label="Toggle sidebar">
       <div class="chevron-up ">
         <i class="fas fa-chevron-circle-up"></i>
       </div>
-
       <div class="chevron-down active">
         <i class="fas fa-chevron-circle-down"></i>
       </div>
     </button>
-
     <div class="container-fluid pl-5">
       <div class="row">
         <div class="col-12">
-          <a class="navbar-brand">
-            <h3 class="mb-0 pb-0">R28 Store Ratings</h3>
-          </a>
+            <h3 class="mb-0 pb-2">R28 Store Ratings</h3>
         </div>
         <div class="col-12">
           <ul class="navbar-nav list-inline">
             <li class="nav-item">
               <a class="nav-link list-inline-item pl-0 pt-0" href="#">
-                <i class="fab fa-facebook-square d-none"></i> Facebook</a>
+                <div class="nav-icon">
+                  <i class="fab fa-facebook-square"></i></div> Facebook
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link list-inline-item pt-0" href="#">
-                <i class="fab fa-facebook-square d-none"></i> Google</a>
+                <div class="nav-icon">
+                  <i class="fab fa-google"></i></div> Google
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link list-inline-item pt-0" href="#">
-                <i class="fab fa-facebook-square d-none"></i> Yelp</a>
+                <div class="nav-icon">
+                  <i class="fab fa-yelp"></i></div> Yelp
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link list-inline-item pt-0" href="#">
-                <i class="fab fa-facebook-square d-none"></i> AAP</a>
+                <div class="nav-icon">
+                  <i class="fas fa-car"></i></div> AAP
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link list-inline-item pt-0" href="#">
@@ -81,39 +85,39 @@
     <!-- aside  -->
     <aside id="aside">
       <div class="show bg-light navbar-light position-fixed" id="sidebar">
-        <img class="img-fluid rounded w-75 ml-3 mt-3" src="images/rb.jpg" alt="ricky bobby quotes his famous line">
+        <img class="img-fluid rounded w-75 ml-3 mt-4" src="images/rb.jpg" alt="ricky bobby quotes his famous line">
         <h2 class="pl-3 mt-3">Districts</h2>
         <hr class="w-75">
         <ul class="list-unstyled list-inline text-left">
-          <li class="list-inline-item store py-3 pl-5" >
+          <li class="list-inline-item store py-3 pl-5">
             <a href="#" id="d2182">2182</a>
             <i class="fas fa-flag-checkered"></i>
           </li>
-          <li class="list-inline-item store py-3 pl-5" >
+          <li class="list-inline-item store py-3 pl-5">
             <a href="#" id="d3456">3456</a>
             <i class="fas fa-flag-checkered"></i>
           </li>
-          <li class="list-inline-item store py-3 pl-5 " >
+          <li class="list-inline-item store py-3 pl-5 ">
             <a href="#" id="d3567">3567 </a>
             <i class="fas fa-flag-checkered"></i>
           </li>
-          <li class="list-inline-item store py-3 pl-5" >
+          <li class="list-inline-item store py-3 pl-5">
             <a href="#" id="d3689">3689 </a>
             <i class="fas fa-flag-checkered"></i>
           </li>
-          <li class="list-inline-item store py-3 pl-5" >
+          <li class="list-inline-item store py-3 pl-5">
             <a href="#" id="d4125">4125 </a>
             <i class="fas fa-flag-checkered"></i>
           </li>
-          <li class="list-inline-item store py-3 pl-5" >
+          <li class="list-inline-item store py-3 pl-5">
             <a href="#" id="d4356">4356 </a>
             <i class="fas fa-flag-checkered"></i>
           </li>
-          <li class="list-inline-item store py-3 pl-5" >
+          <li class="list-inline-item store py-3 pl-5">
             <a href="#" id="d5678">5678 </a>
             <i class="fas fa-flag-checkered"></i>
           </li>
-          <li class="list-inline-item store py-3 pl-5" >
+          <li class="list-inline-item store py-3 pl-5">
             <a href="#" id="d6789">6789 </a>
             <i class="fas fa-flag-checkered"></i>
           </li>
@@ -123,7 +127,7 @@
 
     <!-- main -->
 
-    <main id="main" class=" slider slide-transition pt-3 px-2">
+    <main id="main" class=" slider slide-transition pt-3 px-2 pb-4">
 
       <!-- table  -->
 
@@ -160,7 +164,7 @@
 
       <!-- cards  -->
 
-      <div class="container-fluid mt-5" id="cards">
+      <div class="container-fluid mt-4 mt-md-5" id="cards">
         <div class="row">
           <div class="col-lg-6 col-xl-4">
             <div class="card mt-3 mx-auto pb-3">
@@ -212,7 +216,11 @@
           </div>
         </div>
       </div>
+          <footer class="position-fixed pr-3" id="footer">
+            &copy;2018 Jared Truscott
+          </footer>
     </main>
+
   </div>
   <!-- for APIs -->
   <script src="https://storage.googleapis.com/code-snippets/rapidapi.min.js"></script>

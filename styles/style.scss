@@ -32,13 +32,22 @@ h5 {
 
 // nav
 #nav {
-  border-bottom: 1px solid $fbi;
+  // border-bottom: 1px solid $fbi;
+  box-shadow: 1px 1px 2px $gray-700;
 
   a {
-    color: $diesel;
+    color: $primary;
 
     &:hover {
-      color: $diesel + 50;
+      color: $primary + 50;
+    }
+
+    .nav-icon {
+      display: none;
+
+      @include media-breakpoint-up(sm) {
+        display: inline;
+      }
     }
   }
 
@@ -72,7 +81,7 @@ h5 {
 
 //content-sidebar
 #sidebar {
-  box-shadow: 1px 1px 2px $gray-800;
+  box-shadow: 1px 1px 2px $gray-700;
   font-family: $heading-font;
   height: 100vh;
   margin-left: -15px;
@@ -109,9 +118,14 @@ h5 {
     width: 100%;
 
     &:hover {
-      background: $ice;
+      background: $diesel;
     }
   }
+}
+
+// table
+th {
+  font-family: $heading-font;
 }
 
 // main-cards
@@ -142,4 +156,11 @@ h5 {
     right: 0;
     width: 50px;
   }
+}
+
+//footer
+#footer {
+  bottom: 0;
+  right: 0;
+  opacity: .5;
 }
