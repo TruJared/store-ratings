@@ -43,11 +43,11 @@ h5 {
     }
 
     .nav-icon {
-      display: none;
-
       @include media-breakpoint-up(sm) {
         display: inline;
       }
+
+      display: none;
     }
   }
 
@@ -160,7 +160,11 @@ th {
 
 //footer
 #footer {
+  @include media-breakpoint-down(sm) {
+    display: none;
+  };
+
   bottom: 0;
-  right: 0;
   opacity: .5;
+  right: 0;
 }

@@ -1,6 +1,5 @@
-
 // ui Controller
-var uiController = (function() {
+var uiController = (function () {
 
     // uiVariables
     var chevronDown, chevronUp, toggleButton, sidebar, sidebarListItem, main;
@@ -13,7 +12,7 @@ var uiController = (function() {
     main = document.getElementById('main');
 
     // switch chevron on click and reposition content if needed
-    var toggler = function() {
+    var toggler = function () {
         chevronUp.classList.toggle('active');
         chevronDown.classList.toggle('active');
         sidebar.classList.toggle('hidden');
@@ -25,15 +24,17 @@ var uiController = (function() {
     };
 
     // make selected list item active
-    var makeActive = function(id) {
+    var makeActive = function (id) {
         var oldActiveItem = document.querySelector('.list-active');
         var newActiveItem = document.getElementById(id);
         if (oldActiveItem) {
             oldActiveItem.classList.toggle('list-active');
         }
         newActiveItem.parentNode.classList.toggle('list-active');
-        // toggle sidebar if viewport <= 768
-        if (window.innerWidth <= 768){ toggler(); }
+        // toggle sidebar if viewport < 768
+        if (window.innerWidth < 768) {
+            toggler();
+        }
     };
 
     return {
@@ -46,24 +47,26 @@ var uiController = (function() {
 
 
 // controller
-var controller = (function(){
+var controller = (function () {
 
     // launch listeners
-    var launchEventListeners = function(){
+    var launchEventListeners = function () {
         // toggle button
-        uiController.toggleButton.addEventListener('click', function(){
+        uiController.toggleButton.addEventListener('click', function () {
             uiController.toggler();
         });
         // sidebar list items
-        uiController.sidebarListItem.forEach(item => item.addEventListener('click', function(e){
-            // make sure element is anchor and not div
-            if (e.target.tagName.toLowerCase() === 'a'){
-                uiController.makeActive(e.target.id);
-            }
-        }));
+        uiController.sidebarListItem.forEach(function (item) {
+            item.addEventListener('click', function (e) {
+                // make sure element is anchor and not div
+                if (e.target.tagName.toLowerCase() === 'a') {
+                    uiController.makeActive(e.target.id);
+                }
+            });
+        });
     };
 
-    return{
+    return {
         init() {
             launchEventListeners();
         }
@@ -87,7 +90,7 @@ controller.init();
 
 
 
-// /* eslint no-var: "off", max-len: "off", require-jsdoc: "off"*/
+// cspell:disable
 
 // // rapid api - needed for Yelp to work
 // // var RapidAPI = new require('rapidapi-connect');

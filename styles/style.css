@@ -8079,7 +8079,13 @@ th {
 
 #footer {
   bottom: 0;
-  right: 0;
   opacity: .5;
+  right: 0;
+}
+
+@media (max-width: 767.98px) {
+  #footer {
+    display: none;
+  }
 }
 /*# sourceMappingURL=style.css.map */
