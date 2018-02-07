@@ -1,3 +1,35 @@
+// helpers
+var helpers = (function () {
+
+    // get averages and return to table
+    // consider building a function constructor
+    var getAverages = function (facebookRatings, googleRatings, yelpRatings) {
+        var facebookTotal, googleTotal, yelpTotal;
+
+        facebookTotal = 0;
+        googleTotal = 0;
+        yelpTotal = 0;
+
+        facebookRatings.forEach((value) => {
+            facebookTotal += (parseInt(value.innerHTML));
+        });
+        googleRatings.forEach((value) => {
+            googleTotal += (parseInt(value.innerHTML));
+        });
+        yelpRatings.forEach((value) => {
+            yelpTotal += (parseInt(value.innerHTML));
+        });
+        console.log(facebookTotal, googleTotal, yelpTotal);
+    };
+
+    return {
+        getAverages: getAverages,
+    };
+
+
+}());
+
+
 // ui Controller
 var uiController = (function () {
 
@@ -63,25 +95,65 @@ var uiController = (function () {
 
     // make table
     var makeTable = function (stores) {
-        var tableHead, tableRow, columnHeader;
+        var tableHead, tableRow, tableBody;
 
         tableHead = document.createElement('thead');
-        tableRow = document.createElement('tr');
-
-        // clear table
-        table.innerHtml = '';
+        headRow = document.createElement('tr');
+        tableBody = document.createElement('tbody');
 
         // create table header
-        tableRow.innerHTML = (
+        headRow.innerHTML = (
             '<th scope ="col">Store</th >' +
             '<th scope="col">Facebook</th>' +
             '<th scope="col">Google</th>' +
             '<th scope="col">Yelp</th>'
         );
-        tableHead.appendChild(tableRow);
 
+        // will append to table
+        tableHead.appendChild(headRow);
+
+        // create table body
+        for (var i = 0; i < stores.length; i++) {
+            var store, facebookId, GoogleId, YelpId;
+
+            store = stores[i].sNumber;
+            facebookId = stores[i].facebookId;
+            googleId = stores[i].googleId;
+            yelpId = stores[i].yelpId;
+
+            tableBody.innerHTML += (
+                '<tr>' +
+                '<th scope="row" id=' + store + '>' + store +
+                '<td class="facebookRating" id=' + facebookId + '>5.00</td>' +
+                '<td class="googleRating" id=' + googleId + '>4.00</td>' +
+                '<td class="yelpRating" id=' + yelpId + '>2.00</td>' +
+                '</th>' +
+                '</tr>'
+            );
+        }
+
+        // create final row for averages in table
+        tableBody.innerHTML += (
+            '<tr>' +
+            '<th scope="row" class="bold" id="averages">Average</th>' +
+            '<td id="facebookAvg"> -- </td>' +
+            '<td id="googleAvg"> -- </td>' +
+            '<td id="yelpAvg"> -- </td>' +
+            '</th>' +
+            '</tr>'
+        );
+
+        fragment.append.table; // not sure if this is being used correctly
         table.appendChild(tableHead);
-        return table;
+        table.appendChild(tableBody);
+
+        // get data to obtain averages and call getAverages function
+        facebookRatings = document.querySelectorAll('.facebookRating');
+        googleRatings = document.querySelectorAll('.googleRating');
+        yelpRatings = document.querySelectorAll('.yelpRating');
+        helpers.getAverages(facebookRatings, googleRatings, yelpRatings);
+
+        return fragment;
     };
 
     // make global
