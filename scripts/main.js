@@ -2,14 +2,16 @@
 var uiController = (function () {
 
     // uiVariables
-    var chevronDown, chevronUp, toggleButton, sidebar, sidebarListItem, main;
+    var fragment, chevronDown, chevronUp, toggleButton, sidebar, sidebarListItem, table, main;
 
+    fragment = document.createDocumentFragment();
     chevronDown = document.querySelector('.chevron-down');
     chevronUp = document.querySelector('.chevron-up');
-    toggleButton = document.getElementById('toggle-button');
-    sidebar = document.getElementById('sidebar');
+    toggleButton = document.querySelector('#toggle-button');
+    sidebar = document.querySelector('#sidebar');
     sidebarListItem = document.querySelectorAll('.store-list-item');
-    main = document.getElementById('main');
+    main = document.querySelector('#main');
+    table = document.querySelector('#table');
 
     // switch chevron on click and reposition content if needed
     var toggler = function () {
@@ -26,7 +28,7 @@ var uiController = (function () {
     // make selected list item active
     var makeActive = function (id) {
         var oldActiveItem = document.querySelector('.list-active');
-        var newActiveItem = document.getElementById(id);
+        var newActiveItem = document.querySelector('#' + id);
         if (oldActiveItem) {
             oldActiveItem.classList.toggle('list-active');
         }
@@ -39,13 +41,11 @@ var uiController = (function () {
 
     // build list of stores for sidebar
     var buildSideList = function () {
-        var sideList, fragment;
+        var sideList;
 
         sideList = document.createElement('ul');
         sideList.className = 'list-unstyled list-inline text-left mb-5';
 
-
-        fragment = document.createDocumentFragment();
         // loop over array to determine size of list
         for (var i = 0; i < Object.keys(storeInfo).length; i++) {
             var listItem = document.createElement('li');
@@ -59,15 +59,40 @@ var uiController = (function () {
         }
         sideList.appendChild(fragment);
         return sideList;
+    };
+
+    // make table
+    var makeTable = function (stores) {
+        var tableHead, tableRow, columnHeader;
+
+        tableHead = document.createElement('thead');
+        tableRow = document.createElement('tr');
+
+        // clear table
+        table.innerHtml = '';
+
+        // create table header
+        tableRow.innerHTML = (
+            '<th scope ="col">Store</th >' +
+            '<th scope="col">Facebook</th>' +
+            '<th scope="col">Google</th>' +
+            '<th scope="col">Yelp</th>'
+        );
+        tableHead.appendChild(tableRow);
+
+        table.appendChild(tableHead);
+        return table;
+    };
 
     // make global
-    };
     return {
         toggler: toggler,
         toggleButton: toggleButton,
         sidebarListItem: sidebarListItem,
         makeActive: makeActive,
         buildSideList: buildSideList,
+        makeTable: makeTable,
+        table: table,
     };
 }());
 
@@ -81,10 +106,15 @@ var controller = (function () {
         uiController.toggleButton.addEventListener('click', function () {
             uiController.toggler();
         });
-        // sidebar list items
+
+        // select sidebar item - make active , create table, launch apis etc...
         uiController.sidebarListItem.forEach((item) => {
             item.addEventListener('click', function (e) {
-                uiController.makeActive(e.target.id);
+                var id = e.target.id;
+                uiController.makeActive(id);
+                // get array from storeinfo.js and pass into makeTable
+                uiController.table.innerHTML = ' ';
+                uiController.makeTable(storeInfo[id]);
 
             });
         });
@@ -92,8 +122,8 @@ var controller = (function () {
 
     var createData = function () {
         // load information into sidebar
-        document.getElementById('side-bar-list').appendChild(uiController.buildSideList());
-        // push new sidebarListItems to uiController -- will me needed in future release
+        document.querySelector('#side-bar-list').appendChild(uiController.buildSideList());
+        // push new sidebarListItems to uiController -- will be needed in future release
         uiController.sidebarListItem = document.querySelectorAll('.store-list-item');
     };
 
