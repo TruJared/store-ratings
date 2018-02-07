@@ -8,7 +8,7 @@ var uiController = (function () {
     chevronUp = document.querySelector('.chevron-up');
     toggleButton = document.getElementById('toggle-button');
     sidebar = document.getElementById('sidebar');
-    sidebarListItem = document.querySelectorAll('.store');
+    sidebarListItem = document.querySelectorAll('.store-list-item');
     main = document.getElementById('main');
 
     // switch chevron on click and reposition content if needed
@@ -30,18 +30,44 @@ var uiController = (function () {
         if (oldActiveItem) {
             oldActiveItem.classList.toggle('list-active');
         }
-        newActiveItem.parentNode.classList.toggle('list-active');
+        newActiveItem.classList.toggle('list-active');
         // toggle sidebar if viewport < 768
         if (window.innerWidth < 768) {
             toggler();
         }
     };
 
+    // build list of stores for sidebar
+    var buildSideList = function () {
+        var sideList, fragment;
+
+        sideList = document.createElement('ul');
+        sideList.className = 'list-unstyled list-inline text-left mb-5';
+
+
+        fragment = document.createDocumentFragment();
+        // loop over array to determine size of list
+        for (var i = 0; i < Object.keys(storeInfo).length; i++) {
+            var listItem = document.createElement('li');
+
+            listItem.appendChild(document.createTextNode('# ' + (Object.keys(storeInfo)[i].substr(1))));
+            listItem.className = 'store-list-item list-inline-item py-3 pl-5';
+            // make id
+            listItem.id = Object.keys(storeInfo);
+            listItem.id = (listItem.id.split(',')[i]);
+            fragment.appendChild(listItem);
+        }
+        sideList.appendChild(fragment);
+        return sideList;
+
+    // make global
+    };
     return {
         toggler: toggler,
         toggleButton: toggleButton,
         sidebarListItem: sidebarListItem,
         makeActive: makeActive,
+        buildSideList: buildSideList,
     };
 }());
 
@@ -56,18 +82,24 @@ var controller = (function () {
             uiController.toggler();
         });
         // sidebar list items
-        uiController.sidebarListItem.forEach(function (item) {
+        uiController.sidebarListItem.forEach((item) => {
             item.addEventListener('click', function (e) {
-                // make sure element is anchor and not div
-                if (e.target.tagName.toLowerCase() === 'a') {
-                    uiController.makeActive(e.target.id);
-                }
+                uiController.makeActive(e.target.id);
+
             });
         });
     };
 
+    var createData = function () {
+        // load information into sidebar
+        document.getElementById('side-bar-list').appendChild(uiController.buildSideList());
+        // push new sidebarListItems to uiController -- will me needed in future release
+        uiController.sidebarListItem = document.querySelectorAll('.store-list-item');
+    };
+
     return {
         init() {
+            createData();
             launchEventListeners();
         }
     };

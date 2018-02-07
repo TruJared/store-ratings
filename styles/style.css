@@ -8018,13 +8018,14 @@ h5 {
   border: 1px solid #fb1;
 }
 
-#sidebar a {
+#sidebar side-bar-list {
   color: #000;
   font-size: 1.25rem;
 }
 
-#sidebar a:hover {
+#sidebar li:hover {
   color: #fff;
+  cursor: pointer;
   text-decoration: none;
 }
 
@@ -8034,9 +8035,11 @@ h5 {
 
 #sidebar .list-active {
   background: #dee2e6;
+  color: #104ded;
 }
 
 #sidebar li {
+  font-size: 1.25rem;
   margin: 0;
   width: 100%;
 }

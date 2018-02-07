@@ -95,14 +95,15 @@ h5 {
     border: 1px solid $fbi;
   }
 
-  a {
+  side-bar-list {
     color: $black;
     font-size: 1.25rem;
+  }
 
-    &:hover {
-      color: $white;
-      text-decoration: none;
-    }
+  li:hover {
+    color: $white;
+    cursor: pointer;
+    text-decoration: none;
   }
 
   .fa-flag-checkered {
@@ -111,9 +112,11 @@ h5 {
 
   .list-active {
     background: $gray-300;
+    color: $loaded;
   }
 
   li {
+    font-size: 1.25rem;
     margin: 0;
     width: 100%;
 
