@@ -1,7 +1,7 @@
 // helpers
 var helpers = (function () {
 
-    // get averages and return to table
+    // get averages and return value
     // consider building a function constructor
     var getAverages = function (facebookRatings, googleRatings, yelpRatings) {
         var facebookTotal, googleTotal, yelpTotal;
@@ -10,23 +10,32 @@ var helpers = (function () {
         googleTotal = 0;
         yelpTotal = 0;
 
+        // calculate total
         facebookRatings.forEach((value) => {
-            facebookTotal += (parseInt(value.innerHTML));
+            facebookTotal += (parseFloat(value.innerHTML));
         });
         googleRatings.forEach((value) => {
-            googleTotal += (parseInt(value.innerHTML));
+            googleTotal += (parseFloat(value.innerHTML));
         });
         yelpRatings.forEach((value) => {
-            yelpTotal += (parseInt(value.innerHTML));
+            yelpTotal += (parseFloat(value.innerHTML));
         });
-        console.log(facebookTotal, googleTotal, yelpTotal);
+
+        // find average
+        facebookTotal = (facebookTotal / facebookRatings.length).toFixed(2);
+        googleTotal = (googleTotal / googleRatings.length).toFixed(2);
+        yelpTotal = (yelpTotal / yelpRatings.length).toFixed(2);
+
+        return {
+            facebookTotal,
+            googleTotal,
+            yelpTotal
+        };
     };
 
     return {
         getAverages: getAverages,
     };
-
-
 }());
 
 
@@ -124,9 +133,9 @@ var uiController = (function () {
             tableBody.innerHTML += (
                 '<tr>' +
                 '<th scope="row" id=' + store + '>' + store +
-                '<td class="facebookRating" id=' + facebookId + '>5.00</td>' +
-                '<td class="googleRating" id=' + googleId + '>4.00</td>' +
-                '<td class="yelpRating" id=' + yelpId + '>2.00</td>' +
+                '<td class="facebookRating" id=' + facebookId + '>' + (Math.random() * (1.00 - 5.00) + 5.00).toFixed(2) +'</td>' +
+                '<td class="googleRating" id=' + googleId + '>' + (Math.random() * (1.00 - 5.00) + 5.00).toFixed(2) +'</td>' +
+                '<td class="yelpRating" id=' + yelpId + '>' + (Math.random() * (1.00 - 5.00) + 5.00).toFixed(2) +'</td>' +
                 '</th>' +
                 '</tr>'
             );
@@ -136,9 +145,9 @@ var uiController = (function () {
         tableBody.innerHTML += (
             '<tr>' +
             '<th scope="row" class="bold" id="averages">Average</th>' +
-            '<td id="facebookAvg"> -- </td>' +
-            '<td id="googleAvg"> -- </td>' +
-            '<td id="yelpAvg"> -- </td>' +
+            '<td class="facebookAvgDisplay"> -- </td>' +
+            '<td class="googleAvgDisplay"> -- </td>' +
+            '<td class="yelpAvgDisplay"> -- </td>' +
             '</th>' +
             '</tr>'
         );
@@ -147,16 +156,41 @@ var uiController = (function () {
         table.appendChild(tableHead);
         table.appendChild(tableBody);
 
-        // get data to obtain averages and call getAverages function
-        facebookRatings = document.querySelectorAll('.facebookRating');
-        googleRatings = document.querySelectorAll('.googleRating');
-        yelpRatings = document.querySelectorAll('.yelpRating');
-        helpers.getAverages(facebookRatings, googleRatings, yelpRatings);
-
         return fragment;
     };
 
-    // make global
+    // set averages
+    var setAverages = function (facebookRatings, googleRatings, yelpRatings) {
+
+        // get DOMS
+        var facebookAvg = document.querySelectorAll('.facebookAvgDisplay');
+        var googleAvg = document.querySelectorAll('.googleAvgDisplay');
+        var yelpAvg = document.querySelectorAll('.yelpAvgDisplay');
+        var facebookBar = document.querySelector('#facebookBar');
+        var googleBar = document.querySelector('#googleBar');
+        var yelpBar = document.querySelector('#yelpBar');
+
+        // pass objects to getAverages
+        averages = helpers.getAverages(facebookRatings, googleRatings, yelpRatings);
+
+        // set values and
+        facebookAvg.forEach((element) => {
+            element.innerHTML = averages.facebookTotal;
+        });
+        googleAvg.forEach((element) => {
+            element.innerHTML = averages.googleTotal;
+        });
+        yelpAvg.forEach((element) => {
+            element.innerHTML = averages.yelpTotal;
+        });
+
+        // adjust sliders
+        facebookBar.style.width = (parseInt((averages.facebookTotal / 5) * 100) + '%');
+        googleBar.style.width = (parseInt((averages.googleTotal / 5) * 100) + '%');
+        yelpBar.style.width = (parseInt((averages.yelpTotal / 5) * 100) + '%');
+
+    };
+
     return {
         toggler: toggler,
         toggleButton: toggleButton,
@@ -165,6 +199,7 @@ var uiController = (function () {
         buildSideList: buildSideList,
         makeTable: makeTable,
         table: table,
+        setAverages: setAverages,
     };
 }());
 
@@ -187,6 +222,12 @@ var controller = (function () {
                 // get array from storeinfo.js and pass into makeTable
                 uiController.table.innerHTML = ' ';
                 uiController.makeTable(storeInfo[id]);
+
+                // get data to obtain averages and call getAverages function
+                var facebookRatings = document.querySelectorAll('.facebookRating');
+                var googleRatings = document.querySelectorAll('.googleRating');
+                var yelpRatings = document.querySelectorAll('.yelpRating');
+                uiController.setAverages(facebookRatings, googleRatings, yelpRatings);
 
             });
         });
