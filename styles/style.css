@@ -8052,6 +8052,16 @@ th {
   font-family: "Montserrat", sans-serif;
 }
 
+#cards {
+  padding-bottom: 250px;
+}
+
+@media (min-width: 768px) {
+  #cards {
+    padding-bottom: 450px;
+  }
+}
+
 #cards #facebook-header {
   background: #4267b2;
 }
