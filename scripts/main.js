@@ -185,9 +185,15 @@ var uiController = (function () {
         });
 
         // adjust sliders
+        // facebook
         facebookBar.style.width = (parseInt((averages.facebookTotal / 5) * 100) + '%');
+        facebookBar.setAttribute('aria-valuenow', (parseInt((averages.facebookTotal / 5) * 100) + '%'));
+        // google
         googleBar.style.width = (parseInt((averages.googleTotal / 5) * 100) + '%');
+        googleBar.setAttribute('aria-valuenow', (parseInt((averages.googleTotal / 5) * 100) + '%'));
+        // yelp
         yelpBar.style.width = (parseInt((averages.yelpTotal / 5) * 100) + '%');
+        yelpBar.setAttribute('aria-valuenow', (parseInt((averages.yelpTotal / 5) * 100) + '%'));
 
     };
 
