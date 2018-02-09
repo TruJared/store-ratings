@@ -64,6 +64,11 @@ var uiController = (function () {
         } else {
             main.classList.add('slider');
         }
+
+        // set aria-expanded
+        sidebar.setAttribute('aria-expanded',
+            sidebar.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'
+        );
     };
 
     // make selected list item active
