@@ -177,7 +177,7 @@ var uiController = (function () {
 
         // yelp
         yelpAvg.forEach((element) => {
-            element.innerHTML = averages.yelpAvgRating;
+            element.innerHTML = averageRatings.yelpAvgRating;
         });
         yelpBar.style.width = (parseInt((averageRatings.yelpAvgRating / 5) * 100) + '%');
         yelpBar.setAttribute('aria-valuenow', (parseInt((averageRatings.yelpAvgRating / 5) * 100) + '%'));
