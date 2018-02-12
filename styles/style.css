@@ -7975,16 +7975,6 @@ h5 {
   }
 }
 
-#nav .nav-image {
-  display: none;
-}
-
-@media (min-width: 768px) {
-  #nav .nav-image {
-    display: inline;
-  }
-}
-
 #nav #toggle-button {
   background-color: rgba(255, 255, 255, 0);
   border: 0;

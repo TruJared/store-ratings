@@ -51,13 +51,6 @@ h5 {
     display: none;
   }
 
-  .nav-image {
-    @include media-breakpoint-up(md) {
-      display: inline;
-    }
-    display: none;
-  }
-
   #toggle-button {
     background-color: rgba($white, 0);
     border: 0;

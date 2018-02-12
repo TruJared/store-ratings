@@ -1,19 +1,84 @@
+// api requests
+// cspell: disable
+var api = (function () {
+    //api variable
+    var proxy, googleApi, googleKey, googleRatings, facebookApi, facebookKey, yelpApi, yelpKey, xhr;
+
+    proxy = 'https://cors-anywhere.herokuapp.com/'; // used when in dev mode
+    googleApi = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=';
+    googleKey = '&key=AIzaSyALgMeJoWoeLiygtjWOu1uRou7vJRzQg0I';
+    facebookApi = 'https://graph.facebook.com/v2.11/';
+    facebookKey = 'Bearer 1964498370470979|7mIH6fntq1SAW47PsrRxx21ds7I';
+    xhr = new XMLHttpRequest();
+
+    var getGoogle = function (googleIds) {
+        // helpful info >>> https://stackoverflow.com/questions/43262121/trying-to-use-fetch-and-pass-in-mode-no-cors
+        googleIds.forEach(function (store) {
+            fetch(`${googleApi}${store.id}${googleKey}`)
+                .then(blob => blob.json())
+                .then(data => {
+                    var cell = document.querySelector(`#${store.id}`);
+                    var rating = data.result.rating;
+                    if (rating){cell.innerText = (rating).toFixed(2);}
+                });
+        });
+    };
+
+    var getFacebook = function (facebookIds) {
+        facebookIds.forEach(function (store) {
+            fetch(`${facebookApi}${store.id}?fields=overall_star_rating`, {
+                headers: {
+                    'Authorization': facebookKey,
+                }
+            })
+                .then(blob => blob.json())
+                .then(data => {
+                    var cell = document.querySelector(`#${store.id}`);
+                    var rating = data.overall_star_rating;
+                    if (rating){cell.innerText = (rating.toFixed(2));}
+                });
+        });
+    };
+
+    // // Facebook API call
+    // function getInfoFacebook(storeInfo, ratingSource) {
+    //     $.ajax({
+    //         url: 'https://graph.facebook.com/v2.11/' + storeInfo[ratingSource] + '?fields=overall_star_rating',
+    //         beforeSend: function (xhr) {
+    //             xhr.setRequestHeader('Authorization', 'Bearer EAAb6s2uIpEMBAAbSvg1vOWop15RpXsmBH9meE59kCuRh0JxzA1eZCxxWbnCEHqpLZCSNKmPSj7OuDFx1RhBC8pO1y8ZA9GBCcEAEkDZC3S0bZCkflZCFGr5GJ8ol8SMZAQ4Bkb5vYAZCC4LcvBiff8UgZC4ohbkfj0dwZD');
+    //         },
+    //         success: function (data) {
+    //             rating = (data.overall_star_rating);
+    //             $('#' + storeInfo.sNumber + ratingSource).text(rating.toFixed(1) + ' / 5');
+    //         },
+    //     });
+    // }
+
+
+    return {
+        getGoogle: getGoogle,
+        getFacebook: getFacebook,
+        //     getYelp: getYelp
+    };
+
+})();
+
+// cspell: enable
 // helpers
 var helpers = (function () {
     var findAverages = function (ratingsObj) {
-        var averageRatings = {};
+        //     var averageRatings = {};
+        //     //use reduce to find total
+        //     for (var key in ratingsObj) {
+        //         var nodeToArray = Array.from(ratingsObj[key]);
+        //         nodeToArray.reduce(function (accumulator, value) {
+        //             return (total = accumulator += parseFloat(value.innerText));
+        //         }, 0);
 
-        //use reduce to find total
-        for (var key in ratingsObj) {
-            var nodeToArray = Array.from(ratingsObj[key]);
-            nodeToArray.reduce(function (accumulator, value) {
-                return (total = accumulator += parseFloat(value.innerText));
-            }, 0);
+        //         //find average and put into an object
+        //         averageRatings[key] = (total / nodeToArray.length).toFixed(2);
+        // }
 
-            //find average and put into an object
-            averageRatings[key] = (total / nodeToArray.length).toFixed(2);
-        }
-        return averageRatings;
     };
     return {
         findAverages: findAverages,
@@ -115,9 +180,9 @@ var uiController = (function () {
             tableBody.innerHTML += (
                 `<tr>
                 <th scope="row" id="${storeNum}" >${storeNum}
-                <td class="facebookRating" id="${facebookId}">${(Math.random() * (1.00 - 5.00) + 5.00).toFixed(2)}</td>
-                <td class="googleRating" id="${googleId}">${(Math.random() * (1.00 - 5.00) + 5.00).toFixed(2)}</td>
-                <td class="yelpRating" id="${yelpId}">${(Math.random() * (1.00 - 5.00) + 5.00).toFixed(2)}</td>
+                <td class="facebookRating" id="${facebookId}">0</td>
+                <td class="googleRating" id="${googleId}">0</td>
+                <td class="yelpRating" id="${yelpId}">0</td>
                 </th>
                 </tr>`
             );
@@ -202,19 +267,20 @@ var controller = (function () {
                 uiController.table.innerHTML = ' ';
                 uiController.makeTable(storeInfo[id]);
 
-                // get data to obtain averages and find and set averages
-                var ratingsObj = {
-                    facebookAvgRating: document.querySelectorAll('.facebookRating'),
-                    googleAvgRating: document.querySelectorAll('.googleRating'),
-                    yelpAvgRating: document.querySelectorAll('.yelpRating'),
-                };
-                var averageRatings = helpers.findAverages(ratingsObj);
-                uiController.setAverages(averageRatings);
+                // get data to work with
+                var facebookIds = document.querySelectorAll('.facebookRating');
+                var googleIds = document.querySelectorAll('.googleRating');
+                var yelpIds = document.querySelectorAll('.yelpRating');
+
+                // fill table with useful data and get info for averages
+                api.getGoogle(googleIds);
+                api.getFacebook(facebookIds);
+
             });
         });
     };
 
-    var createData = function () {
+    var createSidebarList = function () {
         // load information into sidebar
         document.querySelector('#side-bar-list').appendChild(uiController.buildSideList());
         // push new sidebarListItems to uiController -- will be needed in future release
@@ -223,7 +289,7 @@ var controller = (function () {
 
     return {
         init() {
-            createData();
+            createSidebarList();
             launchEventListeners();
         }
     };
