@@ -41,14 +41,21 @@ h5 {
     &:hover {
       color: $primary + 50;
     }
+  }
 
-    .nav-icon {
-      @include media-breakpoint-up(sm) {
-        display: inline;
-      }
-
-      display: none;
+  .nav-icon,
+  .nav-image {
+    @include media-breakpoint-up(lg) {
+      display: inline;
     }
+    display: none;
+  }
+
+  .nav-image {
+    @include media-breakpoint-up(md) {
+      display: inline;
+    }
+    display: none;
   }
 
   #toggle-button {
