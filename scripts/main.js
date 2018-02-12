@@ -1,6 +1,5 @@
 // helpers
 var helpers = (function () {
-
     var findAverages = function (ratingsObj) {
         var averageRatings = {};
 
@@ -14,19 +13,15 @@ var helpers = (function () {
             //find average and put into an object
             averageRatings[key] = (total / nodeToArray.length).toFixed(2);
         }
-
         return averageRatings;
     };
-
     return {
         findAverages: findAverages,
     };
 }());
 
-
 // ui Controller
 var uiController = (function () {
-
     // uiVariables
     var fragment, chevronDown, chevronUp, toggleButton, sidebar, sidebarListItem, table, main;
 
@@ -44,17 +39,13 @@ var uiController = (function () {
         chevronUp.classList.toggle('active');
         chevronDown.classList.toggle('active');
         sidebar.classList.toggle('hidden');
-        if (sidebar.classList.contains('hidden')) {
-            main.classList.remove('slider');
-        } else {
-            main.classList.add('slider');
-        }
-
-        // set aria-expanded
-        sidebar.setAttribute('aria-expanded',
-            sidebar.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'
-        );
+        sidebar.classList.contains('hidden') ? main.classList.remove('slider') : main.classList.add('slider');
     };
+
+    // set aria-expanded
+    sidebar.setAttribute('aria-expanded',
+        sidebar.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'
+    );
 
     // make selected list item active
     var makeActive = function (id) {
@@ -78,17 +69,18 @@ var uiController = (function () {
         sideList.className = 'list-unstyled list-inline text-left mb-5';
 
         // loop over array to determine size of list
-        for (var i = 0; i < Object.keys(storeInfo).length; i++) {
+        Object.keys(storeInfo).forEach(function (key) {
             var listItem = document.createElement('li');
+            var store = key.substr(1);
+            fragment.appendChild(listItem);
 
-            listItem.appendChild(document.createTextNode('# ' + (Object.keys(storeInfo)[i].substr(1))));
+            listItem.appendChild(document.createTextNode(`# ${store}`));
             listItem.className = 'store-list-item list-inline-item py-3 pl-5';
             // make id
-            listItem.id = Object.keys(storeInfo);
-            listItem.id = (listItem.id.split(',')[i]);
-            fragment.appendChild(listItem);
-        }
-        sideList.appendChild(fragment);
+            listItem.id = key;
+
+            sideList.appendChild(fragment);
+        });
         return sideList;
     };
 
@@ -100,52 +92,47 @@ var uiController = (function () {
         headRow = document.createElement('tr');
         tableBody = document.createElement('tbody');
 
+        fragment.append.table;
+        table.appendChild(tableHead);
+        table.appendChild(headRow);
+        table.appendChild(tableBody);
+
         // create table header
         headRow.innerHTML = (
-            '<th scope ="col">Store</th >' +
-            '<th scope="col">Facebook</th>' +
-            '<th scope="col">Google</th>' +
-            '<th scope="col">Yelp</th>'
+            `<th scope ="col">Store</th >
+            <th scope="col">Facebook</th>
+            <th scope="col">Google</th>
+            <th scope="col">Yelp</th>`
         );
 
-        // will append to table
-        tableHead.appendChild(headRow);
-
         // create table body
-        for (var i = 0; i < stores.length; i++) {
-            var store, facebookId, GoogleId, YelpId;
-
-            store = stores[i].sNumber;
-            facebookId = stores[i].facebookId;
-            googleId = stores[i].googleId;
-            yelpId = stores[i].yelpId;
+        stores.forEach(function (store) {
+            storeNum = store.sNumber;
+            facebookId = store.facebookId;
+            googleId = store.googleId;
+            yelpId = store.yelpId;
 
             tableBody.innerHTML += (
-                '<tr>' +
-                '<th scope="row" id=' + store + '>' + store +
-                '<td class="facebookRating" id=' + facebookId + '>' + (Math.random() * (1.00 - 5.00) + 5.00).toFixed(2) + '</td>' +
-                '<td class="googleRating" id=' + googleId + '>' + (Math.random() * (1.00 - 5.00) + 5.00).toFixed(2) + '</td>' +
-                '<td class="yelpRating" id=' + yelpId + '>' + (Math.random() * (1.00 - 5.00) + 5.00).toFixed(2) + '</td>' +
-                '</th>' +
-                '</tr>'
+                `<tr>
+                <th scope="row" id="${storeNum}" >${storeNum}
+                <td class="facebookRating" id="${facebookId}">${(Math.random() * (1.00 - 5.00) + 5.00).toFixed(2)}</td>
+                <td class="googleRating" id="${googleId}">${(Math.random() * (1.00 - 5.00) + 5.00).toFixed(2)}</td>
+                <td class="yelpRating" id="${yelpId}">${(Math.random() * (1.00 - 5.00) + 5.00).toFixed(2)}</td>
+                </th>
+                </tr>`
             );
-        }
+        });
 
         // create final row for averages in table
         tableBody.innerHTML += (
-            '<tr>' +
-            '<th scope="row" class="bold" id="averages">Average</th>' +
-            '<td class="facebookAvgDisplay"> -- </td>' +
-            '<td class="googleAvgDisplay"> -- </td>' +
-            '<td class="yelpAvgDisplay"> -- </td>' +
-            '</th>' +
-            '</tr>'
+            `<tr>
+            <th scope="row" class="bold" id="averages">Average</th>
+            <td class="facebookAvgDisplay"> -- </td>
+            <td class="googleAvgDisplay"> -- </td>
+            <td class="yelpAvgDisplay"> -- </td>
+            </th>
+            </tr>`
         );
-
-        fragment.append.table; // not sure if this is being used correctly
-        table.appendChild(tableHead);
-        table.appendChild(tableBody);
-
         return fragment;
     };
 
@@ -243,21 +230,12 @@ var controller = (function () {
 }());
 
 controller.init();
+
+
+
 // window.addEventListener('click', function(e) {
 //     console.log(e);
 // });
-
-
-
-
-
-
-
-
-
-
-
-
 
 // cspell:disable
 
