@@ -25,6 +25,32 @@
 
 <body>
 
+  <!-- Modal -->
+  <div class="modal" id="featuresModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-gradient-danger text-white">
+          <h4 class="modal-title">Welcome To The New Ratings Tool*</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Rebuilt with a cleaner UI and much faster data fetching (Yelp still takes <em>forever</em>...).</p>
+          <p>Averages are now calculated without any non-scores (0's) included.</p>
+          <p>In a future update, the bottom cards will also display customer comments.</p>
+          <p>Use the chevrons to toggle the sidebar</p>
+          <p>There's now a link in the navigation panel to send bug reports.</p>
+          <p>Thanks and enjoy!</p>
+        </div>
+        <div class="modal-footer">
+          <p>* Works Best With Chrome or Firefox.</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- nav -->
   <nav class="navbar navbar-expand navbar-expand bg-light fixed-top" id="nav">
     <button class="button mt-2" id="toggle-button" type="button" data-toggle="collapse" aria-controls="sidebar" aria-expanded="false"
@@ -107,7 +133,7 @@
 
       <!-- table  -->
 
-      <table class="table table-striped mt-1" id="table">
+      <table class="table table-striped table-sm mt-1" id="table">
         <thead>
           <tr>
             <th scope="col">Store #</th>
@@ -189,7 +215,7 @@
 
       <!-- cards  -->
 
-      <div class="container-fluid mt-4" id="cards">
+      <div class="container-fluid mt-2" id="cards">
         <div class="row">
           <div class="col-lg-6 col-xl-4">
             <div class="card mt-3 mx-auto pb-3">

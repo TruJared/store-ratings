@@ -99,7 +99,8 @@ var api = (function () {
 // ui Controller
 var uiController = (function () {
     // uiVariables
-    var fragment, chevronDown, chevronUp, toggleButton, sidebar, sidebarListItem, table, main;
+    var fragment, chevronDown, chevronUp, toggleButton, sidebar, sidebarListItem, table,
+        facebookAvg, facebookBar, googleAvg, googleBar, yelpAvg, yelpBar, main;
 
     fragment = document.createDocumentFragment();
     chevronDown = document.querySelector('.chevron-down');
@@ -109,6 +110,12 @@ var uiController = (function () {
     sidebarListItem = document.querySelectorAll('.store-list-item');
     main = document.querySelector('#main');
     table = document.querySelector('#table');
+    facebookAvg = document.querySelectorAll('.facebookAvgDisplay');
+    facebookBar = document.querySelector('#facebookBar');
+    googleAvg = document.querySelectorAll('.googleAvgDisplay');
+    googleBar = document.querySelector('#googleBar');
+    yelpAvg = document.querySelectorAll('.yelpAvgDisplay');
+    yelpBar = document.querySelector('#yelpBar');
 
     // switch chevron on click and reposition content if needed
     var toggler = function () {
@@ -203,25 +210,39 @@ var uiController = (function () {
         tableBody.innerHTML += (
             `<tr>
             <th scope="row" class="bold" id="averages">Average</th>
-            <td class="facebookAvgDisplay"><i class="fas fa-calculator"></i></td>
-            <td class="googleAvgDisplay"><i class="fas fa-calculator"></i></td>
-            <td class="yelpAvgDisplay"><i class="fas fa-calculator"></i></td>
+            <td class="facebookAvgDisplay">0</td>
+            <td class="googleAvgDisplay">0</td>
+            <td class="yelpAvgDisplay">0</td>
             </th>
             </tr>`
         );
+
+        // reset averages and progress bars
+        // set values and progress bars
+        // facebook
+        facebookAvg.forEach((element) => {
+            element.innerHTML = 'Doin\' Some Math';
+        });
+        facebookBar.style.width = 0;
+        facebookBar.setAttribute('aria-valuenow', 0);
+        // google
+        googleAvg.forEach((element) => {
+            element.innerHTML = 'Doin\' Some Math';
+        });
+        googleBar.style.width = 0;
+        googleBar.setAttribute('aria-valuenow', 0);
+        // yelp
+        yelpAvg.forEach((element) => {
+            element.innerHTML = 'Doin\' Some Math';
+        });
+        yelpBar.style.width = 0;
+        yelpBar.setAttribute('aria-valuenow', 0);
+
         return fragment;
     };
 
     // set averages
     var setAverages = function (averageRatings) {
-
-        // get DOMS
-        var facebookAvg = document.querySelectorAll('.facebookAvgDisplay');
-        var googleAvg = document.querySelectorAll('.googleAvgDisplay');
-        var yelpAvg = document.querySelectorAll('.yelpAvgDisplay');
-        var facebookBar = document.querySelector('#facebookBar');
-        var googleBar = document.querySelector('#googleBar');
-        var yelpBar = document.querySelector('#yelpBar');
 
         // set values and progress bars
         // facebook
@@ -319,4 +340,5 @@ var controller = (function () {
     };
 }());
 
+$('#featuresModal').modal('show');
 controller.init();

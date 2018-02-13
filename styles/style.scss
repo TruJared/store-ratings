@@ -16,8 +16,11 @@ h5 {
 }
 
 .hidden {
+  max-height: 250px !important;
   opacity: 0;
-  transition: opacity 1s ease-out;
+  transition: opacity 1s ease-out, height 1s; // zip up and fade out
+
+
 }
 
 .slider {
@@ -83,11 +86,11 @@ h5 {
 #sidebar {
   box-shadow: 1px 1px 2px $gray-700;
   font-family: $heading-font;
-  height: 100vh;
   margin-left: -15px;
+  max-height: 100vh;
   overflow: auto;
   padding-bottom: 75px;
-  transition: opacity 1s ease-in;
+  transition: opacity 1s ease-in, max-height 1s; // zip down and fade in
   width: $sidebar-width;
   z-index: 999;
 
