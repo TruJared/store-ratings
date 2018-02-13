@@ -1,25 +1,52 @@
+// helpers
+var helpers = (function () {
+    var findAverages = function (ratingsObj) {
+        var averageRatings = {};
+        //use reduce to find total
+        for (var key in ratingsObj) {
+            var nodeToArray = Array.from(ratingsObj[key]);
+            // we dont want to calculate 0's
+            var filteredArray = nodeToArray.filter(item => item.innerText > 0);
+            filteredArray.reduce(function (accumulator, value) {
+                return (total = accumulator += parseFloat(value.innerText));
+            }, 0);
+
+            //find average and put into an object
+            averageRatings[key] = (total / filteredArray.length).toFixed(2);
+        }
+        return averageRatings;
+    };
+    return {
+        findAverages: findAverages,
+    };
+}());
+
 // api requests
 // cspell: disable
 var api = (function () {
     //api variable
-    var proxy, googleApi, googleKey, googleRatings, facebookApi, facebookKey, yelpApi, yelpKey, xhr;
+    var proxy, googleApi, googleKey, googleRatings, facebookApi, facebookKey, yelpApi, yelpKey;
 
-    proxy = 'https://cors-anywhere.herokuapp.com/'; // used when in dev mode
+    proxy = 'https://protected-ravine-77562.herokuapp.com/'; // used to bypass CORS
     googleApi = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=';
     googleKey = '&key=AIzaSyALgMeJoWoeLiygtjWOu1uRou7vJRzQg0I';
     facebookApi = 'https://graph.facebook.com/v2.11/';
     facebookKey = 'Bearer 1964498370470979|7mIH6fntq1SAW47PsrRxx21ds7I';
-    xhr = new XMLHttpRequest();
+    yelpApi = 'https://api.yelp.com/v3/businesses/';
+    yelpKey = 'F3ij6D_zmlD6kdK_959yHBHH--ANWterrg512Weg1bWUNKL7abbhnVq8uzaLkbF3ZPbOgImcT61iUvAcub0EG9FiprWNL6LYzHvgNJpSjBzPiQStRA4z5JhUZxmCWnYx';
 
     var getGoogle = function (googleIds) {
         // helpful info >>> https://stackoverflow.com/questions/43262121/trying-to-use-fetch-and-pass-in-mode-no-cors
         googleIds.forEach(function (store) {
-            fetch(`${googleApi}${store.id}${googleKey}`)
+            fetch(`${proxy}${googleApi}${store.id}${googleKey}`)
                 .then(blob => blob.json())
                 .then(data => {
                     var cell = document.querySelector(`#${store.id}`);
                     var rating = data.result.rating;
-                    if (rating){cell.innerText = (rating).toFixed(2);}
+                    cell.innerText = (rating).toFixed(2);
+                })
+                .catch(error => {
+                    console.log(error);
                 });
         });
     };
@@ -35,55 +62,39 @@ var api = (function () {
                 .then(data => {
                     var cell = document.querySelector(`#${store.id}`);
                     var rating = data.overall_star_rating;
-                    if (rating){cell.innerText = (rating.toFixed(2));}
+                    cell.innerText = (rating.toFixed(2));
+                })
+                .catch(error => {
+                    console.log(`${error}: Most likely this error is due to the business having no data`);
                 });
         });
     };
+    var getYelp = function (yelpIds) {
+        yelpIds.forEach(function (store) {
+            var rapid = new RapidAPI('storeranking', '9ff7edb4-d7e5-43f8-92d2-4fb7f22a46eb');
 
-    // // Facebook API call
-    // function getInfoFacebook(storeInfo, ratingSource) {
-    //     $.ajax({
-    //         url: 'https://graph.facebook.com/v2.11/' + storeInfo[ratingSource] + '?fields=overall_star_rating',
-    //         beforeSend: function (xhr) {
-    //             xhr.setRequestHeader('Authorization', 'Bearer EAAb6s2uIpEMBAAbSvg1vOWop15RpXsmBH9meE59kCuRh0JxzA1eZCxxWbnCEHqpLZCSNKmPSj7OuDFx1RhBC8pO1y8ZA9GBCcEAEkDZC3S0bZCkflZCFGr5GJ8ol8SMZAQ4Bkb5vYAZCC4LcvBiff8UgZC4ohbkfj0dwZD');
-    //         },
-    //         success: function (data) {
-    //             rating = (data.overall_star_rating);
-    //             $('#' + storeInfo.sNumber + ratingSource).text(rating.toFixed(1) + ' / 5');
-    //         },
-    //     });
-    // }
+            rapid.call('YelpAPI', 'getSingleBusiness', {
+                'accessToken': yelpKey,
+                'bussinessId': store.id
 
+            }).on('success', function (data) {
+                var cell = document.querySelector(`#${store.id}`);
+                var rating = data.rating;
+                cell.innerText = (rating.toFixed(2));
+            }).on('error', function (error) {
+                (`${error}: Most likely this error is due to the business having no data`);
+            });
+        });
+    };
 
     return {
         getGoogle: getGoogle,
         getFacebook: getFacebook,
-        //     getYelp: getYelp
+        getYelp: getYelp
     };
 
 })();
-
 // cspell: enable
-// helpers
-var helpers = (function () {
-    var findAverages = function (ratingsObj) {
-        //     var averageRatings = {};
-        //     //use reduce to find total
-        //     for (var key in ratingsObj) {
-        //         var nodeToArray = Array.from(ratingsObj[key]);
-        //         nodeToArray.reduce(function (accumulator, value) {
-        //             return (total = accumulator += parseFloat(value.innerText));
-        //         }, 0);
-
-        //         //find average and put into an object
-        //         averageRatings[key] = (total / nodeToArray.length).toFixed(2);
-        // }
-
-    };
-    return {
-        findAverages: findAverages,
-    };
-}());
 
 // ui Controller
 var uiController = (function () {
@@ -192,9 +203,9 @@ var uiController = (function () {
         tableBody.innerHTML += (
             `<tr>
             <th scope="row" class="bold" id="averages">Average</th>
-            <td class="facebookAvgDisplay"> -- </td>
-            <td class="googleAvgDisplay"> -- </td>
-            <td class="yelpAvgDisplay"> -- </td>
+            <td class="facebookAvgDisplay"><i class="fas fa-calculator"></i></td>
+            <td class="googleAvgDisplay"><i class="fas fa-calculator"></i></td>
+            <td class="yelpAvgDisplay"><i class="fas fa-calculator"></i></td>
             </th>
             </tr>`
         );
@@ -215,24 +226,24 @@ var uiController = (function () {
         // set values and progress bars
         // facebook
         facebookAvg.forEach((element) => {
-            element.innerHTML = averageRatings.facebookAvgRating;
+            element.innerHTML = averageRatings.facebookIds;
         });
-        facebookBar.style.width = (parseInt((averageRatings.facebookAvgRating / 5) * 100) + '%');
-        facebookBar.setAttribute('aria-valuenow', (parseInt((averageRatings.facebookAvgRating / 5) * 100) + '%'));
+        facebookBar.style.width = (parseInt((averageRatings.facebookIds / 5) * 100) + '%');
+        facebookBar.setAttribute('aria-valuenow', (parseInt((averageRatings.facebookIds / 5) * 100) + '%'));
 
         // google
         googleAvg.forEach((element) => {
-            element.innerHTML = averageRatings.googleAvgRating;
+            element.innerHTML = averageRatings.googleIds;
         });
-        googleBar.style.width = (parseInt((averageRatings.googleAvgRating / 5) * 100) + '%');
-        googleBar.setAttribute('aria-valuenow', (parseInt((averageRatings.googleAvgRating / 5) * 100) + '%'));
+        googleBar.style.width = (parseInt((averageRatings.googleIds / 5) * 100) + '%');
+        googleBar.setAttribute('aria-valuenow', (parseInt((averageRatings.googleIds / 5) * 100) + '%'));
 
         // yelp
         yelpAvg.forEach((element) => {
-            element.innerHTML = averageRatings.yelpAvgRating;
+            element.innerHTML = averageRatings.yelpIds;
         });
-        yelpBar.style.width = (parseInt((averageRatings.yelpAvgRating / 5) * 100) + '%');
-        yelpBar.setAttribute('aria-valuenow', (parseInt((averageRatings.yelpAvgRating / 5) * 100) + '%'));
+        yelpBar.style.width = (parseInt((averageRatings.yelpIds / 5) * 100) + '%');
+        yelpBar.setAttribute('aria-valuenow', (parseInt((averageRatings.yelpIds / 5) * 100) + '%'));
     };
 
     return {
@@ -250,7 +261,6 @@ var uiController = (function () {
 
 // controller
 var controller = (function () {
-
     // launch listeners
     var launchEventListeners = function () {
         // toggle button
@@ -263,6 +273,19 @@ var controller = (function () {
             item.addEventListener('click', function (e) {
                 var id = e.target.id;
                 uiController.makeActive(id);
+
+                // function to load data for find averages >>> needs better implementation
+                setTimeout(function badSolution() {
+                    var ratingsFromDom = {
+                        facebookIds: document.querySelectorAll('.facebookRating'),
+                        googleIds: document.querySelectorAll('.googleRating'),
+                        yelpIds: document.querySelectorAll('.yelpRating'),
+                    };
+                    var averages = helpers.findAverages(ratingsFromDom);
+                    uiController.setAverages(averages);
+                }, 8000);
+
+
                 // get array from storeinfo.js and pass into makeTable
                 uiController.table.innerHTML = ' ';
                 uiController.makeTable(storeInfo[id]);
@@ -275,6 +298,7 @@ var controller = (function () {
                 // fill table with useful data and get info for averages
                 api.getGoogle(googleIds);
                 api.getFacebook(facebookIds);
+                api.getYelp(yelpIds);
 
             });
         });
@@ -296,120 +320,3 @@ var controller = (function () {
 }());
 
 controller.init();
-
-
-
-// window.addEventListener('click', function(e) {
-//     console.log(e);
-// });
-
-// cspell:disable
-
-// // rapid api - needed for Yelp to work
-// // var RapidAPI = new require('rapidapi-connect');
-// var rapid = new RapidAPI('storeranking',
-//     '9ff7edb4-d7e5-43f8-92d2-4fb7f22a46eb');
-
-// $(document).ready(function () {
-//     // build drop-down based on the districts listed in store info
-
-//     /* eslint-disable guard-for-in */
-//     (function () {
-//         for (property in storeInfo) {
-//             $('#district-selection').append(
-//                 '<option value=storeInfo.' + property + '>' +
-//         property.substr(1, property.length) + '</option>');
-//         }
-//     })();
-//     /* eslint-enable */
-
-//     // click event
-
-//     $('#district-selection').click(function () {
-//     // reset table and rebuild table head
-//         $('#ranking_table').empty();
-//         $('#ranking_table').append('<tr>' +
-//       '<th>STORE #</th>' +
-//       '<th>YELP</th>' +
-//       '<th>GOOGLE</th>' +
-//       '<th>FACEBOOK</th>' +
-//       '</tr>');
-
-
-//         // add district number to selector
-//         var districtNumber = $(this).val().substr(-4, 4);
-
-//         $('#option-title').empty();
-//         if ($.isNumeric(districtNumber)) {
-//             $('#option-title').append('District: ' + districtNumber);
-//             value = eval($(this).val()); // eval should NOT be used with a database
-//             // make table
-//             makeTable(value);
-//         } else {
-//             $('#option-title').append($(this).val());
-//         }
-//     });
-// });
-
-// // All API calls should be served directly from the server if possible
-
-// // Yelp API call using rapid api
-// function getInfoYelp(storeInfo, ratingSource) {
-//     rapid.call('YelpAPI', 'getSingleBusiness', {
-//         'accessToken': '0KFFwb0CeOocTb-DTHcHAIyHNVoh4x4I_TZ5mkoUM4RYPyzG2ZfSgCZcBsthpgJBJGTBGeQFPVCbzA5sIt8zG3y3_cU3upPRT13G3okGWRuzG27p8K9jvnqYbjMkWnYx',
-//         'bussinessId': storeInfo[ratingSource], // bussiness typo required due to error on rapid api's end
-
-//     }).on('success', function (data) {
-//         rating = data.rating;
-//         $('#' + storeInfo.sNumber + ratingSource).text(rating.toFixed(1) + ' / 5');
-//     });
-// }
-
-// // Google API call
-// function getInfoGoogle(storeInfo, ratingSource) {
-//     // Proxy to bypass CORS - may not be needed when live
-//     proxy = 'https://cors-anywhere.herokuapp.com/';
-//     googleApi = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=';
-//     googleKey = '&key=AIzaSyALgMeJoWoeLiygtjWOu1uRou7vJRzQg0I';
-
-//     $.get(proxy + googleApi + storeInfo[ratingSource] + googleKey,
-//         function (data) {
-//             rating = data.result.rating;
-//             $('#' + storeInfo.sNumber + ratingSource).text(rating.toFixed(1) + ' / 5');
-//         }
-//     );
-// }
-
-// // Facebook API call
-// function getInfoFacebook(storeInfo, ratingSource) {
-//     $.ajax({
-//         url: 'https://graph.facebook.com/v2.11/' + storeInfo[ratingSource] + '?fields=overall_star_rating',
-//         beforeSend: function (xhr) {
-//             xhr.setRequestHeader('Authorization', 'Bearer EAAb6s2uIpEMBAAbSvg1vOWop15RpXsmBH9meE59kCuRh0JxzA1eZCxxWbnCEHqpLZCSNKmPSj7OuDFx1RhBC8pO1y8ZA9GBCcEAEkDZC3S0bZCkflZCFGr5GJ8ol8SMZAQ4Bkb5vYAZCC4LcvBiff8UgZC4ohbkfj0dwZD');
-//         },
-//         success: function (data) {
-//             rating = (data.overall_star_rating);
-//             $('#' + storeInfo.sNumber + ratingSource).text(rating.toFixed(1) + ' / 5');
-//         },
-//     });
-// }
-
-// // creates table rows based on length of array and fills store information
-// // will load information based on 'value' assigned above
-
-// function makeTable(district) {
-//     for (i = 0; i < district.length; i++) {
-//         $('#ranking_table').append(
-//             '<tr>' +
-//       '<td class="store-number">' + district[i].sNumber + '</td>' +
-//       '<td id=' + district[i].sNumber + 'yelpId> <p>-</p> </td>' +
-//       '<td id=' + district[i].sNumber + 'googleId><p>-</p> </td>' +
-//       '<td id=' + district[i].sNumber + 'facebookId> <p>-</p> </td>' +
-//       '</tr>'
-//         );
-
-//         getInfoYelp(district[i], 'yelpId');
-//         getInfoGoogle(district[i], 'googleId');
-//         getInfoFacebook(district[i], 'facebookId');
-//     }
-// }

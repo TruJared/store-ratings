@@ -23,7 +23,7 @@ var storeInfo = {
     {
       sNumber: 6318,
       googleId: "ChIJi9Cgv43yy0wRlPlWg2W_LSY",
-      yelpId: ".",
+      yelpId: "nodata1",
       facebookId: "AdvanceAutoPartsStore6318"
     },
     {
@@ -879,7 +879,7 @@ var storeInfo = {
     {
       sNumber: 3417,
       googleId: "ChIJ8x1t0PEP04kR3J7T0xBxeHg",
-      yelpId: ".",
+      yelpId: "nodata2",
       facebookId: "AdvanceAutoPartsStore3417"
     },
     {
@@ -1338,7 +1338,7 @@ var storeInfo = {
     },
     {
       sNumber: 7769,
-      googleId: ".",
+      googleId: "nodata3",
       yelpId: "advance-auto-parts-pittsburgh-17",
       facebookId: "AdvanceAutoPartsStore7769"
     }
@@ -1732,7 +1732,7 @@ var storeInfo = {
     {
       sNumber: 2484,
       googleId: "ChIJERTPMIXkMIgRwsx8kIfuaCU",
-      yelpId: "advance-auto-parts-garfield-heights-2?",
+      yelpId: "advance-auto-parts-garfield-heights-2",
       facebookId: "AdvanceAutoPartsStore2484"
     },
     {
@@ -1743,8 +1743,8 @@ var storeInfo = {
     },
     {
       sNumber: 5695,
-      googleId: ".",
-      yelpId: ".",
+      googleId: "nodata4",
+      yelpId: "nodata5",
       facebookId: "AdvanceAutoPartsStore5695"
     },
     {
