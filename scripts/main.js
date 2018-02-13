@@ -207,15 +207,15 @@ var uiController = (function () {
         });
 
         // create final row for averages in table
-        tableBody.innerHTML += (
-            `<tr>
-            <th scope="row" class="bold" id="averages">Average</th>
-            <td class="facebookAvgDisplay">0</td>
-            <td class="googleAvgDisplay">0</td>
-            <td class="yelpAvgDisplay">0</td>
-            </th>
-            </tr>`
-        );
+        // tableBody.innerHTML += (
+        //     `<tr>
+        //     <th scope="row" class="bold" id="averages">Average</th>
+        //     <td class="facebookAvgDisplay">0</td>
+        //     <td class="googleAvgDisplay">0</td>
+        //     <td class="yelpAvgDisplay">0</td>
+        //     </th>
+        //     </tr>`
+        // );
 
         // reset averages and progress bars
         // set values and progress bars
