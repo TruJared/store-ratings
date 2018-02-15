@@ -7934,7 +7934,7 @@ h5 {
 }
 
 .hidden {
-  max-height: 250px !important;
+  max-height: 0 !important;
   opacity: 0;
   -webkit-transition: opacity 1s ease-out, height 1s;
   transition: opacity 1s ease-out, height 1s;
