@@ -130,11 +130,6 @@ var helpers = (function() {
 // cspell: disable
 var api = (function() {
   //api variable
-<<<<<<< HEAD
-
-  var proxy = 'https://protected-ravine-77562.herokuapp.com/'; // used to bypass CORS
-  var googleApi =
-=======
   var proxy;
   var googleApi;
   var googleKey;
@@ -146,7 +141,6 @@ var api = (function() {
 
   proxy = 'https://cors-anywhere.herokuapp.com/'; // used to bypass CORS
   googleApi =
->>>>>>> b176434aa08c36691beaf22fa35eb01929c49ed6
     'https://maps.googleapis.com/maps/api/place/details/json?placeid=';
   var googleKey = '&key=AIzaSyALgMeJoWoeLiygtjWOu1uRou7vJRzQg0I';
   var facebookApi = 'https://graph.facebook.com/v2.11/';
@@ -335,15 +329,15 @@ var uiController = (function() {
     // reset averages and progress bars
     // set values and progress bars
     // facebook
-    facebookAvg.innerHTML = "Doin' Some Math";
+    facebookAvg.innerHTML = 'Doin\' Some Math';
     facebookBar.style.width = 0;
     facebookBar.setAttribute('aria-valuenow', 0);
     // google
-    googleAvg.innerHTML = "Doin' Some Math";
+    googleAvg.innerHTML = 'Doin\' Some Math';
     googleBar.style.width = 0;
     googleBar.setAttribute('aria-valuenow', 0);
     // yelp
-    yelpAvg.innerHTML = "Doin' Some Math";
+    yelpAvg.innerHTML = 'Doin\' Some Math';
     yelpBar.style.width = 0;
     yelpBar.setAttribute('aria-valuenow', 0);
 
@@ -453,6 +447,6 @@ var controller = (function() {
   };
 })();
 
-// bootstrap modal
-$('#featuresModal').modal('show');
+// bootstrap modal >>> off
+// $('#featuresModal').modal('show');
 controller.init();
