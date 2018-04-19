@@ -1,0 +1,180 @@
+@import 'partials/custom';
+@import 'partials/bootstrap';
+@import 'partials/custom_mixins';
+
+// General
+body {
+  font-family: $primary-font;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: $heading-font;
+}
+
+.hidden {
+  opacity: 0;
+  width: 0 !important;
+  transition: opacity 1s, width 1s ease-out;
+}
+
+.slider {
+  @include media-breakpoint-up(md) {
+    margin-left: $sidebar-width + 5px;
+  }
+}
+
+.slide-transition {
+  transition: margin 1s ease-in-out;
+}
+
+// nav
+#nav {
+  // border-bottom: 1px solid $fbi;
+  box-shadow: 1px 1px 2px $gray-700;
+
+  a {
+    color: $primary;
+
+    &:hover {
+      color: $primary + 50;
+    }
+  }
+
+  .nav-icon,
+  .nav-image {
+    @include media-breakpoint-up(lg) {
+      display: inline;
+    }
+    display: none;
+  }
+
+  #toggle-button {
+    background-color: rgba($white, 0);
+    border: 0;
+    border-radius: 50px;
+    box-shadow: 0;
+    left: 0;
+    margin-left: 15px;
+    margin-top: 15px;
+    padding: 7px;
+    position: absolute;
+    top: 0;
+
+    .active {
+      color: $fbi;
+    }
+
+    &:focus {
+      outline: 0;
+    }
+  }
+}
+
+//content
+.wrapper {
+  height: 100vh;
+  margin-top: 90px;
+}
+
+//content-sidebar
+#sidebar {
+  box-shadow: 1px 1px 2px $gray-700;
+  font-family: $heading-font;
+  margin-left: -15px;
+  max-height: 100%;
+  overflow: auto;
+  padding-bottom: 75px;
+  transition: opacity 1s, width 1s ease-in;
+  width: $sidebar-width;
+  z-index: 999;
+
+  img {
+    border: 1px solid $fbi;
+  }
+
+  side-bar-list {
+    color: $black;
+    font-size: 1.25rem;
+  }
+
+  li:hover {
+    color: $white;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .fa-flag-checkered {
+    color: $black;
+  }
+
+  .list-active {
+    background: $gray-300;
+    color: $loaded;
+  }
+
+  li {
+    font-size: 1.25rem;
+    margin: 0;
+    width: 100%;
+
+    &:hover {
+      background: $diesel;
+    }
+  }
+}
+
+// table
+th {
+  font-family: $heading-font;
+}
+
+// main-cards
+#cards {
+  @include media-breakpoint-up(md) {
+    padding-bottom: 450px;
+  }
+
+  padding-bottom: 250px;
+
+  #facebook-header {
+    background: $facebook-blue;
+  }
+
+  #google-header {
+    background: $google-green;
+  }
+
+  #yelp-header {
+    background: $yelp-red;
+  }
+
+  .progress {
+    box-shadow: 1px 1px 2px $black;
+    height: 20px;
+    position: relative;
+  }
+
+  .star {
+    bottom: 0;
+    margin-bottom: 54px;
+    margin-right: -18px;
+    position: absolute;
+    right: 0;
+    width: 50px;
+  }
+}
+
+//footer
+#footer {
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+
+  bottom: 0;
+  opacity: 0.5;
+  right: 0;
+}
