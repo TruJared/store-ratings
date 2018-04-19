@@ -3,3 +3,5 @@ node_modules
 *lint*
 wireframe*
 *.zip
+**.scss
+**.map

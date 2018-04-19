@@ -142,12 +142,11 @@ var api = (function() {
   proxy = 'https://cors-anywhere.herokuapp.com/'; // used to bypass CORS
   googleApi =
     'https://maps.googleapis.com/maps/api/place/details/json?placeid=';
-  var googleKey = '&key=AIzaSyALgMeJoWoeLiygtjWOu1uRou7vJRzQg0I';
+  var googleKey = GOOGLE_KEY;
   var facebookApi = 'https://graph.facebook.com/v2.11/';
-  var facebookKey = 'Bearer 1964498370470979|7mIH6fntq1SAW47PsrRxx21ds7I';
+  var facebookKey = FACEBOOK_KEY;
   var yelpApi = 'https://api.yelp.com/v3/businesses/';
-  var yelpKey =
-    'F3ij6D_zmlD6kdK_959yHBHH--ANWterrg512Weg1bWUNKL7abbhnVq8uzaLkbF3ZPbOgImcT61iUvAcub0EG9FiprWNL6LYzHvgNJpSjBzPiQStRA4z5JhUZxmCWnYx';
+  var yelpKey = YELP_KEY;
 
   var getGoogle = function getGoogle(googleIds) {
     // helpful info >>> https://stackoverflow.com/questions/43262121/trying-to-use-fetch-and-pass-in-mode-no-cors
