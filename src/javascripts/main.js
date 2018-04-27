@@ -128,105 +128,83 @@ var helpers = (function() {
 
 // api requests
 // cspell: disable
-var api = (function() {
-  //api variable
-<<<<<<< HEAD
+// var api = (function() {
+//   //api variable
+//   var proxy = 'https://protected-ravine-77562.herokuapp.com/'; // used to bypass CORS
+//   const proxy = 'https://cors-anywhere.herokuapp.com/'; // used to bypass CORS
 
-  var proxy = 'https://protected-ravine-77562.herokuapp.com/'; // used to bypass CORS
-  var googleApi =
-=======
-  var proxy;
-  var googleApi;
-  var googleKey;
-  var googleRatings;
-  var facebookApi;
-  var facebookKey;
-  var yelpApi;
-  var yelpKey;
+//   var getGoogle = function getGoogle(googleIds) {
+//     // helpful info >>> https://stackoverflow.com/questions/43262121/trying-to-use-fetch-and-pass-in-mode-no-cors
+//     googleIds.forEach(function(store) {
+//       fetch('' + proxy + googleApi + store.id + googleKey)
+//         .then(function(blob) {
+//           return blob.json();
+//         })
+//         .then(function(data) {
+//           var cell = document.querySelector('#' + store.id);
+//           var rating = data.result.rating;
+//           cell.innerText = rating.toFixed(2);
+//         })
+//         .catch(function(error) {
+//           console.log(error);
+//         });
+//     });
+//   };
 
-  proxy = 'https://cors-anywhere.herokuapp.com/'; // used to bypass CORS
-  googleApi =
->>>>>>> b176434aa08c36691beaf22fa35eb01929c49ed6
-    'https://maps.googleapis.com/maps/api/place/details/json?placeid=';
-  var googleKey = '&key=AIzaSyALgMeJoWoeLiygtjWOu1uRou7vJRzQg0I';
-  var facebookApi = 'https://graph.facebook.com/v2.11/';
-  var facebookKey = 'Bearer 1964498370470979|7mIH6fntq1SAW47PsrRxx21ds7I';
-  var yelpApi = 'https://api.yelp.com/v3/businesses/';
-  var yelpKey =
-    'F3ij6D_zmlD6kdK_959yHBHH--ANWterrg512Weg1bWUNKL7abbhnVq8uzaLkbF3ZPbOgImcT61iUvAcub0EG9FiprWNL6LYzHvgNJpSjBzPiQStRA4z5JhUZxmCWnYx';
+//   var getFacebook = function getFacebook(facebookIds) {
+//     facebookIds.forEach(function(store) {
+//       fetch('' + facebookApi + store.id + '?fields=overall_star_rating', {
+//         headers: {
+//           Authorization: facebookKey
+//         }
+//       })
+//         .then(function(blob) {
+//           return blob.json();
+//         })
+//         .then(function(data) {
+//           var cell = document.querySelector('#' + store.id);
+//           var rating = data.overall_star_rating;
+//           cell.innerText = rating.toFixed(2);
+//         })
+//         .catch(function(error) {
+//           console.log(
+//             error +
+//               ': Most likely this error is due to the business having no data'
+//           );
+//         });
+//     });
+//   };
+//   var getYelp = function getYelp(yelpIds) {
+//     yelpIds.forEach(function(store) {
+//       var rapid = new RapidAPI(
+//         'storeranking',
+//         '9ff7edb4-d7e5-43f8-92d2-4fb7f22a46eb'
+//       );
 
-  var getGoogle = function getGoogle(googleIds) {
-    // helpful info >>> https://stackoverflow.com/questions/43262121/trying-to-use-fetch-and-pass-in-mode-no-cors
-    googleIds.forEach(function(store) {
-      fetch('' + proxy + googleApi + store.id + googleKey)
-        .then(function(blob) {
-          return blob.json();
-        })
-        .then(function(data) {
-          var cell = document.querySelector('#' + store.id);
-          var rating = data.result.rating;
-          cell.innerText = rating.toFixed(2);
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    });
-  };
+//       rapid
+//         .call('YelpAPI', 'getSingleBusiness', {
+//           accessToken: yelpKey,
+//           bussinessId: store.id
+//         })
+//         .on('success', function(data) {
+//           var cell = document.querySelector('#' + store.id);
+//           var rating = data.rating;
+//           cell.innerText = rating.toFixed(2);
+//         })
+//         .on('error', function(error) {
+//           error +
+//             ': Most likely this error is due to the business having no data';
+//         });
+//     });
+//   };
 
-  var getFacebook = function getFacebook(facebookIds) {
-    facebookIds.forEach(function(store) {
-      fetch('' + facebookApi + store.id + '?fields=overall_star_rating', {
-        headers: {
-          Authorization: facebookKey
-        }
-      })
-        .then(function(blob) {
-          return blob.json();
-        })
-        .then(function(data) {
-          var cell = document.querySelector('#' + store.id);
-          var rating = data.overall_star_rating;
-          cell.innerText = rating.toFixed(2);
-        })
-        .catch(function(error) {
-          console.log(
-            error +
-              ': Most likely this error is due to the business having no data'
-          );
-        });
-    });
-  };
-  var getYelp = function getYelp(yelpIds) {
-    yelpIds.forEach(function(store) {
-      var rapid = new RapidAPI(
-        'storeranking',
-        '9ff7edb4-d7e5-43f8-92d2-4fb7f22a46eb'
-      );
-
-      rapid
-        .call('YelpAPI', 'getSingleBusiness', {
-          accessToken: yelpKey,
-          bussinessId: store.id
-        })
-        .on('success', function(data) {
-          var cell = document.querySelector('#' + store.id);
-          var rating = data.rating;
-          cell.innerText = rating.toFixed(2);
-        })
-        .on('error', function(error) {
-          error +
-            ': Most likely this error is due to the business having no data';
-        });
-    });
-  };
-
-  return {
-    getGoogle: getGoogle,
-    getFacebook: getFacebook,
-    getYelp: getYelp
-  };
-})();
-// cspell: enable
+//   return {
+//     getGoogle: getGoogle,
+//     getFacebook: getFacebook,
+//     getYelp: getYelp
+//   };
+// })();
+// // cspell: enable
 
 // ui Controller
 var uiController = (function() {
