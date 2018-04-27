@@ -7,10 +7,8 @@
     "start": "node server.js",
     "watch": "watch 'npm run build' . --wait=10 --ignoreDotFiles",
     "build": "npm run clean && npm run build:css && npm run build:js",
-    "build:css":
-      "node-sass ./src/sass/style.scss --output-style compressed ./dist/style/style.css | postcss --use autoprefixer --map --replace ./dist/style/style.css",
-    "build:js":
-      "browserify ./src/javascripts/main.js --outfile  --transform [ babelify --presets [ 'es2015'] ] --debug | exorcist ./dist/javascripts/bundle.map.js > ./dist/javascripts/bundle.js && uglifyjs ./dist/javascripts/bundle.js -c -m -o ./dist/javascripts/bundle.js",
+    "build:css": "node-sass ./src/sass/style.scss --output-style compressed ./dist/style/style.css | postcss --use autoprefixer --map --replace ./dist/style/style.css",
+    "build:js": "browserify ./src/javascripts/main.js --outfile  --transform [ babelify --presets [ 'es2015'] ] --debug | exorcist ./dist/javascripts/bundle.map.js > ./dist/javascripts/bundle.js && uglifyjs ./dist/javascripts/bundle.js -c -m -o ./dist/javascripts/bundle.js",
     "clean": "rm -r -f dist/javascripts/** dist/style/**"
   },
   "repository": {
@@ -23,7 +21,9 @@
     "url": "https://github.com/TruJared/store-ratings/issues"
   },
   "homepage": "https://github.com/TruJared/store-ratings#readme",
-  "dependencies": {},
+  "dependencies": {
+    "bootstrap": "^4.1.0"
+  },
   "devDependencies": {
     "autoprefixer": "^8.3.0",
     "babel-core": "^6.26.3",
