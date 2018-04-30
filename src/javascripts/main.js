@@ -1,16 +1,15 @@
 const { $, $$ } = require('./modules/bling');
-const lambda = require('./lambda/hello');
+
 const axios = require('axios');
 
 const listItems = $$('li');
 
 const api = () => {
-  axios('http://localhost:9000/hello')
+  axios('https://4sy6aqfzp5.execute-api.us-east-1.amazonaws.com/dev')
     .then(res => console.log(res.data))
     .catch(e => console.log(e));
 };
 api();
-console.log(process.env.SECRET);
 
 // // Polyfills
 // // NodeList forEach compatibility
