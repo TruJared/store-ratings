@@ -10,7 +10,7 @@
     "build:css":
       "node-sass ./src/sass/style.scss --output-style compressed ./dist/style/style.css | postcss --use autoprefixer --map --replace ./dist/style/style.css",
     "build:js":
-      "browserify ./src/javascripts/main.js --outfile  --transform [ babelify --presets [ 'es2015'] ] --debug | exorcist ./dist/javascripts/bundle.map.js > ./dist/javascripts/bundle.js && uglifyjs ./dist/javascripts/bundle.js -c -m -o ./dist/javascripts/bundle.js",
+      "browserify ./src/javascripts/main.js --transform [ babelify --presets [ 'es2015'] ] --debug | exorcist ./dist/javascripts/bundle.map.js > ./dist/javascripts/bundle.js && uglifyjs ./dist/javascripts/bundle.js -c -m -o ./dist/javascripts/bundle.js",
     "clean": "rm -r -f dist/javascripts/** dist/style/**"
   },
   "repository": {
@@ -39,7 +39,6 @@
     "postcss-cli": "^5.0.0",
     "serve-static": "^1.13.2",
     "uglify-js": "^3.3.23",
-    "uglifyjs": "^2.4.11",
     "exorcist": "^1.0.1"
   },
   "devDependencies": {
