@@ -1,7 +1,7 @@
 exports.handler = function (event, context, callback) {
-  const superSecretApi = 'al;kjfadlsfjoiajrfaejalkjfalsfa fiu0943r80q98opeir';
+  const superDuperSecretApi = process.env.SECRET;
   callback(null, {
     statusCode: 200,
-    body: 'Hello, World',
+    body: `Hello ${superDuperSecretApi}`,
   });
 };

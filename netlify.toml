@@ -1,2 +1,2 @@
 [build]
-  functions = ".javascripts/lambda"
+  functions = "./javascripts/lambda"

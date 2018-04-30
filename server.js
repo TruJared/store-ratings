@@ -1,6 +1,8 @@
 const connect = require('connect');
 const serveStatic = require('serve-static');
+require('dotenv').config();
 
+console.log(process.env.SECRET);
 connect()
   .use(serveStatic(__dirname))
   .listen(7777, () => {

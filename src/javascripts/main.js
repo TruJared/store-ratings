@@ -3,13 +3,14 @@ const lambda = require('./lambda/hello');
 const axios = require('axios');
 
 const listItems = $$('li');
-const proxy = 'https://jared-proxy.herokuapp.com//';
+
 const api = () => {
   axios('http://localhost:9000/hello')
     .then(res => console.log(res.data))
     .catch(e => console.log(e));
 };
 api();
+console.log(process.env.SECRET);
 
 // // Polyfills
 // // NodeList forEach compatibility
