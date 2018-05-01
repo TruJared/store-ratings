@@ -1,6 +1,5 @@
 const axios = require('axios');
 require('./modules/sidebar');
-require('./modules/toggleButton');
 
 // const api = () => {
 //   axios('https://4sy6aqfzp5.execute-api.us-east-1.amazonaws.com/dev')
@@ -233,12 +232,6 @@ require('./modules/toggleButton');
 //   var launchEventListeners = function launchEventListeners() {
 
 //     });
-
-//     // select sidebar item - make active , create table, launch apis etc...
-//     uiController.sidebarListItem.forEach(function(item) {
-//       item.addEventListener('click', function(e) {
-//         var id = e.target.id;
-//         uiController.makeActive(id);
 
 //         // function to load data for find averages >>> needs better implementation
 //         setTimeout(function badSolution() {

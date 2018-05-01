@@ -2246,4 +2246,4 @@ const storeInfo = {
   ],
 };
 
-export { storeInfo };
+
