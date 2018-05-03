@@ -5,3 +5,5 @@ wireframe*
 *.zip
 apiData.js
 dist/
+.env
+**getRatings.js
