@@ -1323,24 +1323,23 @@ exports.handler = (event, context, callback) => {
     yelpId: 'advance-auto-parts-chittenango',
     facebookId: 'AdvanceAutoPartsStore8402'
   }];
-
-  const googleRatings = [];
+  const googleRatings = {};
   const googleIds = stores.map(element => element.googleId);
 
   const googleApi = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=';
   const googleKey = process.env.GOOGLE_KEY;
   googleIds.forEach(element => {
-    axios
-    // TODO dont use axios!
-    .get(`${googleApi}${element}${googleKey}`).then(res => googleRatings.push(res.data.result.rating.toFixed(2))).catch(e => console.log(e));
+    axios.get(`${googleApi}${element}${googleKey}`)
+    // .then(res => (googleRatings[element] = res.data.result.rating.toFixed(2)))
+    .then(res => console.log(res.data.result.rating.toFixed(2))).catch(e => console.log(e));
   });
-
   callback(null, {
     statusCode,
     headers,
-    body: 'ratings'
+    body: `ratings: ${JSON.stringify(googleRatings)}`
   });
 };
+
 // -- GOOGLE -- //
 // const googleRatings = {};
 // const googleIds = stores.map(element => element.googleId);
