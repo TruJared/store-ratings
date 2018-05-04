@@ -1,7 +1,5 @@
 require('dotenv').config();
 
-const axios = require('axios');
-
 const statusCode = 200;
 const headers = {
   'Access-Control-Allow-Origin': '*',
