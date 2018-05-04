@@ -3,7 +3,5 @@ node_modules
 *lint*
 wireframe*
 *.zip
-apiData.js
 dist/
 .env
-**getRatings.js
