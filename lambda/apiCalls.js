@@ -1248,18 +1248,25 @@ exports.handler = (event, context, callback) => {
   const id = data.slice(7, -2);
   console.log(id);
   // testing
-  //   callback(null, {
-  //     statusCode,
-  //     headers,
-  //     body: `ratings: ${JSON.stringify(id)}`,
-  //   });
-  // };
-  axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`).then(res => res.data.result.rating.toFixed(2)).then(res => holder[id] = res).then(() => console.log(holder)).then(() => callback(null, {
+  callback(null, {
     statusCode,
     headers,
-    body: `ratings: ${JSON.stringify(holder)}`
-  })).catch(e => console.log(e));
+    body: `ratings: ${JSON.stringify(id)}`
+  });
 };
+//   axios
+//     .get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`)
+//     .then(res => res.data.result.rating.toFixed(2))
+//     .then(res => (holder[id] = res))
+//     .then(() => console.log(holder))
+//     .then(() =>
+//       callback(null, {
+//         statusCode,
+//         headers,
+//         body: `ratings: ${JSON.stringify(holder)}`,
+//       }))
+//     .catch(e => console.log(e));
+// };
 // -- FACEBOOK -- //
 //   const facebookRatings = {};
 //   const facebookIds = stores.map(element => element.facebookId);
