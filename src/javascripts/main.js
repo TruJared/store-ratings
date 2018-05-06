@@ -1,8 +1,7 @@
 const { $, $$ } = require('./modules/bling');
 const { getRatings } = require('./modules/getRatings');
 const { buildTable } = require('./modules/buildTable');
-
-require('./modules/toggleButton');
+const { toggler } = require('./modules/toggleButton');
 
 const list = Object.keys(storeInfo);
 const htmlList = list.map(element => `
@@ -13,7 +12,6 @@ const htmlList = list.map(element => `
 $('#store-list').innerHTML = htmlList.join('');
 
 // add listener to each sidebar item
-
 const listItems = $$('.store');
 const listArray = [...listItems];
 
