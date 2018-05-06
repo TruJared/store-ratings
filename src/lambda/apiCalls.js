@@ -27,26 +27,27 @@ exports.handler = (event, context, callback) => {
   const id = data.slice(7, -3); // for netlify
 
   // testing
-  //   console.log(`ratings: https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`);
-  //   callback(null, {
-  //     statusCode,
-  //     headers,
-  //     body: `ratings: https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`,
-  //   });
-  // };
-  axios
-    .get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`)
-    .then(res => res.data.result.rating.toFixed(2))
-    .then(res => (holder[id] = res))
-    .then(() => console.log(holder))
-    .then(() =>
-      callback(null, {
-        statusCode,
-        headers,
-        body: `ratings: ${JSON.stringify(holder)}`,
-      }))
-    .catch(e => console.log(e));
+  console.log(`ratings: https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`);
+  callback(null, {
+    statusCode,
+    headers,
+    body: `ratings: https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`,
+  });
 };
+
+//   axios
+//     .get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`)
+//     .then(res => res.data.result.rating.toFixed(2))
+//     .then(res => (holder[id] = res))
+//     .then(() => console.log(holder))
+//     .then(() =>
+//       callback(null, {
+//         statusCode,
+//         headers,
+//         body: `ratings: ${JSON.stringify(holder)}`,
+//       }))
+//     .catch(e => console.log(e));
+// };
 // -- FACEBOOK -- //
 //   const facebookRatings = {};
 //   const facebookIds = stores.map(element => element.facebookId);
