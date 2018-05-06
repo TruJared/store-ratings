@@ -5,6 +5,8 @@ const getRatings = (stores) => {
   const facebookIds = stores.map(store => store.facebookId);
   const yelpIds = stores.map(store => store.yelpId);
 
+  const proxy = 'https://jared-proxy.herokuapp.com/';
+
   // lambdas
   // https://netlify--affectionate-thompson-b59054.netlify.com/.netlify/functions/{filename}
   // https://r28ratings.com/.netlify/functions/{filename}
