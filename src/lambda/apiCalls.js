@@ -9,15 +9,26 @@ const headers = {
 };
 
 exports.handler = (event, context, callback) => {
+  // make sure it's a valid request ...
+  // uncomment if getting prefetch errors
+  if (event.httpMethod !== 'POST' || !event.body) {
+    callback(null, {
+      statusCode,
+      headers,
+      body: '',
+    });
+  }
+
   const googleKey = process.env.GOOGLE_KEY;
   const holder = {};
-  const id = event.body;
-  console.log(id);
+  const data = event.body;
+  // extract id from body >>> JSON.parse was not working
+  const id = data.slice(7, -2);
+
   axios
     .get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`)
     .then(res => res.data.result.rating.toFixed(2))
     .then(res => (holder[id] = res))
-    .then(() => console.log(holder))
     .then(() =>
       callback(null, {
         statusCode,
