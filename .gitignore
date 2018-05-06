@@ -5,3 +5,4 @@ wireframe*
 *.zip
 dist/
 .env
+./lambda/**
