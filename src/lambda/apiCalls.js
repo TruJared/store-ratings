@@ -24,7 +24,7 @@ exports.handler = (event, context, callback) => {
   const data = event.body;
   // extract id from body >>> JSON.parse was not working
   // const id = data.slice(7, -2); // for local
-  const id = data.slice(7, -3); // for netlify
+  const id = data.slice(8, -2); // for netlify
 
   // testing
   console.log(`ratings: https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`);
