@@ -8,11 +8,12 @@ const getRatings = (stores) => {
   // lambdas
   // https://netlify--affectionate-thompson-b59054.netlify.com/.netlify/functions/{filename}
   // https://r28ratings.com/.netlify/functions/{filename}
-  const proxy = 'https://jared-proxy.herokuapp.com/';
   const googleUrl =
     'https://netlify--affectionate-thompson-b59054.netlify.com/.netlify/functions/apiCalls';
 
-  googleIds.forEach(id => axios.post(googleUrl, id).then(res => console.log(res)));
+  googleIds
+    .forEach(id => axios.post(googleUrl, { id }).then(res => console.log(res)))
+    .catch(e => console.log(e));
   console.log(facebookIds);
   console.log(yelpIds);
 

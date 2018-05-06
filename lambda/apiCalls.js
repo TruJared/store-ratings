@@ -1234,6 +1234,7 @@ exports.handler = (event, context, callback) => {
   const googleKey = process.env.GOOGLE_KEY;
   const holder = {};
   const id = event.body;
+  console.log(id);
   axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`).then(res => res.data.result.rating.toFixed(2)).then(res => holder[id] = res).then(() => console.log(holder)).then(() => callback(null, {
     statusCode,
     body: `ratings: ${JSON.stringify(holder)}`
