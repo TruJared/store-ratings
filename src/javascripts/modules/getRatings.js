@@ -1,11 +1,18 @@
 const axios = require('axios');
 
 const getRatings = (stores) => {
-  console.log(stores);
   const googleIds = stores.map(store => store.googleId);
   const facebookIds = stores.map(store => store.facebookId);
   const yelpIds = stores.map(store => store.yelpId);
 
+  // lambdas
+  // https://netlify--affectionate-thompson-b59054.netlify.com/.netlify/functions/{filename}
+  // https://r28ratings.com/.netlify/functions/{filename}
+  const proxy = 'https://jared-proxy.herokuapp.com/';
+  const googleUrl =
+    'https://netlify--affectionate-thompson-b59054.netlify.com/.netlify/functions/apiCalls';
+
+  googleIds.forEach(id => axios.post(googleUrl, id).then(res => console.log(res)));
   console.log(facebookIds);
   console.log(yelpIds);
 

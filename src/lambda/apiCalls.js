@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 const axios = require('axios');
 
 const statusCode = 200;
@@ -10,19 +11,18 @@ const headers = {
 exports.handler = (event, context, callback) => {
   const googleKey = process.env.GOOGLE_KEY;
   const holder = {};
-  const id = 'ChIJTc0tbqkWy4kR8vLNgT3ZhxY';
-  console.log(event);
-  // axios
-  //   .get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`)
-  //   .then(res => res.data.result.rating.toFixed(2))
-  //   .then(res => (holder[id] = res))
-  //   .then(() => console.log(holder))
-  //   .then(() =>
-  //     callback(null, {
-  //       statusCode,
-  //       body: `ratings: ${JSON.stringify(holder)}`,
-  //     }))
-  //   .catch(e => console.log(e));
+  const id = event.body;
+  axios
+    .get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`)
+    .then(res => res.data.result.rating.toFixed(2))
+    .then(res => (holder[id] = res))
+    .then(() => console.log(holder))
+    .then(() =>
+      callback(null, {
+        statusCode,
+        body: `ratings: ${JSON.stringify(holder)}`,
+      }))
+    .catch(e => console.log(e));
 };
 // make sure it's a valid request ...
 // uncomment if getting prefetch errors
