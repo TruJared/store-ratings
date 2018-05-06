@@ -29,6 +29,7 @@ exports.handler = (event, context, callback) => {
     .get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`)
     .then(res => res.data.result.rating.toFixed(2))
     .then(res => (holder[id] = res))
+    .then(() => console.log(holder))
     .then(() =>
       callback(null, {
         statusCode,
