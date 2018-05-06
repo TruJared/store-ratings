@@ -1252,40 +1252,7 @@ exports.handler = (event, context, callback) => {
     body: `ratings: ${JSON.stringify(holder)}`
   })).catch(e => console.log(e));
 };
-// make sure it's a valid request ...
-// uncomment if getting prefetch errors
-// if (event.httpMethod !== 'POST' || !event.body) {
-//   callback(null, {
-//     statusCode,
-//     headers,clr
-
-//     body: '',
-//   });
-// }
-
-// -- GOOGLE -- //
-
-//   const googleRatings = {};
-//   const googleIds = stores.map(element => element.googleId);
-
-//   const googleApi = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=';
-//   const googleKey = process.env.GOOGLE_KEY;
-//   googleIds.forEach((element) => {
-//     axios
-//       .get(`${googleApi}${element}${googleKey}`)
-//       // .then(res => (googleRatings[element] = res.data.result.rating.toFixed(2)))
-//       .then(res => console.log(res.data.result.rating.toFixed(2)))
-//       .catch(e => console.log(e));
-//   });
-//   callback(null, {
-//     statusCode,
-//     headers,
-//     body: `ratings: ${JSON.stringify(googleRatings)}`,
-//   });
-// };
-
 // -- FACEBOOK -- //
-
 //   const facebookRatings = {};
 //   const facebookIds = stores.map(element => element.facebookId);
 //   const facebookApi = 'https://graph.facebook.com/v2.11/';
