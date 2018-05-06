@@ -17,8 +17,8 @@ const getRatings = (stores) => {
   googleIds
     .forEach(id => axios.post(googleUrl, JSON.stringify({ id })).then(res => console.log(res)))
     .catch(e => console.log(e));
-  console.log(facebookIds);
-  console.log(yelpIds);
+  // console.log(facebookIds);
+  // console.log(yelpIds);
 
   // const cell = document.querySelector(`#${element[0]}`);
   // console.log(element[0]);

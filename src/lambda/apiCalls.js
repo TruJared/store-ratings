@@ -15,7 +15,7 @@ exports.handler = (event, context, callback) => {
     callback(null, {
       statusCode,
       headers,
-      body: '',
+      body: 'Not a post request :(',
     });
   }
 
@@ -24,12 +24,12 @@ exports.handler = (event, context, callback) => {
   const data = event.body;
   // extract id from body >>> JSON.parse was not working
   const id = data.slice(7, -2);
-  console.log(id);
+  console.log(`ratings: https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`);
   // testing
   callback(null, {
     statusCode,
     headers,
-    body: `ratings: ${JSON.stringify(id)}`,
+    body: `ratings: https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`,
   });
 };
 //   axios
