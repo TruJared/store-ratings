@@ -9,8 +9,8 @@ const getRatings = (stores) => {
 
   // -- GOOGLE --//
   const googleUrl =
-    // 'https://netlify--affectionate-thompson-b59054.netlify.com/.netlify/functions/apiCalls';
-    'http://localhost:9000/apiCalls';
+    'https://netlify--affectionate-thompson-b59054.netlify.com/.netlify/functions/apiCalls';
+  // 'http://localhost:9000/apiCalls';
   // `https://r28ratings.com/.netlify/functions/{filename}`
 
   googleIds.forEach(id =>
