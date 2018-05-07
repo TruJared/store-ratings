@@ -21,7 +21,7 @@ const getRatings = (stores) => {
           id,
         }),
       )
-      .then(res => ($(`#${id}`).innerText = res.data.rating.toFixed(2)))
+      .then(res => console.log(res))
       .catch(e => console.log(e)));
 
   // console.log(facebookIds);
