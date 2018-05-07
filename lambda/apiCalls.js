@@ -1251,7 +1251,7 @@ exports.handler = (event, context, callback) => {
   axios.post(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`).then(res => res.data).then(res => JSON.stringify(res)).then(res => callback(null, {
     statusCode,
     headers,
-    body: `https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}``https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${process.env.GOOGLE_KEY}`
+    body: `https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey} AND https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${process.env.GOOGLE_KEY}`
   })).catch(e => callback(null, {
     body: `${e}`
   }));

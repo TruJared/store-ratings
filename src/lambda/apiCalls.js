@@ -34,7 +34,7 @@ exports.handler = (event, context, callback) => {
       callback(null, {
         statusCode,
         headers,
-        body: `https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}``https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${
+        body: `https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey} AND https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${
           process.env.GOOGLE_KEY
         }`,
       }))
