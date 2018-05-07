@@ -16,7 +16,8 @@ const getRatings = (stores) => {
   googleIds.forEach(id =>
     axios
       .post(googleUrl, { id })
-      .then(res => ($(`#${id}`).innerText = res.data.slice(-4)))
+      // .then(res => ($(`#${id}`).innerText = res.data.slice(-4)))
+      .then(res => console.log(res.data))
       .catch(e => console.log(e)));
 
   // console.log(facebookIds);
