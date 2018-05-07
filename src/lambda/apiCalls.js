@@ -27,7 +27,7 @@ exports.handler = (event, context, callback) => {
   // console.log(`ratings: https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`);
 
   axios
-    .get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`)
+    .post(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`)
     .then(res => res.data.result)
     .then(res => JSON.stringify(res))
     .then(res =>
