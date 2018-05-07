@@ -34,7 +34,7 @@ exports.handler = (event, context, callback) => {
       callback(null, {
         statusCode,
         headers,
-        body: id,
+        body: res,
       }))
     .catch(e =>
       callback(null, {
