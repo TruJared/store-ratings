@@ -20,20 +20,21 @@ exports.handler = (event, context, callback) => {
   }
 
   const googleKey = process.env.GOOGLE_KEY;
-  // const data = JSON.parse(event.body);
+  const data = event.body;
+  const { id } = JSON.parse(data);
 
   // testing
-  // console.log(`ratings: https://maps.googleapis.com/maps/api/place/details/json?placeid=${data.id}${googleKey}`);
+  // console.log(`ratings: https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`);
 
   axios
-    .get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${data.id}${googleKey}`)
-    .then(res =>
-      callback(null, {
-        statusCode,
-        headers,
-        body: ` event is: ${event}`,
-        // body: `ratings: ${res.data.result.rating.toFixed(2)}`,
-      }))
+    .get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`)
+    .then(res => res.data.result)
+    .then(res => console.log(res))
+    .then(callback(null, {
+      statusCode,
+      headers,
+      body: res,
+    }))
     .catch(e =>
       callback(null, {
         body: `${e}`,
