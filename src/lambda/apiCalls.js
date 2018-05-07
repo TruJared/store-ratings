@@ -31,7 +31,10 @@ exports.handler = (event, context, callback) => {
       callback(null, {
         statusCode,
         headers,
-        body: `ratings: ${res.data.result.rating.toFixed(2)}`,
+        body: ` request went to: https://maps.googleapis.com/maps/api/place/details/json?placeid=${
+          data.id
+        }${googleKey}`,
+        // body: `ratings: ${res.data.result.rating.toFixed(2)}`,
       }))
     .catch(e =>
       callback(null, {
