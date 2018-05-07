@@ -19,7 +19,7 @@ exports.handler = (event, context, callback) => {
     });
   }
 
-  const googleKey = process.env.GOOGLE_KEY;
+  const googleKey = JSON.parse(process.env.GOOGLE_KEY);
   const data = event.body;
   const { id } = JSON.parse(data);
 
