@@ -1237,7 +1237,7 @@ exports.handler = (event, context, callback) => {
     callback(null, {
       statusCode,
       headers,
-      body: ''
+      body: 'no data received'
     });
   }
 
@@ -1248,7 +1248,9 @@ exports.handler = (event, context, callback) => {
   // testing
   // console.log(`ratings: https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`);
 
-  axios.post(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`).then(res => res.data.result).then(res => JSON.stringify(res)).then(res => callback(null, {
+  axios.post(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`)
+  // .then(res => res.data.result)
+  .then(res => JSON.stringify(res)).then(res => callback(null, {
     statusCode,
     headers,
     body: res
