@@ -7,29 +7,37 @@ const getRatings = (stores) => {
   const yelpIds = stores.map(store => store.yelpId);
   const proxy = 'https://jared-proxy.herokuapp.com/';
 
-  // -- GOOGLE --//
-  const googleUrl =
-    'https://netlify--affectionate-thompson-b59054.netlify.com/.netlify/functions/apiCalls';
-  // 'http://localhost:9000/apiCalls';
-  // `https://r28ratings.com/.netlify/functions/{filename}`
+  const lambdaUrl = // 'https://netlify--affectionate-thompson-b59054.netlify.com/.netlify/functions/callApis';
+    'http://localhost:9000/callApis';
+  // `https://r28ratings.com/.netlify/functions/callApis`
 
+  // -- GOOGLE --//
   googleIds.forEach(id =>
     axios
       .post(
-        googleUrl,
+        lambdaUrl,
         JSON.stringify({
+          host: 'google',
           id,
         }),
       )
       .then(res => ($(`#${id}`).innerText = res.data.result.rating.toFixed(2)))
       .catch(e => console.log(e)));
 
-  // console.log(facebookIds);
-  // console.log(yelpIds);
-
-  // const cell = document.querySelector(`#${element[0]}`);
-  // console.log(element[0]);
-  // cell.innerText = element[1];
+  // -- FACEBOOK --//
+  facebookIds
+    .forEach(id =>
+      axios
+        .post(
+          lambdaUrl,
+          JSON.stringify({
+            host: 'facebook',
+            id,
+          }),
+        )
+        // TODO catch errors for undefined (i.e. does not exist)
+        .then(res => ($(`#${id}`).innerText = res.data.overall_star_rating.toFixed(2))))
+    .catch(e => console.log(e));
 };
 
 export { getRatings };
