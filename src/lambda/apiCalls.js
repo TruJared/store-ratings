@@ -15,7 +15,7 @@ exports.handler = (event, context, callback) => {
     callback(null, {
       statusCode,
       headers,
-      body: 'no data received',
+      body: 'no data',
     });
   }
 
@@ -28,13 +28,13 @@ exports.handler = (event, context, callback) => {
 
   axios
     .post(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`)
-    // .then(res => res.data.result)
+    .then(res => res.data)
     .then(res => JSON.stringify(res))
     .then(res =>
       callback(null, {
         statusCode,
         headers,
-        body: res,
+        body: id,
       }))
     .catch(e =>
       callback(null, {
