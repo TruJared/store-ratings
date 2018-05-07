@@ -34,7 +34,7 @@ exports.handler = (event, context, callback) => {
       callback(null, {
         statusCode,
         headers,
-        body: googleKey,
+        body: `https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`,
       }))
     .catch(e =>
       callback(null, {
