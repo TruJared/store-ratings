@@ -19,7 +19,7 @@ exports.handler = (event, context, callback) => {
     });
   }
 
-  const { googleKey } = process.env.GOOGLE_KEY;
+  const googleKey = process.env.GOOGLE_KEY;
   const data = event.body;
   const { id } = JSON.parse(data);
 
@@ -34,9 +34,7 @@ exports.handler = (event, context, callback) => {
       callback(null, {
         statusCode,
         headers,
-        body: `https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey} AND https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${
-          process.env.GOOGLE_KEY
-        }`,
+        body: res,
       }))
     .catch(e =>
       callback(null, {
