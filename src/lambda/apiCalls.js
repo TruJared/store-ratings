@@ -6,33 +6,37 @@ const statusCode = 200;
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Methods': 'POST',
 };
 
 exports.handler = (event, context, callback) => {
   // make sure it's a valid request ...
-  // uncomment if getting prefetch errors
   if (event.httpMethod !== 'POST' || !event.body) {
     callback(null, {
       statusCode,
       headers,
-      body: 'Not a post request :(',
+      body: '',
     });
   }
 
   const googleKey = process.env.GOOGLE_KEY;
-  const holder = {};
-  const data = event.body;
-  // extract id from body >>> JSON.parse was not working
-  // const id = data.slice(7, -2); // for local
-  const id = data.slice(8, -2); // for netlify
+  const data = JSON.parse(event.body);
 
   // testing
-  console.log(`ratings: https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`);
-  callback(null, {
-    statusCode,
-    headers,
-    body: `ratings: https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`,
-  });
+  // console.log(`ratings: https://maps.googleapis.com/maps/api/place/details/json?placeid=${data.id}${googleKey}`);
+
+  axios
+    .get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${data.id}${googleKey}`)
+    .then(res =>
+      callback(null, {
+        statusCode,
+        headers,
+        body: `ratings: ${res.data.result.rating.toFixed(2)}`,
+      }))
+    .catch(e =>
+      callback(null, {
+        body: `${e}`,
+      }));
 };
 
 //   axios
