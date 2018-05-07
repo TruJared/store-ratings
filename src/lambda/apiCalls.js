@@ -34,7 +34,7 @@ exports.handler = (event, context, callback) => {
       callback(null, {
         statusCode,
         headers,
-        body: res,
+        body: googleKey,
       }))
     .catch(e =>
       callback(null, {
