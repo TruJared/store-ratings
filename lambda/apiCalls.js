@@ -1241,7 +1241,7 @@ exports.handler = (event, context, callback) => {
     });
   }
 
-  const googleKey = JSON.parse(process.env.GOOGLE_KEY);
+  const googleKey = process.env.GOOGLE_KEY;
   const data = event.body;
   const { id } = JSON.parse(data);
 
@@ -1251,7 +1251,7 @@ exports.handler = (event, context, callback) => {
   axios.post(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`).then(res => res.data).then(res => JSON.stringify(res)).then(res => callback(null, {
     statusCode,
     headers,
-    body: `https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`
+    body: `https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}``https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${process.env.GOOGLE_KEY}`
   })).catch(e => callback(null, {
     body: `${e}`
   }));
