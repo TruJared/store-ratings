@@ -9,13 +9,19 @@ const getRatings = (stores) => {
 
   // -- GOOGLE --//
   const googleUrl =
-    'https://netlify--affectionate-thompson-b59054.netlify.com/.netlify/functions/apiCalls';
-  // 'http://localhost:9000/apiCalls';
+    // 'https://netlify--affectionate-thompson-b59054.netlify.com/.netlify/functions/apiCalls';
+    'http://localhost:9000/apiCalls';
   // https://r28ratings.com/.netlify/functions/{filename}
 
   googleIds.forEach(id =>
     axios
-      .post(googleUrl, { id })
+      .post(googleUrl, {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        id,
+      })
       // .then(res => ($(`#${id}`).innerText = res.data.slice(-4)))
       .then(res => console.log(res.data))
       .catch(e => console.log(e)));
