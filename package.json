@@ -37,7 +37,8 @@
     "postcss": "^6.0.22",
     "postcss-cli": "^5.0.0",
     "serve-static": "^1.13.2",
-    "uglify-js": "^3.3.23"
+    "uglify-js": "^3.3.23",
+    "yelp-fusion": "^2.0.3"
   },
   "devDependencies": {
     "eslint": "^4.19.1",

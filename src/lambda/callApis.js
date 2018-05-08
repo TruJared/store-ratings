@@ -1,4 +1,5 @@
 require('dotenv').config();
+const yelp = require('yelp-fusion');
 
 const axios = require('axios');
 
@@ -19,48 +20,62 @@ exports.handler = (event, context, callback) => {
     });
   }
 
-  // -- function to get data from Google API -- //
-  const getGoogleData = (id) => {
-    const googleKey = process.env.GOOGLE_KEY;
+  // // -- function to get data from Google API -- //
+  // const getGoogleData = (id) => {
+  //   const googleKey = process.env.GOOGLE_KEY;
 
-    axios
-      .get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`)
-      .then(res => res.data)
-      .then(res => JSON.stringify(res))
-      .then(res =>
-        callback(null, {
-          statusCode,
-          headers,
-          body: res,
-        }))
-      .catch(e =>
-        callback(null, {
-          body: `${e}`,
-        }));
-  };
+  //   axios
+  //     .get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`)
+  //     .then(res => res.data)
+  //     .then(res => JSON.stringify(res))
+  //     .then(res =>
+  //       callback(null, {
+  //         statusCode,
+  //         headers,
+  //         body: res,
+  //       }))
+  //     .catch(e =>
+  //       callback(null, {
+  //         body: `${e}`,
+  //       }));
+  // };
 
-  // -- function to get data from Facebook API -- //
-  const getFacebookData = (id) => {
-    const facebookKey = process.env.FACEBOOK_KEY;
+  // // -- function to get data from Facebook API -- //
+  // const getFacebookData = (id) => {
+  //   const facebookKey = process.env.FACEBOOK_KEY;
 
-    axios
-      .get(`https://graph.facebook.com/v2.11/${id}?fields=overall_star_rating`, {
-        headers: {
-          Authorization: facebookKey,
-        },
+  //   axios
+  //     .get(`https://graph.facebook.com/v2.11/${id}?fields=overall_star_rating`, {
+  //       headers: {
+  //         Authorization: facebookKey,
+  //       },
+  //     })
+  //     .then(res => res.data)
+  //     .then(res => JSON.stringify(res))
+  //     .then(res =>
+  //       callback(null, {
+  //         statusCode,
+  //         headers,
+  //         body: res,
+  //       }))
+  //     .catch(e =>
+  //       callback(null, {
+  //         body: `${e}`,
+  //       }));
+  // };
+
+  // -- function to get data from Yelp API -- //
+  const getYelpData = (id) => {
+    const yelpKey = process.env.YELP_KEY;
+    const client = yelp.client(yelpKey);
+    client
+      .business(id)
+      .then((response) => {
+        console.log(response.jsonBody.name);
       })
-      .then(res => res.data)
-      .then(res => JSON.stringify(res))
-      .then(res =>
-        callback(null, {
-          statusCode,
-          headers,
-          body: res,
-        }))
-      .catch(e =>
-        callback(null, {
-          body: `${e}`,
-        }));
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   // -- Parses data and sends to appropriate function
@@ -72,61 +87,30 @@ exports.handler = (event, context, callback) => {
     getGoogleData(id);
   } else if (host === 'facebook') {
     getFacebookData(id);
+  } else if (host === 'yelp') {
+    getYelpData(id);
   }
 };
 
-// const facebookKey = process.env.FACEBOOK_KEY;
-// const data = event.body;
-// const { id } = JSON.parse(data);
-// console.log(facebookKey);
-// callback(null, {
-//   statusCode,
-//   headers,
-//   body: id,
-// });
-// axios
-//   .get(`https://graph.facebook.com/v2.11/${id}?fields=overall_star_rating`, {
-//     headers: {
-//       Authorization: facebookKey,
-//     },
-//   })
-//   .then(res => res.data)
-
-// -- FACEBOOK -- //
-//   const facebookRatings = {};
-//   const facebookIds = stores.map(element => element.facebookId);
-//   const facebookApi = 'https://graph.facebook.com/v2.11/';
-
-//   facebookIds.forEach((element) => {
-//     axios
-//       .get(`${facebookApi}${element}?fields=overall_star_rating`, {
-//         headers: {
-//           Authorization: facebookKey,
-//         },
-//       })
-//       .then(res =>
-//         (facebookRatings[element] = isNaN(res.data.overall_star_rating)
-//           ? 0
-//           : res.data.overall_star_rating.toFixed(2)))
-//       .catch(e => console.log(e));
-//   });
-
-//   const ratingsObject = { facebookRatings };
-//   callback(null, ratingsObject);
-// };
-
-// -- YELP -- //
-// const yelpIds = stores.map(element => element.yelpId);
-// const yelpApi = 'https://api.yelp.com/v3/businesses/';
-
-// yelpIds.forEach((element) => {
-//   const cell = document.querySelector(`#${element}`);
+// const getYelpData = (id) => {
+//   const yelpKey = process.env.YELP_KEY;
+//   console.log({ id, yelpKey });
 //   axios
-//     .get(`${yelpApi}${element}`, {
+//     .get(`https://api.yelp.com/v3/businesses/${id}`, {
 //       headers: {
 //         Authorization: yelpKey,
 //       },
 //     })
-//     .then(res => console.log(res))
-//     // (cell.innerHTML = isNaN(res.data.rating) ? 0 : res.data.rating.toFixed(2)));
-//     .catch(e => console.log(e));
+//     .then(res => res.data)
+//     .then(res => JSON.stringify(res))
+//     .then(res =>
+//       callback(null, {
+//         statusCode,
+//         headers,
+//         body: res,
+//       }))
+//     .catch(e =>
+//       callback(null, {
+//         body: e,
+//       }));
+// };

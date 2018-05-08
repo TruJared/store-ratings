@@ -8,37 +8,51 @@ const getRatings = (stores) => {
   const proxy = 'https://jared-proxy.herokuapp.com/';
 
   const lambdaUrl =
-    'https://netlify--affectionate-thompson-b59054.netlify.com/.netlify/functions/callApis';
-  // 'http://localhost:9000/callApis';
+    //  'https://netlify--affectionate-thompson-b59054.netlify.com/.netlify/functions/callApis';
+    'http://localhost:9000/callApis';
   // `https://r28ratings.com/.netlify/functions/callApis`
 
-  // -- GOOGLE --//
-  googleIds.forEach(id =>
+  // // -- GOOGLE --//
+  // googleIds.forEach(id =>
+  //   axios
+  //     .post(
+  //       lambdaUrl,
+  //       JSON.stringify({
+  //         host: 'google',
+  //         id,
+  //       }),
+  //     )
+  //     .then(res => ($(`#${id}`).innerText = res.data.result.rating.toFixed(2)))
+  //     .catch(e => console.log(e)));
+
+  // // -- FACEBOOK --//
+  // facebookIds.forEach(id =>
+  //   axios
+  //     .post(
+  //       lambdaUrl,
+  //       JSON.stringify({
+  //         host: 'facebook',
+  //         id,
+  //       }),
+  //     )
+  //     // TODO catch errors for undefined (i.e. does not exist)
+  //     .then(res => ($(`#${id}`).innerText = res.data.overall_star_rating.toFixed(2)))
+  //     .catch(e => console.log(e)));
+
+  // -- YELP --//
+  yelpIds.forEach(id =>
     axios
       .post(
         lambdaUrl,
         JSON.stringify({
-          host: 'google',
+          host: 'yelp',
           id,
         }),
       )
-      .then(res => ($(`#${id}`).innerText = res.data.result.rating.toFixed(2)))
+      // TODO catch errors for undefined (i.e. does not exist)
+      .then(res => console.log(res))
+      // ($(`#${id}`).innerText = res.data.rating.toFixed(2))))
       .catch(e => console.log(e)));
-
-  // -- FACEBOOK --//
-  facebookIds
-    .forEach(id =>
-      axios
-        .post(
-          lambdaUrl,
-          JSON.stringify({
-            host: 'facebook',
-            id,
-          }),
-        )
-        // TODO catch errors for undefined (i.e. does not exist)
-        .then(res => ($(`#${id}`).innerText = res.data.overall_star_rating.toFixed(2))))
-    .catch(e => console.log(e));
 };
 
 export { getRatings };
