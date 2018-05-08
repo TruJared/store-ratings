@@ -1,5 +1,4 @@
 require('dotenv').config();
-const yelp = require('yelp-fusion');
 
 const axios = require('axios');
 
@@ -67,15 +66,24 @@ exports.handler = (event, context, callback) => {
   // -- function to get data from Yelp API -- //
   const getYelpData = (id) => {
     const yelpKey = process.env.YELP_KEY;
-    const client = yelp.client(yelpKey);
-    client
-      .business(id)
-      .then((response) => {
-        console.log(response.jsonBody.name);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    // throttle yelp
+    setTimeout(() =>
+      axios
+        .get(`https://api.yelp.com/v3/businesses/${id}`, {
+          headers: {
+            Authorization: yelpKey,
+          },
+        })
+
+        .then(res => res.data)
+        .then(res => JSON.stringify(res))
+        .then(res =>
+          callback(null, {
+            statusCode,
+            headers,
+            body: res,
+          }))
+        .catch(e => console.log(e), 500));
   };
 
   // -- Parses data and sends to appropriate function
@@ -88,29 +96,7 @@ exports.handler = (event, context, callback) => {
   } else if (host === 'facebook') {
     getFacebookData(id);
   } else if (host === 'yelp') {
+    // throttle yelp
     getYelpData(id);
   }
 };
-
-// const getYelpData = (id) => {
-//   const yelpKey = process.env.YELP_KEY;
-//   console.log({ id, yelpKey });
-//   axios
-//     .get(`https://api.yelp.com/v3/businesses/${id}`, {
-//       headers: {
-//         Authorization: yelpKey,
-//       },
-//     })
-//     .then(res => res.data)
-//     .then(res => JSON.stringify(res))
-//     .then(res =>
-//       callback(null, {
-//         statusCode,
-//         headers,
-//         body: res,
-//       }))
-//     .catch(e =>
-//       callback(null, {
-//         body: e,
-//       }));
-// };

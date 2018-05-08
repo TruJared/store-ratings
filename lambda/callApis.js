@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 18);
+/******/ 	return __webpack_require__(__webpack_require__.s = 14);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -70,8 +70,8 @@
 "use strict";
 
 
-var bind = __webpack_require__(10);
-var isBuffer = __webpack_require__(46);
+var bind = __webpack_require__(3);
+var isBuffer = __webpack_require__(20);
 
 /*global toString:true*/
 
@@ -375,140 +375,13 @@ module.exports = {
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
-
-module.exports = require("url");
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-module.exports = require("http");
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-module.exports = require("https");
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const _caseless = __webpack_require__(5);
-
-const setHeader = (request, headerName, headerValue) => {
-  if(!request.headers){
-    request.headers = {};
-  }
-
-  const headers = _caseless(request.headers);
-  headers.set(headerName, headerValue);
-  if(headers.has(headerName) !== headerName){
-    headers.swap(headerName);
-  }
-};
-
-const setHeaderIfNotExist = (request, headerName, headerValue) => {
-  if(!request.headers || !_caseless(request.headers).has(headerName)){
-    setHeader(request, headerName, headerValue);
-  }
-};
-
-const setContentTypeIfNotExist = (request, contentType) =>{
-  return setHeaderIfNotExist(request, 'Content-Type', contentType);
-};
-
-module.exports = {
-  setHeader: setHeader,
-  setHeaderIfNotExist: setHeaderIfNotExist,
-  setContentTypeIfNotExist: setContentTypeIfNotExist
-};
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-function Caseless (dict) {
-  this.dict = dict || {}
-}
-Caseless.prototype.set = function (name, value, clobber) {
-  if (typeof name === 'object') {
-    for (var i in name) {
-      this.set(i, name[i], value)
-    }
-  } else {
-    if (typeof clobber === 'undefined') clobber = true
-    var has = this.has(name)
-
-    if (!clobber && has) this.dict[has] = this.dict[has] + ',' + value
-    else this.dict[has || name] = value
-    return has
-  }
-}
-Caseless.prototype.has = function (name) {
-  var keys = Object.keys(this.dict)
-    , name = name.toLowerCase()
-    ;
-  for (var i=0;i<keys.length;i++) {
-    if (keys[i].toLowerCase() === name) return keys[i]
-  }
-  return false
-}
-Caseless.prototype.get = function (name) {
-  name = name.toLowerCase()
-  var result, _key
-  var headers = this.dict
-  Object.keys(headers).forEach(function (key) {
-    _key = key.toLowerCase()
-    if (name === _key) result = headers[key]
-  })
-  return result
-}
-Caseless.prototype.swap = function (name) {
-  var has = this.has(name)
-  if (!has) throw new Error('There is no header than matches "'+name+'"')
-  this.dict[name] = this.dict[has]
-  delete this.dict[has]
-}
-Caseless.prototype.del = function (name) {
-  var has = this.has(name)
-  return delete this.dict[has || name]
-}
-
-module.exports = function (dict) {return new Caseless(dict)}
-module.exports.httpify = function (resp, headers) {
-  var c = new Caseless(headers)
-  resp.setHeader = function (key, value, clobber) {
-    if (typeof value === 'undefined') return
-    return c.set(key, value, clobber)
-  }
-  resp.hasHeader = function (key) {
-    return c.has(key)
-  }
-  resp.getHeader = function (key) {
-    return c.get(key)
-  }
-  resp.removeHeader = function (key) {
-    return c.del(key)
-  }
-  resp.headers = c.dict
-  return c
-}
-
-
-/***/ }),
-/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(48);
+var normalizeHeaderName = __webpack_require__(22);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -524,10 +397,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(49);
+    adapter = __webpack_require__(23);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(54);
+    adapter = __webpack_require__(28);
   }
   return adapter;
 }
@@ -604,13 +477,13 @@ module.exports = defaults;
 
 
 /***/ }),
-/* 7 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(12);
+var enhanceError = __webpack_require__(5);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -629,86 +502,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var template = __webpack_require__(27);
-var extend = __webpack_require__(28);
-var assert = __webpack_require__(9);
-
-var isWordBoundary = /[_.-](\w|$)/g;
-
-module.exports = TypedError;
-
-function TypedError(args) {
-    assert(args, 'TypedError: must specify options');
-    assert(args.type, 'TypedError: must specify options.type');
-    assert(args.message, 'TypedError: must specify options.message');
-
-    assert(!has(args, 'fullType'),
-        'TypedError: fullType field is reserved');
-
-    var message = args.message;
-    if (args.type && !args.name) {
-        var errorName = camelCase(args.type) + 'Error';
-        args.name = errorName[0].toUpperCase() + errorName.substr(1);
-    }
-
-    extend(createError, args);
-    createError._name = args.name;
-
-    return createError;
-
-    function createError(opts) {
-        var result = new Error();
-
-        Object.defineProperty(result, 'type', {
-            value: result.type,
-            enumerable: true,
-            writable: true,
-            configurable: true
-        });
-
-        var options = extend({}, args, opts);
-        if (!options.fullType) {
-            options.fullType = options.type;
-        }
-
-        extend(result, options);
-        if (opts && opts.message) {
-            result.message = template(opts.message, options);
-        } else if (message) {
-            result.message = template(message, options);
-        }
-
-        return result;
-    }
-}
-
-function camelCase(str) {
-    return str.replace(isWordBoundary, upperCase);
-}
-
-function upperCase(_, x) {
-    return x.toUpperCase();
-}
-
-function has(obj, key) {
-    return Object.prototype.hasOwnProperty.call(obj, key);
-}
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
-module.exports = require("assert");
-
-/***/ }),
-/* 10 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -726,13 +520,13 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 11 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(7);
+var createError = __webpack_require__(2);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -759,7 +553,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 12 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -787,7 +581,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 13 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -860,15 +654,27 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 14 */
+/* 7 */
+/***/ (function(module, exports) {
+
+module.exports = require("http");
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+module.exports = require("https");
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var url = __webpack_require__(1);
-var http = __webpack_require__(2);
-var https = __webpack_require__(3);
-var assert = __webpack_require__(9);
-var Writable = __webpack_require__(55).Writable;
-var debug = __webpack_require__(56)("follow-redirects");
+var url = __webpack_require__(10);
+var http = __webpack_require__(7);
+var https = __webpack_require__(8);
+var assert = __webpack_require__(29);
+var Writable = __webpack_require__(30).Writable;
+var debug = __webpack_require__(31)("follow-redirects");
 
 // RFC7231§4.2.1: Of the request methods defined by this specification,
 // the GET, HEAD, OPTIONS, and TRACE methods are defined to be safe.
@@ -1133,7 +939,13 @@ module.exports.wrap = wrap;
 
 
 /***/ }),
-/* 15 */
+/* 10 */
+/***/ (function(module, exports) {
+
+module.exports = require("url");
+
+/***/ }),
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1149,7 +961,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(58);
+exports.humanize = __webpack_require__(33);
 
 /**
  * Active `debug` instances.
@@ -1364,7 +1176,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 16 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1376,7 +1188,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 17 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1402,16 +1214,15 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 18 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(19).config();
-const yelp = __webpack_require__(22);
+__webpack_require__(15).config();
 
-const axios = __webpack_require__(44);
+const axios = __webpack_require__(18);
 
 const statusCode = 200;
 const headers = {
@@ -1477,12 +1288,16 @@ exports.handler = (event, context, callback) => {
   // -- function to get data from Yelp API -- //
   const getYelpData = id => {
     const yelpKey = process.env.YELP_KEY;
-    const client = yelp.client(yelpKey);
-    client.business(id).then(response => {
-      console.log(response.jsonBody.name);
-    }).catch(e => {
-      console.log(e);
-    });
+    // throttle yelp
+    setTimeout(() => axios.get(`https://api.yelp.com/v3/businesses/${id}`, {
+      headers: {
+        Authorization: yelpKey
+      }
+    }).then(res => res.data).then(res => JSON.stringify(res)).then(res => callback(null, {
+      statusCode,
+      headers,
+      body: res
+    })).catch(e => console.log(e), 500));
   };
 
   // -- Parses data and sends to appropriate function
@@ -1495,42 +1310,20 @@ exports.handler = (event, context, callback) => {
   } else if (host === 'facebook') {
     getFacebookData(id);
   } else if (host === 'yelp') {
+    // throttle yelp
     getYelpData(id);
   }
 };
 
-// const getYelpData = (id) => {
-//   const yelpKey = process.env.YELP_KEY;
-//   console.log({ id, yelpKey });
-//   axios
-//     .get(`https://api.yelp.com/v3/businesses/${id}`, {
-//       headers: {
-//         Authorization: yelpKey,
-//       },
-//     })
-//     .then(res => res.data)
-//     .then(res => JSON.stringify(res))
-//     .then(res =>
-//       callback(null, {
-//         statusCode,
-//         headers,
-//         body: res,
-//       }))
-//     .catch(e =>
-//       callback(null, {
-//         body: e,
-//       }));
-// };
-
 /***/ }),
-/* 19 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-const fs = __webpack_require__(20)
-const path = __webpack_require__(21)
+const fs = __webpack_require__(16)
+const path = __webpack_require__(17)
 
 /*
  * Parses a string or buffer into an object
@@ -1609,665 +1402,34 @@ module.exports.parse = parse
 
 
 /***/ }),
-/* 20 */
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 21 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 22 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-const _send = __webpack_require__(23);
-
-class YelpClient {
-  constructor(apiKey){
-    this.apiKey = apiKey;
-  }
-  
-  search(parameters){
-    return _send({
-      url: 'https://api.yelp.com/v3/businesses/search',
-      query: parameters,
-      bearerToken: this.apiKey
-    });
-  }
-
-  phoneSearch(parameters){
-    return _send({
-      url: 'https://api.yelp.com/v3/businesses/search/phone',
-      query: parameters,
-      bearerToken: this.apiKey
-    });
-  }
-
-  transactionSearch(transactionType, parameters){
-    return _send({
-      url: 'https://api.yelp.com/v3/transactions/{transaction_type}/search',
-      urlParams:{
-        transaction_type: transactionType
-      },
-      query: parameters,
-      bearerToken: this.apiKey
-    });
-  }
-
-  business(id){
-    return _send({
-      url: 'https://api.yelp.com/v3/businesses/{id}',
-      urlParams:{
-        id: id
-      },
-      bearerToken: this.apiKey
-    });
-  }
-
-  reviews(businessId){
-    return _send({
-      url: 'https://api.yelp.com/v3/businesses/{id}/reviews',
-      urlParams:{
-        id: businessId
-      },
-      bearerToken: this.apiKey
-    });
-  }
-
-  autocomplete(parameters){
-    return _send({
-      url: 'https://api.yelp.com/v3/autocomplete',
-      query: parameters,
-      bearerToken: this.apiKey
-    });
-  }
-
-  businessMatch(matchType, parameters){
-    return _send({
-      url: 'https://api.yelp.com/v3/businesses/matches/{match_type}',
-      urlParams:{
-        match_type: matchType
-      },
-      query: parameters,
-      bearerToken: this.apiKey
-    });
-  }
-}
-
-const createClient = (apiKey) => {
-  return new YelpClient(apiKey);
-};
-
-module.exports = {
-  client: createClient
-};
-
+module.exports = __webpack_require__(19);
 
 /***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const _smallRequest = __webpack_require__(24);
-const _defaultRequestFilters = __webpack_require__(31);
-const _defaultResponseFilters = __webpack_require__(40);
-const _processFilters = __webpack_require__(43);
-
-const send = (request, requestFilters, responseFilters) => {
-  
-  if(!requestFilters){
-    requestFilters = _defaultRequestFilters();
-  }
-  
-  if(!responseFilters){
-    responseFilters = _defaultResponseFilters();
-  }
-  
-  return _smallRequest.send(_processFilters(request, requestFilters)).then(response => {
-    return _processFilters(response, responseFilters);
-  });
-};
-
-module.exports = send;
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const _send = __webpack_require__(25);
-
-module.exports = {
-  send: _send
-};
-
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const _requestFunction = __webpack_require__(26);
-const _toRequestOptions = __webpack_require__(29);
-const _responseHandler = __webpack_require__(30);
-
-const send = (requestModel) => {
-  return new Promise((resolve, reject) => {
-    try{
-      const options = _toRequestOptions(requestModel);
-      const request = _requestFunction.fromProtocol(options.protocol);
-
-      const clientRequest = request(options, (resp) => _responseHandler(resp, resolve, reject));
-
-      clientRequest.on('error', (e) => {
-        reject(e);
-      });
-
-      if(requestModel.body){
-        clientRequest.write(requestModel.body);
-      }
-      
-      clientRequest.end();    
-    } catch(e){
-      reject(e);
-    }
-  });
-};
-
-module.exports = send;
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-const http = __webpack_require__(2);
-const https = __webpack_require__(3);
-const url = __webpack_require__(1);
-const typedError = __webpack_require__(8);
-
-const unknownProtocolErrorType = 'request-function/unknown-protocol';
-
-const unknownProtocolError = typedError({
-  type: unknownProtocolErrorType,
-  message: "Unknown protocol '{protocol}'"
-});
-
-const fromProtocol = (protocol) => {
-  switch(protocol){
-    case 'http:':
-      return http.request;
-    case 'https:':
-      return https.request;
-    default:
-      throw unknownProtocolError({
-        protocol: protocol
-      });
-  }
-};
-
-const fromUrl = (urlString) => {
-  const parsedUrl = url.parse(urlString);
-  return fromProtocol(parsedUrl.protocol);
-};
-
-module.exports = {
-  fromProtocol: fromProtocol,
-  fromUrl: fromUrl,
-  unknownProtocolErrorType: unknownProtocolErrorType
-};
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports) {
-
-var nargs = /\{([0-9a-zA-Z]+)\}/g
-var slice = Array.prototype.slice
-
-module.exports = template
-
-function template(string) {
-    var args
-
-    if (arguments.length === 2 && typeof arguments[1] === "object") {
-        args = arguments[1]
-    } else {
-        args = slice.call(arguments, 1)
-    }
-
-    if (!args || !args.hasOwnProperty) {
-        args = {}
-    }
-
-    return string.replace(nargs, function replaceArg(match, i, index) {
-        var result
-
-        if (string[index - 1] === "{" &&
-            string[index + match.length] === "}") {
-            return i
-        } else {
-            result = args.hasOwnProperty(i) ? args[i] : null
-            if (result === null || result === undefined) {
-                return ""
-            }
-
-            return result
-        }
-    })
-}
-
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports) {
-
-module.exports = extend
-
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-function extend(target) {
-    for (var i = 1; i < arguments.length; i++) {
-        var source = arguments[i]
-
-        for (var key in source) {
-            if (hasOwnProperty.call(source, key)) {
-                target[key] = source[key]
-            }
-        }
-    }
-
-    return target
-}
-
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const _url = __webpack_require__(1);
-
-const toRequestOptions = (requestModel) =>{
-  const options = _url.parse(requestModel.url);
-  options.headers = requestModel.headers;
-  options.method = requestModel.method || 'GET';
-  
-  return options;
-};
-
-module.exports = toRequestOptions;
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const responseHandler = (response, resolve, reject) => {
-  let data = '';
-
-  response.on('data', (d) => {
-    data += d;
-  });
-
-  response.on('end', (d) => {
-    resolve({
-      statusCode: response.statusCode,
-      headers: response.headers,
-      body: data
-    });
-  });
-
-  response.on('error', (e) => {
-    reject(e);
-  });
-};
-
-module.exports = responseHandler;
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const _defaultOptions = __webpack_require__(32);
-const _bearerToken = __webpack_require__(33);
-const _urlParams = __webpack_require__(34);
-const _query = __webpack_require__(36);
-const _urlencodedBody = __webpack_require__(37);
-const _jsonBody = __webpack_require__(39);
-
-const defaultFilters = () => [
-  _defaultOptions,
-  _bearerToken,
-  _urlParams,
-  _query,
-  _urlencodedBody,
-  _jsonBody
-];
-
-module.exports = defaultFilters;
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const defaultOptions = () => {
-  return {
-    method: 'GET'
-  };
-};
-
-const filter = (request) => {
-  return Object.assign(defaultOptions(), request);
-};
-
-module.exports = {
-  filter: filter
-};
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const _headers = __webpack_require__(4);
-
-const filter = (request) => {
-  
-  if(request.bearerToken){
-    _headers.setHeader(request, 'Authorization', 'Bearer ' + request.bearerToken);
-  }
-  
-  return request;
-};
-
-module.exports = {
-  filter: filter
-};
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const _stringTemplate = __webpack_require__(35);
-const _url = __webpack_require__(1);
-
-const filter = (request) => {
-  if(request.urlParams){
-    const encodedParams = {};
-    
-    for(let key in request.urlParams){
-      encodedParams[key] = encodeURIComponent(request.urlParams[key]);
-    }
-    
-    request.url = _stringTemplate(request.url, encodedParams);
-  }
-  
-  request.url = _url.format(_url.parse(request.url));
-  
-  return request;
-};
-
-module.exports = {
-  filter: filter
-};
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports) {
-
-var nargs = /\{([0-9a-zA-Z_]+)\}/g
-
-module.exports = template
-
-function template(string) {
-    var args
-
-    if (arguments.length === 2 && typeof arguments[1] === "object") {
-        args = arguments[1]
-    } else {
-        args = new Array(arguments.length - 1)
-        for (var i = 1; i < arguments.length; ++i) {
-            args[i - 1] = arguments[i]
-        }
-    }
-
-    if (!args || !args.hasOwnProperty) {
-        args = {}
-    }
-
-    return string.replace(nargs, function replaceArg(match, i, index) {
-        var result
-
-        if (string[index - 1] === "{" &&
-            string[index + match.length] === "}") {
-            return i
-        } else {
-            result = args.hasOwnProperty(i) ? args[i] : null
-            if (result === null || result === undefined) {
-                return ""
-            }
-
-            return result
-        }
-    })
-}
-
-
-/***/ }),
-/* 36 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const _url = __webpack_require__(1);
-
-const filter = (request) => {
-  const url = _url.parse(request.url);
-    
-  if(request.query){
-    url.query = request.query;
-  }
-  
-  request.url = _url.format(url);
-  
-  return request;
-};
-
-module.exports = {
-  filter: filter
-};
-
-/***/ }),
-/* 37 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const _caseless = __webpack_require__(5);
-const _querystring = __webpack_require__(38);
-const _headers = __webpack_require__(4);
-
-const contentType = 'application/x-www-form-urlencoded';
-
-const filter = (request) => {
-  
-  if(request.urlencodedBody){
-    
-    request.body = _querystring.stringify(request.urlencodedBody);
-    _headers.setContentTypeIfNotExist(request, contentType);
-  }
-  
-  return request;
-};
-
-module.exports = {
-  filter: filter
-};
-
-/***/ }),
-/* 38 */
-/***/ (function(module, exports) {
-
-module.exports = require("querystring");
-
-/***/ }),
-/* 39 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const _caseless = __webpack_require__(5);
-const _headers = __webpack_require__(4);
-
-const contentType = 'application/json';
-
-const filter = (request) => {
-  if(request.jsonBody){
-    request.body = JSON.stringify(request.jsonBody);
-    
-    _headers.setContentTypeIfNotExist(request, contentType);
-  }
-  
-  return request;
-};
-
-module.exports = {
-  filter: filter
-};
-
-/***/ }),
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-const _unhandledStatusFilter = __webpack_require__(41);
-const _jsonBodyFilter = __webpack_require__(42);
-
-const defaultFilters = () => [
-  _unhandledStatusFilter,
-  _jsonBodyFilter
-];
-
-module.exports = defaultFilters;
-
-/***/ }),
-/* 41 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-const _TypedError = __webpack_require__(8);
-
-const error = _TypedError({
-  type: 'rest-call.response-filters.unhandled-status',
-  message: 'Server returned status code {statusCode}',
-  statusCode: null,
-  response: null
-});
-
-const filter = (response) => {
-  if(response.statusCode < 200 || response.statusCode >= 300){
-    throw error({
-      statusCode: response.statusCode,
-      response: response
-    });
-  }
-  return response;
-};
-
-module.exports = {
-  filter: filter,
-  unhandledStatusError: error
-};
-
-/***/ }),
-/* 42 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const filter = (response) => {
-  try{
-    response.jsonBody = JSON.parse(response.body);
-  } catch(e){
-  }
-  
-  return response;
-};
-
-module.exports = {
-  filter: filter
-};
-
-/***/ }),
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const processFilters = (context, filters) => {
-  for(let filter of filters){
-    context = filter.filter(context);
-  }
-  
-  return context;
-};
-
-module.exports = processFilters;
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(45);
-
-/***/ }),
-/* 45 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(10);
-var Axios = __webpack_require__(47);
-var defaults = __webpack_require__(6);
+var bind = __webpack_require__(3);
+var Axios = __webpack_require__(21);
+var defaults = __webpack_require__(1);
 
 /**
  * Create an instance of Axios
@@ -2300,15 +1462,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(17);
-axios.CancelToken = __webpack_require__(72);
-axios.isCancel = __webpack_require__(16);
+axios.Cancel = __webpack_require__(13);
+axios.CancelToken = __webpack_require__(47);
+axios.isCancel = __webpack_require__(12);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(73);
+axios.spread = __webpack_require__(48);
 
 module.exports = axios;
 
@@ -2317,7 +1479,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 46 */
+/* 20 */
 /***/ (function(module, exports) {
 
 /*!
@@ -2344,16 +1506,16 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 47 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defaults = __webpack_require__(6);
+var defaults = __webpack_require__(1);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(67);
-var dispatchRequest = __webpack_require__(68);
+var InterceptorManager = __webpack_require__(42);
+var dispatchRequest = __webpack_require__(43);
 
 /**
  * Create a new instance of Axios
@@ -2430,7 +1592,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 48 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2449,19 +1611,19 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 49 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(11);
-var buildURL = __webpack_require__(13);
-var parseHeaders = __webpack_require__(50);
-var isURLSameOrigin = __webpack_require__(51);
-var createError = __webpack_require__(7);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(52);
+var settle = __webpack_require__(4);
+var buildURL = __webpack_require__(6);
+var parseHeaders = __webpack_require__(24);
+var isURLSameOrigin = __webpack_require__(25);
+var createError = __webpack_require__(2);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(26);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -2558,7 +1720,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(53);
+      var cookies = __webpack_require__(27);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -2636,7 +1798,7 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 50 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2696,7 +1858,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 51 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2771,7 +1933,7 @@ module.exports = (
 
 
 /***/ }),
-/* 52 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2814,7 +1976,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 53 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2874,24 +2036,24 @@ module.exports = (
 
 
 /***/ }),
-/* 54 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(11);
-var buildURL = __webpack_require__(13);
-var http = __webpack_require__(2);
-var https = __webpack_require__(3);
-var httpFollow = __webpack_require__(14).http;
-var httpsFollow = __webpack_require__(14).https;
-var url = __webpack_require__(1);
-var zlib = __webpack_require__(65);
-var pkg = __webpack_require__(66);
-var createError = __webpack_require__(7);
-var enhanceError = __webpack_require__(12);
+var settle = __webpack_require__(4);
+var buildURL = __webpack_require__(6);
+var http = __webpack_require__(7);
+var https = __webpack_require__(8);
+var httpFollow = __webpack_require__(9).http;
+var httpsFollow = __webpack_require__(9).https;
+var url = __webpack_require__(10);
+var zlib = __webpack_require__(40);
+var pkg = __webpack_require__(41);
+var createError = __webpack_require__(2);
+var enhanceError = __webpack_require__(5);
 
 /*eslint consistent-return:0*/
 module.exports = function httpAdapter(config) {
@@ -3118,13 +2280,19 @@ module.exports = function httpAdapter(config) {
 
 
 /***/ }),
-/* 55 */
+/* 29 */
+/***/ (function(module, exports) {
+
+module.exports = require("assert");
+
+/***/ }),
+/* 30 */
 /***/ (function(module, exports) {
 
 module.exports = require("stream");
 
 /***/ }),
-/* 56 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -3133,14 +2301,14 @@ module.exports = require("stream");
  */
 
 if (typeof process === 'undefined' || process.type === 'renderer') {
-  module.exports = __webpack_require__(57);
+  module.exports = __webpack_require__(32);
 } else {
-  module.exports = __webpack_require__(59);
+  module.exports = __webpack_require__(34);
 }
 
 
 /***/ }),
-/* 57 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -3149,7 +2317,7 @@ if (typeof process === 'undefined' || process.type === 'renderer') {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(15);
+exports = module.exports = __webpack_require__(11);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -3341,7 +2509,7 @@ function localstorage() {
 
 
 /***/ }),
-/* 58 */
+/* 33 */
 /***/ (function(module, exports) {
 
 /**
@@ -3499,15 +2667,15 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 59 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var tty = __webpack_require__(60);
-var util = __webpack_require__(61);
+var tty = __webpack_require__(35);
+var util = __webpack_require__(36);
 
 /**
  * This is the Node.js implementation of `debug()`.
@@ -3515,7 +2683,7 @@ var util = __webpack_require__(61);
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(15);
+exports = module.exports = __webpack_require__(11);
 exports.init = init;
 exports.log = log;
 exports.formatArgs = formatArgs;
@@ -3530,7 +2698,7 @@ exports.useColors = useColors;
 exports.colors = [ 6, 2, 3, 4, 5, 1 ];
 
 try {
-  var supportsColor = __webpack_require__(62);
+  var supportsColor = __webpack_require__(37);
   if (supportsColor && supportsColor.level >= 2) {
     exports.colors = [
       20, 21, 26, 27, 32, 33, 38, 39, 40, 41, 42, 43, 44, 45, 56, 57, 62, 63, 68,
@@ -3691,25 +2859,25 @@ exports.enable(load());
 
 
 /***/ }),
-/* 60 */
+/* 35 */
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
 
 /***/ }),
-/* 61 */
+/* 36 */
 /***/ (function(module, exports) {
 
 module.exports = require("util");
 
 /***/ }),
-/* 62 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const os = __webpack_require__(63);
-const hasFlag = __webpack_require__(64);
+const os = __webpack_require__(38);
+const hasFlag = __webpack_require__(39);
 
 const env = process.env;
 
@@ -3841,13 +3009,13 @@ module.exports = {
 
 
 /***/ }),
-/* 63 */
+/* 38 */
 /***/ (function(module, exports) {
 
 module.exports = require("os");
 
 /***/ }),
-/* 64 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3862,19 +3030,19 @@ module.exports = (flag, argv) => {
 
 
 /***/ }),
-/* 65 */
+/* 40 */
 /***/ (function(module, exports) {
 
 module.exports = require("zlib");
 
 /***/ }),
-/* 66 */
+/* 41 */
 /***/ (function(module, exports) {
 
 module.exports = {"_args":[["axios@^0.18.0","/home/jared/Documents/coding/store-ratings"]],"_from":"axios@>=0.18.0 <0.19.0","_id":"axios@0.18.0","_inCache":true,"_installable":true,"_location":"/axios","_nodeVersion":"6.9.5","_npmOperationalInternal":{"host":"s3://npm-registry-packages","tmp":"tmp/axios_0.18.0_1519082934092_0.24234210178813442"},"_npmUser":{"email":"emilyemorehouse@gmail.com","name":"emilyemorehouse"},"_npmVersion":"3.10.10","_phantomChildren":{},"_requested":{"name":"axios","raw":"axios@^0.18.0","rawSpec":"^0.18.0","scope":null,"spec":">=0.18.0 <0.19.0","type":"range"},"_requiredBy":["/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.18.0.tgz","_shasum":"32d53e4851efdc0a11993b6cd000789d70c05102","_shrinkwrap":null,"_spec":"axios@^0.18.0","_where":"/home/jared/Documents/coding/store-ratings","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.3.0","is-buffer":"^1.1.5"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"bundlesize":"^0.5.7","coveralls":"^2.11.9","es6-promise":"^4.0.5","grunt":"^1.0.1","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.0.0","grunt-contrib-nodeunit":"^1.0.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^19.0.0","grunt-karma":"^2.0.0","grunt-ts":"^6.0.0-beta.3","grunt-webpack":"^1.0.18","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^1.3.0","karma-chrome-launcher":"^2.0.0","karma-coverage":"^1.0.0","karma-firefox-launcher":"^1.0.0","karma-jasmine":"^1.0.2","karma-jasmine-ajax":"^0.1.13","karma-opera-launcher":"^1.0.0","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^1.1.0","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.7","karma-webpack":"^1.7.0","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","sinon":"^1.17.4","typescript":"^2.0.3","url-search-params":"^0.6.1","webpack":"^1.13.1","webpack-dev-server":"^1.14.1"},"directories":{},"dist":{"fileCount":40,"shasum":"32d53e4851efdc0a11993b6cd000789d70c05102","tarball":"https://registry.npmjs.org/axios/-/axios-0.18.0.tgz","unpackedSize":307840},"gitHead":"d59c70fdfd35106130e9f783d0dbdcddd145b58f","homepage":"https://github.com/axios/axios","keywords":["ajax","http","node","promise","xhr"],"license":"MIT","main":"index.js","maintainers":[{"name":"mzabriskie","email":"mzabriskie@gmail.com"},{"name":"nickuraltsev","email":"nick.uraltsev@gmail.com"}],"name":"axios","optionalDependencies":{},"readme":"ERROR: No README data found!","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test && bundlesize","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","version":"0.18.0"}
 
 /***/ }),
-/* 67 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3933,18 +3101,18 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 68 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(69);
-var isCancel = __webpack_require__(16);
-var defaults = __webpack_require__(6);
-var isAbsoluteURL = __webpack_require__(70);
-var combineURLs = __webpack_require__(71);
+var transformData = __webpack_require__(44);
+var isCancel = __webpack_require__(12);
+var defaults = __webpack_require__(1);
+var isAbsoluteURL = __webpack_require__(45);
+var combineURLs = __webpack_require__(46);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -4026,7 +3194,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 69 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4053,7 +3221,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 70 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4074,7 +3242,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 71 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4095,13 +3263,13 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 72 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(17);
+var Cancel = __webpack_require__(13);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -4159,7 +3327,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 73 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

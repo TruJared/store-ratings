@@ -50,8 +50,7 @@ const getRatings = (stores) => {
         }),
       )
       // TODO catch errors for undefined (i.e. does not exist)
-      .then(res => console.log(res))
-      // ($(`#${id}`).innerText = res.data.rating.toFixed(2))))
+      .then(res => ($(`#${id}`).innerText = res.data.rating.toFixed(2)))
       .catch(e => console.log(e)));
 };
 
