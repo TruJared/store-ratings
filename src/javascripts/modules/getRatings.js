@@ -8,8 +8,8 @@ const getRatings = (stores) => {
   const proxy = 'https://jared-proxy.herokuapp.com/';
 
   const lambdaUrl =
-    //  'https://netlify--affectionate-thompson-b59054.netlify.com/.netlify/functions/callApis';
-    'http://localhost:9000/callApis';
+     'https://netlify--affectionate-thompson-b59054.netlify.com/.netlify/functions/callApis';
+   // 'http://localhost:9000/callApis';
   // `https://r28ratings.com/.netlify/functions/callApis`
 
   // -- GOOGLE --//
