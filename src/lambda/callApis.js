@@ -19,73 +19,71 @@ exports.handler = (event, context, callback) => {
     });
   }
 
-  // // -- function to get data from Google API -- //
-  // const getGoogleData = (id) => {
-  //   const googleKey = process.env.GOOGLE_KEY;
+  // -- function to get data from Google API -- //
+  const getGoogleData = (id) => {
+    const googleKey = process.env.GOOGLE_KEY;
 
-  //   axios
-  //     .get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`)
-  //     .then(res => res.data)
-  //     .then(res => JSON.stringify(res))
-  //     .then(res =>
-  //       callback(null, {
-  //         statusCode,
-  //         headers,
-  //         body: res,
-  //       }))
-  //     .catch(e =>
-  //       callback(null, {
-  //         body: `${e}`,
-  //       }));
-  // };
+    axios
+      .get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}${googleKey}`)
+      .then(res => res.data)
+      .then(res => JSON.stringify(res))
+      .then(res =>
+        callback(null, {
+          statusCode,
+          headers,
+          body: res,
+        }))
+      .catch(e =>
+        callback(null, {
+          body: `${e.message}`,
+        }));
+  };
 
-  // // -- function to get data from Facebook API -- //
-  // const getFacebookData = (id) => {
-  //   const facebookKey = process.env.FACEBOOK_KEY;
+  // -- function to get data from Facebook API -- //
+  const getFacebookData = (id) => {
+    const facebookKey = process.env.FACEBOOK_KEY;
 
-  //   axios
-  //     .get(`https://graph.facebook.com/v2.11/${id}?fields=overall_star_rating`, {
-  //       headers: {
-  //         Authorization: facebookKey,
-  //       },
-  //     })
-  //     .then(res => res.data)
-  //     .then(res => JSON.stringify(res))
-  //     .then(res =>
-  //       callback(null, {
-  //         statusCode,
-  //         headers,
-  //         body: res,
-  //       }))
-  //     .catch(e =>
-  //       callback(null, {
-  //         body: `${e}`,
-  //       }));
-  // };
+    axios
+      .get(`https://graph.facebook.com/v2.11/${id}?fields=overall_star_rating`, {
+        headers: {
+          Authorization: facebookKey,
+        },
+      })
+      .then(res => res.data)
+      .then(res => JSON.stringify(res))
+      .then(res =>
+        callback(null, {
+          statusCode,
+          headers,
+          body: res,
+        }))
+      .catch(e =>
+        callback(null, {
+          body: `${e.message}`,
+        }));
+  };
 
   // -- function to get data from Yelp API -- //
   const getYelpData = (id) => {
     const yelpKey = process.env.YELP_KEY;
-    // throttle yelp
-    setTimeout(() =>
-      axios
-        .get(`https://api.yelp.com/v3/businesses/${id}`, {
-          headers: {
-            Authorization: yelpKey,
-          },
-        })
 
-        .then(res => res.data)
-        .then(res => JSON.stringify(res))
-        .then(res =>
-          callback(null, {
-            statusCode,
-            headers,
-            body: res,
-          }))
-        .catch(e => console.log(e), 500));
+    axios
+      .get(`https://api.yelp.com/v3/businesses/${id}`, {
+        headers: {
+          Authorization: yelpKey,
+        },
+      })
+
+      .then(res => res.data)
+      .then(res => JSON.stringify(res))
+      .then(res =>
+        callback(null, {
+          statusCode,
+          headers,
+          body: res,
+        }))
+      .catch(e => console.log(e.response.data.error.code));
   };
-
   // -- Parses data and sends to appropriate function
   const data = event.body;
   const { id } = JSON.parse(data);
@@ -96,7 +94,6 @@ exports.handler = (event, context, callback) => {
   } else if (host === 'facebook') {
     getFacebookData(id);
   } else if (host === 'yelp') {
-    // throttle yelp
     getYelpData(id);
   }
 };
