@@ -66,7 +66,6 @@ exports.handler = (event, context, callback) => {
   // -- function to get data from Yelp API -- //
   const getYelpData = (id) => {
     const yelpKey = process.env.YELP_KEY;
-    console.log(id);
 
     axios
       .get(`https://api.yelp.com/v3/businesses/${id}`, {

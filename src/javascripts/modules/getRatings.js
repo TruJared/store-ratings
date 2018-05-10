@@ -12,7 +12,9 @@ const getRatings = (stores) => {
   // `https://r28ratings.com/.netlify/functions/callApis`
 
   // -- GOOGLE --//
-  googleIds.forEach(id =>
+  googleIds.forEach((id) => {
+    $(`#${id}`).innerText = '0.00';
+
     axios
       .post(
         lambdaUrl,
@@ -22,10 +24,13 @@ const getRatings = (stores) => {
         }),
       )
       .then(res => ($(`#${id}`).innerText = res.data.result.rating.toFixed(2)))
-      .catch(e => console.log(e)));
+      .catch(e => console.log(e));
+  });
 
   // -- FACEBOOK --//
-  facebookIds.forEach(id =>
+  facebookIds.forEach((id) => {
+    $(`#${id}`).innerText = '0.00';
+
     axios
       .post(
         lambdaUrl,
@@ -36,13 +41,15 @@ const getRatings = (stores) => {
       )
       // TODO catch errors for undefined (i.e. does not exist)
       .then(res => ($(`#${id}`).innerText = res.data.overall_star_rating.toFixed(2)))
-      .catch(e => console.log(e)));
+      .catch(e => console.log(e));
+  });
 
   // -- YELP --//
   // -- Get Yelp Requests and throttle  -- //
   const getYelpRatings = (arr, i) => {
     if (i < arr.length) {
       const id = arr[i];
+      $(`#${id}`).innerText = '0.00';
       i++;
       axios
         .post(
@@ -55,7 +62,7 @@ const getRatings = (stores) => {
         .then(res => ($(`#${id}`).innerText = res.data.rating.toFixed(2)))
         .catch(e => console.log(e.message));
       // throttle next call to meet yelp standards
-      setTimeout(getYelpRatings, 500, arr, i);
+      setTimeout(getYelpRatings, 250, arr, i);
     }
   };
   // send to throttle requests //
