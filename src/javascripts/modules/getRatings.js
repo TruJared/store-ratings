@@ -1,5 +1,4 @@
 const axios = require('axios');
-const throttle = require('lodash/throttle');
 const { $ } = require('./bling');
 
 const getRatings = (stores) => {
@@ -8,8 +7,8 @@ const getRatings = (stores) => {
   const yelpIds = stores.map(store => store.yelpId);
 
   const lambdaUrl =
-    // 'https://netlify--affectionate-thompson-b59054.netlify.com/.netlify/functions/callApis';
-    'http://localhost:9000/callApis';
+    'https://netlify--affectionate-thompson-b59054.netlify.com/.netlify/functions/callApis';
+  // 'http://localhost:9000/callApis';
   // `https://r28ratings.com/.netlify/functions/callApis`
 
   // -- GOOGLE --//
