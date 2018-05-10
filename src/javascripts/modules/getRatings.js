@@ -13,8 +13,6 @@ const getRatings = (stores) => {
 
   // -- GOOGLE --//
   googleIds.forEach((id) => {
-    $(`#${id}`).innerText = '0.00';
-
     axios
       .post(
         lambdaUrl,
@@ -29,8 +27,6 @@ const getRatings = (stores) => {
 
   // -- FACEBOOK --//
   facebookIds.forEach((id) => {
-    $(`#${id}`).innerText = '0.00';
-
     axios
       .post(
         lambdaUrl,
@@ -49,7 +45,7 @@ const getRatings = (stores) => {
   const getYelpRatings = (arr, i) => {
     if (i < arr.length) {
       const id = arr[i];
-      $(`#${id}`).innerText = '0.00';
+
       i++;
       axios
         .post(
