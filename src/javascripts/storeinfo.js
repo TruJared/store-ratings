@@ -2154,7 +2154,7 @@ const storeInfo = {
     {
       sNumber: 7452,
       googleId: 'ChIJgX7vjDffOYgRGVygfmOY__k',
-      yelpId: '/advance-auto-parts-loudonville',
+      yelpId: 'advance-auto-parts-loudonville',
       facebookId: 'AdvanceAutoPartsStore7452',
     },
     {
