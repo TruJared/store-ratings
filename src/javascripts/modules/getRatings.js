@@ -66,14 +66,3 @@ const getRatings = (stores) => {
 };
 
 export { getRatings };
-// axios
-//   .post(
-//     lambdaUrl,
-//     JSON.stringify({
-//       host: 'yelp',
-//       id,
-//     }),
-// )
-//   // TODO catch errors for undefined (i.e. does not exist)
-//   .then(res => ($(`#${id}`).innerText = res.data.rating.toFixed(2)))
-//   .catch(e => console.log(e)),
