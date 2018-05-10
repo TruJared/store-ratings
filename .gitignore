@@ -1,0 +1,8 @@
+node_modules
+.vscode
+*lint*
+wireframe*
+*.zip
+dist/
+.env
+./lambda/**
