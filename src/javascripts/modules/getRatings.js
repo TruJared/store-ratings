@@ -3,11 +3,14 @@ const { $ } = require('./bling');
 
 const getRatings = (stores) => {
   const googleIds = stores.map(store => store.googleId);
+  const googleRatingsArray = [];
   const facebookIds = stores.map(store => store.facebookId);
+  const facebookRatingsArray = [];
   const yelpIds = stores.map(store => store.yelpId);
+  const yelpRatingsArray = [];
 
   const lambdaUrl =
-    // 'http://localhost:9000/callApis';
+    // 'http://localhost:9000/callApis'; -- testing
     'https://www.r28ratings.com/.netlify/functions/callApis';
 
   // -- GOOGLE --//
@@ -20,11 +23,23 @@ const getRatings = (stores) => {
           id,
         }),
       )
-      .then(res => ($(`#${id}`).innerText = res.data.result.rating.toFixed(2)))
+      // catch NaN
+      .then(res =>
+        (isNaN(res.data.result.rating)
+          ? 0
+          : ($(`#${id}`).innerText = res.data.result.rating.toFixed(2))))
+      .then(res => googleRatingsArray.push(Number(res)))
+      // Find Average
+      .then(() =>
+        ($('.googleAvgDisplay').innerText =
+            googleRatingsArray.reduce((acc, value) => acc + value, 0) / googleRatingsArray.length))
+      // Make readable
+      .then(() => ($('.googleAvgDisplay').innerText = $('.googleAvgDisplay').innerText.substring(0, 4)))
+      // TODO Update Progress Bar
       .catch(e => console.log(e));
   });
 
-  // -- FACEBOOK --//
+  //   // -- FACEBOOK --//
   facebookIds.forEach((id) => {
     axios
       .post(
@@ -34,18 +49,30 @@ const getRatings = (stores) => {
           id,
         }),
       )
-      // TODO catch errors for undefined (i.e. does not exist)
-      .then(res => ($(`#${id}`).innerText = res.data.overall_star_rating.toFixed(2)))
+      // catch NaN
+      .then(res =>
+        (isNaN(res.data.overall_star_rating)
+          ? 0
+          : ($(`#${id}`).innerText = res.data.overall_star_rating.toFixed(2))))
+      .then(res => facebookRatingsArray.push(Number(res)))
+      // Find Average
+      .then(() =>
+        ($('.facebookAvgDisplay').innerText =
+            facebookRatingsArray.reduce((acc, value) => acc + value, 0) /
+            facebookRatingsArray.length))
+      // Make readable
+      .then(() =>
+        ($('.facebookAvgDisplay').innerText = $('.facebookAvgDisplay').innerText.substring(0, 4)))
+      // TODO Update Progress Bar
       .catch(e => console.log(e));
   });
 
-  // -- YELP --//
+  //   // -- YELP --//
   // -- Get Yelp Requests and throttle  -- //
   const getYelpRatings = (arr, i) => {
     if (i < arr.length) {
       const id = arr[i];
-
-      i++;
+      i += 1;
       axios
         .post(
           lambdaUrl,
@@ -54,7 +81,17 @@ const getRatings = (stores) => {
             id,
           }),
         )
-        .then(res => ($(`#${id}`).innerText = res.data.rating.toFixed(2)))
+        // catch NaN
+        .then(res =>
+          (isNaN(res.data.rating) ? 0 : ($(`#${id}`).innerText = res.data.rating.toFixed(2))))
+        .then(res => yelpRatingsArray.push(Number(res)))
+        // Find Average
+        .then(() =>
+          ($('.yelpAvgDisplay').innerText =
+              yelpRatingsArray.reduce((acc, value) => acc + value, 0) / yelpRatingsArray.length))
+        // Make readable
+        .then(() => ($('.yelpAvgDisplay').innerText = $('.yelpAvgDisplay').innerText.substring(0, 4)))
+        // TODO Update Progress Bar
         .catch(e => console.log(e.message));
       // throttle next call to meet yelp standards
       setTimeout(getYelpRatings, 250, arr, i);
