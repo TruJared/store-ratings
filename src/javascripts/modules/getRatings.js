@@ -35,7 +35,8 @@ const getRatings = (stores) => {
             googleRatingsArray.reduce((acc, value) => acc + value, 0) / googleRatingsArray.length))
       // Make readable
       .then(() => ($('.googleAvgDisplay').innerText = $('.googleAvgDisplay').innerText.substring(0, 4)))
-      // TODO Update Progress Bar
+      // Update Progress Bar
+      .then(() => ($('#googleBar').style.width = `${$('.googleAvgDisplay').innerText / 5 * 100}%`))
       .catch(e => console.log(e));
   });
 
@@ -63,7 +64,9 @@ const getRatings = (stores) => {
       // Make readable
       .then(() =>
         ($('.facebookAvgDisplay').innerText = $('.facebookAvgDisplay').innerText.substring(0, 4)))
-      // TODO Update Progress Bar
+      // Update Progress Bar
+      .then(() => ($('#facebookBar').style.width = `${$('.facebookAvgDisplay').innerText / 5 * 100}%`))
+
       .catch(e => console.log(e));
   });
 
@@ -91,7 +94,9 @@ const getRatings = (stores) => {
               yelpRatingsArray.reduce((acc, value) => acc + value, 0) / yelpRatingsArray.length))
         // Make readable
         .then(() => ($('.yelpAvgDisplay').innerText = $('.yelpAvgDisplay').innerText.substring(0, 4)))
-        // TODO Update Progress Bar
+        // Update Progress Bar
+        .then(() => ($('#yelpBar').style.width = `${$('.yelpAvgDisplay').innerText / 5 * 100}%`))
+
         .catch(e => console.log(e.message));
       // throttle next call to meet yelp standards
       setTimeout(getYelpRatings, 250, arr, i);
