@@ -1,3 +1,4 @@
+require('babel-polyfill');
 const { $, $$ } = require('./modules/bling');
 const { getRatings } = require('./modules/getRatings');
 const { buildTable } = require('./modules/buildTable');
