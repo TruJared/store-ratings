@@ -87,7 +87,9 @@ const getRatings = (stores) => {
         // catch NaN
         .then(res =>
           (isNaN(res.data.rating) ? 0 : ($(`#${id}`).innerText = res.data.rating.toFixed(2))))
+        .then(res => console.log(res))
         .then(res => yelpRatingsArray.push(Number(res)))
+        .then(() => console.log(yelpRatingsArray))
         // Find Average
         .then(() =>
           ($('.yelpAvgDisplay').innerText =
