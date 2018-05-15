@@ -30,3 +30,5 @@ listArray.forEach((element) => {
     getRatings(storeInfo[element.id]);
   });
 });
+
+$('button.close').addEventListener('click', () => ($('#featuresModal').style.display = 'none'));
