@@ -1,7 +1,7 @@
 /* eslint-disable */
 /* cSpell:disable */
 
-const storeInfo = {
+exports.storeInfo = {
   d2801: [
     {
       sNumber: 5162,
@@ -2245,5 +2245,3 @@ const storeInfo = {
     },
   ],
 };
-
-

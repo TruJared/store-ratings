@@ -1,15 +1,17 @@
-require('babel-polyfill');
 const { $, $$ } = require('./modules/bling');
 const { getRatings } = require('./modules/getRatings');
 const { buildTable } = require('./modules/buildTable');
 const { toggler } = require('./modules/toggleButton');
+const { storeInfo } = require('./storeinfo');
 
 const list = Object.keys(storeInfo);
-const htmlList = list.map(element => `
+const htmlList = list.map(
+  element => `
 <li id=${element} class="list-inline-item store py-3 pl-5">
   <i class="fas fa-flag-checkered"></i>
   <a href="#" > ${element.substr(1)}</a>
-</li>`);
+</li>`,
+);
 $('#store-list').innerHTML = htmlList.join('');
 
 // add listener to each sidebar item
@@ -27,8 +29,28 @@ listArray.forEach((element) => {
     }
     // get storeInfo and send to api function
     buildTable(storeInfo[element.id]);
-    getRatings(storeInfo[element.id]);
+    $$('td').forEach(
+      e => (e.innerHTML = (Math.random() * (Math.floor(5.01) - Math.ceil(0)) + Math.ceil(0)).toFixed(
+        2,
+      )),
+    );
+    $('.googleAvgDisplay').innerText = (
+      Math.random() * (Math.floor(5.01) - Math.ceil(0))
+      + Math.ceil(0)
+    ).toFixed(2);
+    $('#googleBar').style.width = `${($('.googleAvgDisplay').innerText / 5) * 100}%`;
+    $('.facebookAvgDisplay').innerText = (
+      Math.random() * (Math.floor(5.01) - Math.ceil(0))
+      + Math.ceil(0)
+    ).toFixed(2);
+    $('#facebookBar').style.width = `${($('.facebookAvgDisplay').innerText / 5) * 100}%`;
+    $('.yelpAvgDisplay').innerText = (
+      Math.random() * (Math.floor(5.01) - Math.ceil(0))
+      + Math.ceil(0)
+    ).toFixed(2);
+    $('#yelpBar').style.width = `${($('.yelpDisplay').innerText / 5) * 100}%`;
   });
 });
 
+//* close button for modal *//
 $('button.close').addEventListener('click', () => ($('#featuresModal').style.display = 'none'));
